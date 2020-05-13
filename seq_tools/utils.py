@@ -6,7 +6,7 @@ import datetime
 
 
 def initialize_log(ctx, dir):
-    logger = logging.getLogger('seq_tools')
+    logger = logging.getLogger('seq_tools: %s' % dir)
     logFormatter = logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s] %(message)s")
 
     logger.setLevel(logging.INFO)
@@ -25,8 +25,8 @@ def initialize_log(ctx, dir):
 
     ch = logging.StreamHandler()
     ch.setFormatter(logging.Formatter("[%(levelname)-5.5s] %(message)s"))
-    ch.setLevel(logging.INFO)
-    if 'DEBUG' in ctx.obj:
+    ch.setLevel(logging.WARNING)
+    if ctx.obj['DEBUG']:
         ch.setLevel(logging.DEBUG)
 
     logger.addHandler(fh)

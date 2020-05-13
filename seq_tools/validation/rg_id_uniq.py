@@ -19,7 +19,7 @@ def rg_id_uniq(ctx, metadata):
             return
 
         if rg['submitter_read_group_id'] in rg_ids:
-            logger.info(
+            logger.warn(
                 "submitter_read_group_id duplicated in metadata: %s" % rg['submitter_read_group_id']
             )
             ctx.obj['validation_error'] = True

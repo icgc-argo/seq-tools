@@ -7,7 +7,12 @@ from .permissible_char_in_rg_id import permissible_char_in_rg_id
 
 
 def perform_validation(ctx, subdirs):
+    checked = set()
     for subdir in subdirs:
+        if subdir in checked:  # avoid checking the same submission dir more than once
+            continue
+        checked.add(subdir)
+
         # initialize logger
         ctx.obj['subdir'] = subdir
         initialize_log(ctx, subdir)
