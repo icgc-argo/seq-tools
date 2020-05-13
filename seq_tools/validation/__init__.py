@@ -3,6 +3,7 @@ import json
 from click import echo
 from ..utils import initialize_log
 from .rg_id_uniq import rg_id_uniq
+from .permissible_char_in_rg_id import permissible_char_in_rg_id
 
 
 def perform_validation(ctx, subdirs):
@@ -19,5 +20,8 @@ def perform_validation(ctx, subdirs):
             ctx.obj['LOGGER'].critical("Unable to open sequencing_experiment.json in: '%s'" % subdir)
             ctx.abort()
 
-        # checkout read group ID uniqueness
+        # check read group ID uniqueness
         rg_id_uniq(ctx, metadata)
+
+        # check permissible characters in read group ID
+        permissible_char_in_rg_id(ctx, metadata)
