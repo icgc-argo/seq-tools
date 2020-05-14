@@ -14,12 +14,12 @@ def rg_id_uniq(ctx, metadata):
     rg_ids = set()
     for rg in metadata.get('read_groups'):
         if 'submitter_read_group_id' not in rg:
-            logger.info("required field submitter_read_group_id not found in metadata")
+            logger.error("required field submitter_read_group_id not found in metadata")
             ctx.obj['validation_error'] = True
             return
 
         if rg['submitter_read_group_id'] in rg_ids:
-            logger.warn(
+            logger.error(
                 "submitter_read_group_id duplicated in metadata: %s" % rg['submitter_read_group_id']
             )
             ctx.obj['validation_error'] = True
