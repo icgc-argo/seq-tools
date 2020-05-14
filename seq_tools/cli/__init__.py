@@ -1,7 +1,6 @@
 import os
 import logging
 import click
-import click_log
 from seq_tools import __version__ as ver
 from seq_tools import utils
 from ..validation import perform_validation
