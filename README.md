@@ -9,7 +9,7 @@ git clone https://github.com/icgc-argo/seq-tools.git
 
 # install using pip
 cd seq-tools
-pip install .
+pip install .   # for development use: pip install -e .
 
 # verify it by check the version
 seq-tools -v
