@@ -11,7 +11,7 @@ def initialize_log(ctx, dir):
 
     logger.setLevel(logging.INFO)
 
-    log_directory = os.path.join(dir, ".log")
+    log_directory = os.path.join(dir, "logs")
     log_file = "%s.log" % re.sub(r'[-:.]', '_', datetime.datetime.utcnow().isoformat())
     ctx.obj['log_file'] = log_file
     log_file = os.path.join(log_directory, log_file)
@@ -32,10 +32,7 @@ def initialize_log(ctx, dir):
     logger.addHandler(fh)
     logger.addHandler(ch)
 
-    if not 'LOGGER' in ctx.obj:
-        ctx.obj['LOGGER'] = {}
-
-    ctx.obj['LOGGER'][dir] = logger
+    ctx.obj['LOGGER'] = logger
 
 
 def file_pattern_exist(dirname, pattern):

@@ -62,9 +62,8 @@ docs/_build
 .appveyor.token
 *.bak
 *.log
+logs
 .log
 .vscode
 .python-version
-.nextflow*
-work
-outdir
+report.json

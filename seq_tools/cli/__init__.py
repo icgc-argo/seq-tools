@@ -14,7 +14,7 @@ def print_version(ctx, param, value):
 
 
 @click.group()
-@click.option('--debug/--no-debug', '-d', default=False)
+@click.option('--debug/--no-debug', '-d', is_flag=True, default=False)
 @click.option('--version', '-v', is_flag=True, callback=print_version,
               expose_value=False, is_eager=True)
 @click.pass_context
@@ -25,14 +25,14 @@ def main(ctx, debug):
 
 
 @main.command()
-@click.argument('submission_dir', type=click.Path(exists=True), nargs=-1)
+@click.argument('submission_dir', type=click.Path(exists=True))
 @click.pass_context
 def validate(ctx, submission_dir):
     """
-    Perform validation on submission folder(s).
+    Perform validation on a submission directory.
     """
     if not submission_dir:
-        click.echo('You must specify at least one submission directory.')
+        click.echo('You must specify a submission directory to be validated.')
         ctx.abort()
 
     perform_validation(ctx, submission_dir)

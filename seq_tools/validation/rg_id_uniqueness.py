@@ -1,8 +1,7 @@
-import re
 from click import echo
 
 
-def permissible_char_in_rg_id(ctx, metadata):
+def rg_id_uniqueness(ctx, metadata):
     logger = ctx.obj['LOGGER']
     logger.info("Start checking read group ID uniqueness in %s" % ctx.obj['subdir'])
 
@@ -20,7 +19,8 @@ def permissible_char_in_rg_id(ctx, metadata):
         checks[-1]['status'] = 'INVALID'
         return
 
-    offending_ids = set()
+    rg_ids = set()
+    duplicated_ids = []
     for rg in metadata.get('read_groups'):
         if 'submitter_read_group_id' not in rg:
             message = "Required field 'submitter_read_group_id' not found in metadata JSON"
@@ -29,19 +29,19 @@ def permissible_char_in_rg_id(ctx, metadata):
             checks[-1]['status'] = 'INVALID'
             return
 
-        if not re.match(r'^[a-zA-Z0-9_\.\-]{2,}$', rg['submitter_read_group_id']):
-            offending_ids.add(rg['submitter_read_group_id'])
+        if rg['submitter_read_group_id'] in rg_ids:
+            duplicated_ids.append(rg['submitter_read_group_id'])
+        else:
+            rg_ids.add(rg['submitter_read_group_id'])
 
-    if offending_ids:
-        message =  "'submitter_read_group_id' contains invalid character or " \
-            "is shorter then 2 characters: '%s'. " \
-            "Permissible characters include: a-z, A-Z, 0-9, - (hyphen), " \
-            "_ (underscore) and . (dot)" % ', '.join(offending_ids)
+    if duplicated_ids:
+        message =  "'submitter_read_group_id' duplicated in metadata: '%s'" % \
+            ', '.join(duplicated_ids)
         logger.error(message)
         checks[-1]['message'] = message
         checks[-1]['status'] = 'INVALID'
     else:
         checks[-1]['status'] = 'VALID'
-        message = "Read group ID permissible character check status: VALID"
+        message = "Read group ID uniqueness check status: VALID"
         checks[-1]['message'] = message
         logger.info(message)

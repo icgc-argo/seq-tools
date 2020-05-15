@@ -38,7 +38,19 @@
       "library_name": "Pond-147580"
     },
     {
-      "submitter_read_group_id": "D0RH0.2",
+      "submitter_read_group_id": "D0RH0/2",
+      "platform_unit": "74_8c",
+      "is_paired_end": true,
+      "file_r1": "D0RH0.2_r1.fq",
+      "file_r2": "D0RH0.2_r2.fq",
+      "read_length_r1": 150,
+      "read_length_r2": 150,
+      "insert_size": 298,
+      "sample_barcode": null,
+      "library_name": "Pond-147580"
+    },
+    {
+      "submitter_read_group_id": "D0RH0/2",
       "platform_unit": "74_8c",
       "is_paired_end": true,
       "file_r1": "D0RH0.2_r1.fq",
