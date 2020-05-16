@@ -1,9 +1,21 @@
 import os
+import sys
 import json
 from click import echo
-from ..utils import initialize_log
-from .rg_id_uniqueness import rg_id_uniqueness
-from .permissible_char_in_rg_id import permissible_char_in_rg_id
+from ..utils import initialize_log, find_files
+
+
+path = list(sys.path)
+sys.path.insert(0, os.path.dirname(__file__))
+moduleFiles = sorted(find_files(os.path.dirname(__file__), r'^c[0-9]+_.*?\.py$'))
+checkers = {}
+try:
+    # load checker modules
+    for m in moduleFiles:
+        moduleName = os.path.splitext(m)[0]
+        checkers[moduleName] = __import__(moduleName)
+finally:
+    sys.path[:] = path
 
 
 def perform_validation(ctx, subdir):
@@ -15,6 +27,8 @@ def perform_validation(ctx, subdir):
     # initialize validate status
     ctx.obj['submission_report'] = {
         'submission_directory': os.path.realpath(subdir),
+        'metadata': None,
+        'files': find_files(subdir, r'^.+?\.(bam|fq\.gz|fastq\.gz|fq\.bz2|fastq\.bz2)$'),
         'validation': {
             'status': None,
             'message': 'Please see individual checks for details',
@@ -26,37 +40,31 @@ def perform_validation(ctx, subdir):
     try:
         with open(os.path.join(subdir, "sequencing_experiment.json"), 'r') as f:
             metadata = json.load(f)
+            ctx.obj['submission_report']['metadata'] = "sequencing_experiment.json"
     except:
-        message = "Unable to open sequencing_experiment.json in: '%s'" % subdir
+        message = "Failed to open sequencing_experiment.json in: '%s'. " \
+            "Unable to continue with further checks." % subdir
         logger.error(message)
         ctx.obj['submission_report']['validation']['message'] = message
         ctx.obj['submission_report']['validation']['status'] = "INVALID"
-        logger.info("Validation completed for '%s', result: %s" % \
-            (subdir, ctx.obj['submission_report']['validation']['status'])
-        )
-        return  # unable to continue with the validation
 
-    # check read group ID uniqueness
-    rg_id_uniqueness(ctx, metadata)
+    if ctx.obj['submission_report']['validation']['status'] != "INVALID":
+        for c in checkers:  # perform validation checks one by one
+            checkers[c].check(ctx, metadata)
 
-    # check permissible characters in read group ID
-    permissible_char_in_rg_id(ctx, metadata)
+        # aggregate status from validation checks
+        check_status = set()
+        for c in ctx.obj['submission_report']['validation']['checks']:
+            check_status.add(c['status'])
 
-    # TODO: add more checks here
-
-    # aggregate status from validation checks
-    check_status = set()
-    for c in ctx.obj['submission_report']['validation']['checks']:
-        check_status.add(c['status'])
-
-    if 'INVALID' in check_status:
-        ctx.obj['submission_report']['validation']['status'] = 'INVALID'
-    elif 'WARNING' in check_status:
-        ctx.obj['submission_report']['validation']['status'] = 'WARNING'
-    elif 'VALID' in check_status:
-        ctx.obj['submission_report']['validation']['status'] = 'VALID'
-    else:  # should never happen
-        ctx.obj['submission_report']['validation']['status'] = 'UNKNOWN'
+        if 'INVALID' in check_status:
+            ctx.obj['submission_report']['validation']['status'] = 'INVALID'
+        elif 'WARNING' in check_status:
+            ctx.obj['submission_report']['validation']['status'] = 'WARNING'
+        elif 'VALID' in check_status:
+            ctx.obj['submission_report']['validation']['status'] = 'VALID'
+        else:  # should never happen
+            ctx.obj['submission_report']['validation']['status'] = 'UNKNOWN'
 
     # complete the validation
     log_filename = os.path.splitext(os.path.basename(logger.handlers[0].baseFilename))[0]
@@ -67,7 +75,7 @@ def perform_validation(ctx, subdir):
             os.remove(os.path.join(subdir, 'report.json'))
         except OSError:
             pass
-        os.symlink(os.path.realpath(report_filename), os.path.join(subdir, 'report.json'))
+        os.symlink(os.path.join('logs', '%s.report.json' % log_filename), os.path.join(subdir, 'report.json'))
 
     message = "Validation completed for '%s', status: %s. Please find details in 'report.json'." % \
         (os.path.realpath(subdir), ctx.obj['submission_report']['validation']['status'])

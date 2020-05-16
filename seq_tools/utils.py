@@ -36,10 +36,18 @@ def initialize_log(ctx, dir):
 
 
 def file_pattern_exist(dirname, pattern):
-    files = [f for f in os.listdir(dirname) if os.path.isfile(f)]
+    files = [f for f in os.listdir(dirname) if os.path.isfile(os.path.join(dirname,f))]
     for f in files:
         if re.match(pattern, f): return True
 
     return False
 
 
+def find_files(dirname, pattern):
+    files = [f for f in os.listdir(dirname) if os.path.isfile(os.path.join(dirname,f))]
+    files_found = []
+    for f in files:
+        if re.match(pattern, f):
+            files_found.append(f)
+
+    return files_found
