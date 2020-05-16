@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
+
 import re
-import os
 import ast
 import sys
 from setuptools import setup, find_packages
