@@ -8,35 +8,35 @@ class Checker(BaseChecker):
 
     def check(self):
         if not self.metadata.get('read_groups'):
-            message = "Missing 'read_groups' section in the metadata JSON"
+            message = "Missing 'read_groups' in the metadata JSON"
             self.logger.error(message)
             self.message = message
             self.status = 'INVALID'
             return
 
-        pus = set()
-        duplicated_pus = []
+        rg_ids = set()
+        duplicated_ids = []
         for rg in self.metadata.get('read_groups'):
-            if 'platform_unit' not in rg:
-                message = "Required field 'platform_unit' not found in metadata JSON"
+            if 'submitter_read_group_id' not in rg:
+                message = "Required field 'submitter_read_group_id' not found in metadata JSON"
                 self.logger.error(message)
                 self.message = message
                 self.status = 'INVALID'
                 return
 
-            if rg['platform_unit'] in pus:
-                duplicated_pus.append(rg['platform_unit'])
+            if rg['submitter_read_group_id'] in rg_ids:
+                duplicated_ids.append(rg['submitter_read_group_id'])
             else:
-                pus.add(rg['platform_unit'])
+                rg_ids.add(rg['submitter_read_group_id'])
 
-        if duplicated_pus:
-            message =  "'platform_unit' duplicated in metadata: '%s'" % \
-                ', '.join(duplicated_pus)
+        if duplicated_ids:
+            message =  "'submitter_read_group_id' duplicated in metadata: '%s'" % \
+                ', '.join(duplicated_ids)
             self.logger.error(message)
             self.message = message
             self.status = 'INVALID'
         else:
             self.status = 'VALID'
-            message = "Platform unit uniqueness check status: VALID"
+            message = "Read group ID uniqueness check status: VALID"
             self.message = message
             self.logger.info(message)

@@ -1,3 +1,4 @@
+import re
 from base_checker import BaseChecker
 
 
@@ -14,29 +15,28 @@ class Checker(BaseChecker):
             self.status = 'INVALID'
             return
 
-        pus = set()
-        duplicated_pus = []
+        offending_ids = set()
         for rg in self.metadata.get('read_groups'):
-            if 'platform_unit' not in rg:
-                message = "Required field 'platform_unit' not found in metadata JSON"
+            if 'submitter_read_group_id' not in rg:
+                message = "Required field 'submitter_read_group_id' not found in metadata JSON"
                 self.logger.error(message)
                 self.message = message
                 self.status = 'INVALID'
                 return
 
-            if rg['platform_unit'] in pus:
-                duplicated_pus.append(rg['platform_unit'])
-            else:
-                pus.add(rg['platform_unit'])
+            if not re.match(r'^[a-zA-Z0-9_\.\-]{2,}$', rg['submitter_read_group_id']):
+                offending_ids.add(rg['submitter_read_group_id'])
 
-        if duplicated_pus:
-            message =  "'platform_unit' duplicated in metadata: '%s'" % \
-                ', '.join(duplicated_pus)
+        if offending_ids:
+            message =  "'submitter_read_group_id' in metadata contains invalid character or " \
+                "is shorter then 2 characters: '%s'. " \
+                "Permissible characters include: a-z, A-Z, 0-9, - (hyphen), " \
+                "_ (underscore) and . (dot)" % ', '.join(offending_ids)
             self.logger.error(message)
             self.message = message
             self.status = 'INVALID'
         else:
             self.status = 'VALID'
-            message = "Platform unit uniqueness check status: VALID"
+            message = "Read group ID permissible character check status: VALID"
             self.message = message
             self.logger.info(message)

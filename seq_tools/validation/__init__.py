@@ -41,7 +41,7 @@ def perform_validation(ctx, subdir):
         with open(os.path.join(subdir, "sequencing_experiment.json"), 'r') as f:
             metadata = json.load(f)
             ctx.obj['submission_report']['metadata'] = "sequencing_experiment.json"
-    except:
+    except Exception:
         message = "Failed to open sequencing_experiment.json in: '%s'. " \
             "Unable to continue with further checks." % subdir
         logger.error(message)
@@ -50,7 +50,8 @@ def perform_validation(ctx, subdir):
 
     if ctx.obj['submission_report']['validation']['status'] != "INVALID":
         for c in checkers:  # perform validation checks one by one
-            checkers[c].check(ctx, metadata)
+            checker = checkers[c].Checker(ctx, metadata)
+            checker.check()
 
         # aggregate status from validation checks
         check_status = set()
