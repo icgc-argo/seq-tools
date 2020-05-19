@@ -37,7 +37,7 @@ class Checker(BaseChecker):
 
         if len(self.metadata.get('samples')) != 1:
             message =  "'samples' section must contain exactly one sample in metadata, %s found" % \
-                len(metadata.get('samples'))
+                len(self.metadata.get('samples'))
             self.message = message
             self.status = 'INVALID'
             self.logger.error(message)
