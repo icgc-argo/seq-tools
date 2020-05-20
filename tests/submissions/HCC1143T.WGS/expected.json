@@ -2,6 +2,7 @@
   "files": [
     "test_rg_3.bam"
   ],
+  "status": "VALID",
   "validation": {
     "checks": [
       {

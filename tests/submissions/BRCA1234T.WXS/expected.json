@@ -4,6 +4,7 @@
     "test_rg_3.bam"
   ],
   "validation": {
+    "status": "INVALID",
     "checks": [
       {
         "checker": "c110_rg_id_uniqueness",

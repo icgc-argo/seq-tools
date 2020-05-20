@@ -38,6 +38,9 @@ def test_validate(submission):
     if 'files' in expected:
         assert sorted(report['files']) == sorted(expected['files'])
 
+    if 'status' in expected['validation']:
+        assert report['validation']['status'] == expected['validation']['status']
+
     if len(expected['validation']['checks']) == 0:
         assert len(report['validation']['checks']) == 0
 

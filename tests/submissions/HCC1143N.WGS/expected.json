@@ -8,6 +8,7 @@
     "C0HVY.2_r1.fq.gz"
   ],
   "validation": {
+    "status": "INVALID",
     "checks": [
       {
         "checker": "c110_rg_id_uniqueness",
