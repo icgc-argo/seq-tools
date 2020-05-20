@@ -1,0 +1,30 @@
+{
+  "metadata": "sequencing_experiment.json",
+  "files": [
+    "test_rg_3.bam"
+  ],
+  "validation": {
+    "checks": [
+      {
+        "checker": "c110_rg_id_uniqueness",
+        "status": "VALID",
+        "message": "Read group ID uniqueness check status: VALID"
+      },
+      {
+        "checker": "c120_permissible_char_in_rg_id",
+        "status": "VALID",
+        "message": "Read group ID permissible character check status: VALID"
+      },
+      {
+        "checker": "c130_one_sample",
+        "status": "INVALID",
+        "message": "'samples' section must contain exactly one sample in metadata, 2 found"
+      },
+      {
+        "checker": "c140_platform_unit_uniqueness",
+        "status": "VALID",
+        "message": "Platform unit uniqueness check status: VALID"
+      }
+    ]
+  }
+}

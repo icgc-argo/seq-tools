@@ -23,6 +23,7 @@ import os
 import sys
 import json
 from click import echo
+from seq_tools import __version__ as ver
 from ..utils import initialize_log, find_files, ntcnow_iso
 
 
@@ -47,6 +48,10 @@ def perform_validation(ctx, subdir):
 
     # initialize validate status
     ctx.obj['submission_report'] = {
+        'tool': {
+            'name': 'seq-tools',
+            'version': ver
+        },
         'submission_directory': os.path.realpath(subdir),
         'metadata': None,
         'files': find_files(subdir, r'^.+?\.(bam|fq\.gz|fastq\.gz|fq\.bz2|fastq\.bz2)$'),

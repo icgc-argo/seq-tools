@@ -1,0 +1,34 @@
+{
+  "files": [
+    "D0RE2.1_r2.fq.gz",
+    "D0RH0.2_r1.fq.gz",
+    "D0RE2.1_r1.fq.gz",
+    "D0RH0.2_r2.fq.gz",
+    "C0HVY.2_r2.fq.gz",
+    "C0HVY.2_r1.fq.gz"
+  ],
+  "validation": {
+    "checks": [
+      {
+        "checker": "c110_rg_id_uniqueness",
+        "status": "INVALID",
+        "message": "'submitter_read_group_id' duplicated in metadata: 'D0RE2.1, D0RH0/2'"
+      },
+      {
+        "checker": "c120_permissible_char_in_rg_id",
+        "status": "INVALID",
+        "message": "'submitter_read_group_id' in metadata contains invalid character or is shorter then 2 characters: 'D0RH0/2'. Permissible characters include: a-z, A-Z, 0-9, - (hyphen), _ (underscore) and . (dot)"
+      },
+      {
+        "checker": "c130_one_sample",
+        "status": "VALID",
+        "message": "One and only one sample check status: VALID"
+      },
+      {
+        "checker": "c140_platform_unit_uniqueness",
+        "status": "INVALID",
+        "message": "'platform_unit' duplicated in metadata: '74_8c'"
+      }
+    ]
+  }
+}
