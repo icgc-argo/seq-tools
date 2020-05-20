@@ -1,3 +1,5 @@
+![](https://github.com/icgc-argo/seq-tools/workflows/.github/workflows/run-tests.yml/badge.svg)
+
 # Command line tools for sequencing data validations
 
 ## Installation
@@ -16,8 +18,15 @@ pip install .   # for development use: pip install -e .
 seq-tools -v
 ```
 
-Try it with example submission folders under `tests`
+Try it with example submissions under `tests/submissions`
 ```
-cd tests
-seqtools validate HCC1143N.wgs
+cd tests/submissions
+seq-tools validate HCC1143N.WGS
+```
+
+## Testing
+
+CI testing is enabled using GitHub Actions. To manually run tests:
+```
+pytest -v
 ```
