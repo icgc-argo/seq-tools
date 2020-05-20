@@ -1,4 +1,4 @@
-![](https://github.com/icgc-argo/seq-tools/workflows/.github/workflows/run-tests.yml/badge.svg)
+[![GitHub Actions CI Status](https://github.com/icgc-argo/seq-tools/workflows/CI%20tests/badge.svg)](https://github.com/icgc-argo/seq-tools/actions)
 
 # Command line tools for sequencing data validations
 
