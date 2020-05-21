@@ -24,6 +24,11 @@
         "checker": "c140_platform_unit_uniqueness",
         "status": "VALID",
         "message": "Platform unit uniqueness check status: VALID"
+      },
+      {
+        "checker": "c150_rg_count_match",
+        "status": "INVALID",
+        "message": "The total number of read groups in 'read_groups' section is 3. It does NOT match the number specified in read_group_count: 4."
       }
     ]
   }
