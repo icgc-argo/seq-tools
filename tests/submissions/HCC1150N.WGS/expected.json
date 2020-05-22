@@ -1,0 +1,20 @@
+{
+  "files": [
+    "D0RE2.1_r2.fq.gz",
+    "D0RH0.2_r1.fq.gz",
+    "D0RE2.1_r1.fq.gz",
+    "D0RH0.2_r2.fq.gz",
+    "C0HVY.2_r2.fq.gz",
+    "C0HVY.2_r1.fq.gz"
+  ],
+  "validation": {
+    "status": "INVALID",
+    "checks": [
+      {
+        "checker": "c170_fq_uniqueness_in_rgs",
+        "status": "INVALID",
+        "message": "FASTQ file(s) duplicated in 'file_r1/file_r2' of the 'read_groups' sction in the metadata: 'C0HVY.2_r2.fq.gz, D0RH0.2_r1.fq.gz'"
+      }
+    ]
+  }
+}
