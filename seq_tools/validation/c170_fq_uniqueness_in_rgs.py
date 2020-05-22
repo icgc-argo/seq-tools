@@ -63,7 +63,7 @@ class Checker(BaseChecker):
 
         if duplicated_fqs:
             message = "FASTQ file(s) duplicated in 'file_r1/file_r2' of " \
-                "the 'read_groups' sction in the metadata: '%s'" % \
+                "the 'read_groups' section in the metadata: '%s'" % \
                 ', '.join(sorted(duplicated_fqs))
             self.logger.error(message)
             self.message = message
