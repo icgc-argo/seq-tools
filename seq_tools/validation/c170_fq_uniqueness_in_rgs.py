@@ -44,7 +44,7 @@ class Checker(BaseChecker):
                 self.status = 'INVALID'
                 return
 
-            if not rg['file_r1'].endswith('.gz'):
+            if rg['file_r1'].endswith('.bam'):
                 continue
 
             if rg['file_r1'] in fqs:
@@ -53,7 +53,7 @@ class Checker(BaseChecker):
                 fqs.add(rg['file_r1'])
 
             if 'file_r2' in rg:
-                if not rg['file_r2'].endswith('.gz'):
+                if rg['file_r2'].endswith('.bam'):
                     continue
                 if rg['file_r2'] in fqs:
                     duplicated_fqs.append(rg['file_r2'])
