@@ -104,6 +104,11 @@ def perform_validation(ctx, subdir=None, metadata=None):
 
     if ctx.obj['submission_report']['validation']['status'] != "INVALID":
         for c in checkers:  # perform validation checks one by one
+            checker_code = c.split('_')[0]
+            # skip these checkers that involve sequencing file
+            # when no submission dir specified
+            if not subdir and checker_code[0:2] in ('c6', 'c7', 'c8', 'c9'):
+                continue
             checker = checkers[c].Checker(ctx, metadata)
             checker.check()
 
