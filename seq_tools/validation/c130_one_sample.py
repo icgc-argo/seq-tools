@@ -24,8 +24,7 @@ from base_checker import BaseChecker
 
 class Checker(BaseChecker):
     def __init__(self, ctx, metadata):
-        super().__init__(ctx, metadata)
-        self.checker = __name__.split('.')[-1]
+        super().__init__(ctx, metadata, __name__)
 
     def check(self):
         if not self.metadata.get('samples'):

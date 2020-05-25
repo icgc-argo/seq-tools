@@ -25,13 +25,13 @@ from abc import ABCMeta, abstractmethod
 class BaseChecker(object):
     __metaclass__ = ABCMeta
 
-    def __init__(self, ctx, metadata):
+    def __init__(self, ctx, metadata, checker_name):
         self._ctx = ctx
         self._metadata = metadata
         self._logger = ctx.obj['LOGGER']
         self._checks = ctx.obj['submission_report']['validation']['checks']
         self._checks.append({
-            'checker': None,
+            'checker': checker_name,
             'status': None,
             'message': None
         })
