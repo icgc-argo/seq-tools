@@ -20,8 +20,10 @@
 
 
 import click
+import json
 from seq_tools import __version__ as ver
 from ..validation import perform_validation
+from ..utils import ntcnow_iso
 
 
 def print_version(ctx, param, value):
@@ -32,9 +34,11 @@ def print_version(ctx, param, value):
 
 
 @click.group()
-@click.option('--debug/--no-debug', '-d', is_flag=True, default=False)
+@click.option('--debug/--no-debug', '-d', is_flag=True, default=False,
+              help='Show debug information in STDERR.')
 @click.option('--version', '-v', is_flag=True, callback=print_version,
-              expose_value=False, is_eager=True)
+              expose_value=False, is_eager=True,
+              help='Show seq-tools version.')
 @click.pass_context
 def main(ctx, debug):
     # initializing ctx.obj
@@ -43,14 +47,55 @@ def main(ctx, debug):
 
 
 @main.command()
-@click.argument('submission_dir', type=click.Path(exists=True))
+@click.option('--metadata', '-m', help='submission metadata as a JSON string')
+@click.argument('submission_dir', nargs=-1, type=click.Path(exists=True))
 @click.pass_context
-def validate(ctx, submission_dir):
+def validate(ctx, submission_dir, metadata):
     """
-    Perform validation on a submission directory.
+    Perform validation on submission directory or metadata.
     """
-    if not submission_dir:
-        click.echo('You must specify a submission directory to be validated.')
+    if not (submission_dir or metadata):
+        click.echo(
+            'Must specify one or more submission directories or metadata as a JSON string.'
+        )
+        ctx.abort()
+    elif submission_dir and metadata:
+        click.echo('Can not specify both submission dir and metadata')
         ctx.abort()
 
-    perform_validation(ctx, submission_dir)
+    if submission_dir:
+        summary_report = {
+            "summary": {},
+            "version": ver,
+            "status": [],
+            "started_at": ntcnow_iso(),
+            "ended_at": None,
+            "message": "Please check 'report.json' in individual submission "
+            "dir for more details."
+        }
+
+        total = len(submission_dir)
+        current = 0
+        for subdir in submission_dir:
+            current += 1
+
+            perform_validation(ctx, subdir=subdir)
+            status = ctx.obj['submission_report']['validation']['status']
+            click.echo('submission dir: %s, status: %s, current_time: %s, progress: %s/%s' % (
+                subdir, status, ntcnow_iso(), current, total
+            ), err=True)
+
+            summary_report['status'].append({
+                'submission_dir': subdir,
+                'status': status
+            })
+
+            if status not in summary_report['summary']:
+                summary_report['summary'][status] = 0
+            summary_report['summary'][status] += 1
+
+        click.echo('', err=True)
+        summary_report['ended_at'] = ntcnow_iso()
+        click.echo(json.dumps(summary_report))
+    else:
+        perform_validation(ctx, metadata=metadata)

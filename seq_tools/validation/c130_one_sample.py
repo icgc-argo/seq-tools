@@ -31,7 +31,7 @@ class Checker(BaseChecker):
             message = "Missing 'samples' section in the metadata JSON"
             self.message = message
             self.status = 'INVALID'
-            self.logger.error(message)
+            self.logger.info(message)
             return
 
         if len(self.metadata.get('samples')) != 1:
@@ -39,7 +39,7 @@ class Checker(BaseChecker):
                 len(self.metadata.get('samples'))
             self.message = message
             self.status = 'INVALID'
-            self.logger.error(message)
+            self.logger.info(message)
         else:
             message = "One and only one sample check status: VALID"
             self.status = 'VALID'

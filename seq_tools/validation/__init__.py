@@ -40,7 +40,16 @@ finally:
     sys.path[:] = path
 
 
-def perform_validation(ctx, subdir):
+def perform_validation(ctx, subdir=None, metadata=None):
+    if not (subdir or metadata):
+        echo(
+            'Must specify submission directory or metadata as JSON string.'
+        )
+        ctx.abort()
+    elif subdir and metadata:
+        echo('Can not specify both submission dir and metadata')
+        ctx.abort()
+
     # initialize logger
     ctx.obj['subdir'] = subdir
     initialize_log(ctx, subdir)
@@ -52,9 +61,11 @@ def perform_validation(ctx, subdir):
             'name': 'seq-tools',
             'version': ver
         },
-        'submission_directory': os.path.realpath(subdir),
+        'submission_directory': os.path.realpath(subdir) if subdir else None,
         'metadata': None,
-        'files': find_files(subdir, r'^.+?\.(bam|fq\.gz|fastq\.gz|fq\.bz2|fastq\.bz2)$'),
+        'files': find_files(
+            subdir, r'^.+?\.(bam|fq\.gz|fastq\.gz|fq\.bz2|fastq\.bz2)$'
+        ) if subdir else [],
         'started_at': ntcnow_iso(),
         'ended_at': None,
         'validation': {
@@ -65,16 +76,31 @@ def perform_validation(ctx, subdir):
     }
 
     # get SONG metadata
-    try:
-        with open(os.path.join(subdir, "sequencing_experiment.json"), 'r') as f:
-            metadata = json.load(f)
-            ctx.obj['submission_report']['metadata'] = "sequencing_experiment.json"
-    except Exception:
-        message = "Failed to open sequencing_experiment.json in: '%s'. " \
-            "Unable to continue with further checks." % subdir
-        logger.error(message)
-        ctx.obj['submission_report']['validation']['message'] = message
-        ctx.obj['submission_report']['validation']['status'] = "INVALID"
+    if subdir:
+        try:
+            with open(os.path.join(
+                    subdir, "sequencing_experiment.json"), 'r') as f:
+                metadata = json.load(f)
+                ctx.obj['submission_report']['metadata'] = \
+                    "sequencing_experiment.json"
+        except Exception:
+            message = "Failed to open sequencing_experiment.json in: '%s'. " \
+                "Unable to continue with further checks." % subdir
+            logger.info(message)
+            ctx.obj['submission_report']['validation']['message'] = message
+            ctx.obj['submission_report']['validation']['status'] = "INVALID"
+
+    else:  # metadata supplied
+        ctx.obj['submission_report'].pop('files')  # files not applicable here
+        try:
+            metadata = json.loads(metadata)
+        except Exception as ex:
+            logger.info(
+                "Unable to load metadata, please ensure it's valid JSON "
+                "string. Error: %s" % str(ex))
+            ctx.abort()
+
+        ctx.obj['submission_report']['metadata'] = '<supplied as JSON string>'
 
     if ctx.obj['submission_report']['validation']['status'] != "INVALID":
         for c in checkers:  # perform validation checks one by one
@@ -97,17 +123,29 @@ def perform_validation(ctx, subdir):
 
     # complete the validation
     ctx.obj['submission_report']['ended_at'] = ntcnow_iso()
-    log_filename = os.path.splitext(os.path.basename(logger.handlers[0].baseFilename))[0]
-    report_filename = os.path.join(subdir, 'logs', '%s.report.json' % log_filename)
-    with open(report_filename, 'w') as f:
-        f.write(json.dumps(ctx.obj['submission_report'], indent=2))
-        try:
-            os.remove(os.path.join(subdir, 'report.json'))
-        except OSError:
-            pass
-        os.symlink(os.path.join('logs', '%s.report.json' % log_filename), os.path.join(subdir, 'report.json'))
+    if subdir:
+        log_filename = os.path.splitext(
+            os.path.basename(logger.handlers[0].baseFilename))[0]
+        report_filename = os.path.join(
+            subdir, 'logs', '%s.report.json' % log_filename)
+        with open(report_filename, 'w') as f:
+            f.write(json.dumps(ctx.obj['submission_report'], indent=2))
+            try:
+                os.remove(os.path.join(subdir, 'report.json'))
+            except OSError:
+                pass
+            os.symlink(
+                os.path.join('logs', '%s.report.json' % log_filename),
+                os.path.join(subdir, 'report.json'))
 
-    message = "Validation completed for '%s', status: %s. Please find details in 'report.json'." % \
-        (os.path.realpath(subdir), ctx.obj['submission_report']['validation']['status'])
-    logger.info(message)
-    echo(message)
+        message = "Validation completed for '%s', status: %s. " \
+            "Please find details in 'report.json' in the submission directory." % \
+            (os.path.realpath(subdir),
+                ctx.obj['submission_report']['validation']['status'])
+        logger.info(message)
+    else:
+        message = "Validation completed for the input metadata, status: %s. " \
+            "Please find detailed report in STDOUT." % \
+            ctx.obj['submission_report']['validation']['status']
+        logger.info(message)
+        echo(json.dumps(ctx.obj['submission_report']))
