@@ -19,7 +19,7 @@ def pytest_generate_tests(metafunc):
 
 def test_validate(submission):
     runner = CliRunner()
-    result = runner.invoke(main, ['validate', '-d', submission])
+    result = runner.invoke(main, ['validate', submission])
 
     with open(os.path.join(submission, 'expected.json')) as f:
         expected = json.load(f)
