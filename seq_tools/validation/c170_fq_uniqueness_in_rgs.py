@@ -29,7 +29,7 @@ class Checker(BaseChecker):
     def check(self):
         if not self.metadata.get('read_groups'):
             message = "Missing 'read_groups' section in the metadata JSON"
-            self.logger.error(message)
+            self.logger.info(message)
             self.message = message
             self.status = 'INVALID'
             return
@@ -39,7 +39,7 @@ class Checker(BaseChecker):
         for rg in self.metadata.get('read_groups'):
             if 'file_r1' not in rg:
                 message = "Required field 'file_r1' not found in metadata JSON"
-                self.logger.error(message)
+                self.logger.info(message)
                 self.message = message
                 self.status = 'INVALID'
                 return
@@ -64,7 +64,7 @@ class Checker(BaseChecker):
             message = "FASTQ file(s) duplicated in 'file_r1/file_r2' of " \
                 "the 'read_groups' section in the metadata: '%s'" % \
                 ', '.join(sorted(duplicated_fqs))
-            self.logger.error(message)
+            self.logger.info(message)
             self.message = message
             self.status = 'INVALID'
         else:

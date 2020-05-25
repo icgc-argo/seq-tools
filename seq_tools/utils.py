@@ -31,17 +31,19 @@ def initialize_log(ctx, dir):
 
     logger.setLevel(logging.INFO)
 
-    log_directory = os.path.join(dir, "logs")
-    log_file = "%s.log" % re.sub(r'[-:.]', '_', datetime.datetime.utcnow().isoformat())
-    ctx.obj['log_file'] = log_file
-    log_file = os.path.join(log_directory, log_file)
+    if dir:
+        log_directory = os.path.join(dir, "logs")
+        log_file = "%s.log" % re.sub(r'[-:.]', '_', datetime.datetime.utcnow().isoformat())
+        ctx.obj['log_file'] = log_file
+        log_file = os.path.join(log_directory, log_file)
 
-    if not os.path.isdir(log_directory):
-        os.mkdir(log_directory)
+        if not os.path.isdir(log_directory):
+            os.mkdir(log_directory)
 
-    fh = logging.FileHandler(log_file)
-    fh.setLevel(logging.DEBUG)  # always set fh to debug
-    fh.setFormatter(logFormatter)
+        fh = logging.FileHandler(log_file)
+        fh.setLevel(logging.DEBUG)  # always set fh to debug
+        fh.setFormatter(logFormatter)
+        logger.addHandler(fh)
 
     ch = logging.StreamHandler()
     ch.setFormatter(logging.Formatter("[%(levelname)-5.5s] %(message)s"))
@@ -49,7 +51,6 @@ def initialize_log(ctx, dir):
     if ctx.obj['DEBUG']:
         ch.setLevel(logging.DEBUG)
 
-    logger.addHandler(fh)
     logger.addHandler(ch)
 
     ctx.obj['LOGGER'] = logger

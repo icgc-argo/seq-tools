@@ -30,14 +30,14 @@ class Checker(BaseChecker):
     def check(self):
         if not self.metadata.get('read_groups'):
             message = "Missing 'read_groups' section in the metadata JSON"
-            self.logger.error(message)
+            self.logger.info(message)
             self.message = message
             self.status = 'INVALID'
             return
 
         if not self.metadata.get('read_group_count'):
             message = "Missing 'read_group_count' field in the metadata JSON"
-            self.logger.error(message)
+            self.logger.info(message)
             self.message = message
             self.status = 'INVALID'
             return
@@ -47,7 +47,7 @@ class Checker(BaseChecker):
                 (len(self.metadata.get('read_groups')), self.metadata.get('read_group_count'))
             self.message = message
             self.status = 'INVALID'
-            self.logger.error(message)
+            self.logger.info(message)
 
         else:
             self.status = 'VALID'
