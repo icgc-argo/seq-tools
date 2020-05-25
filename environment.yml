@@ -6,6 +6,7 @@ dependencies:
   - conda-forge::python=3.7.6
   - bioconda::samtools=1.9
   - bioconda::picard=2.22.4
+  - pip
   - pip:
     - -r file:requirements.txt
     - .
