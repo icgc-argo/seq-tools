@@ -22,6 +22,9 @@ Try it with example submissions under `tests/submissions`
 ```
 cd tests/submissions
 seq-tools validate HCC1143N.WGS
+
+# or validate all submission dirs using wildcard in one go
+seq-tools validate *.*
 ```
 
 ## Testing
