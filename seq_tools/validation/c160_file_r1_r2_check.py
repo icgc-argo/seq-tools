@@ -99,7 +99,7 @@ class Checker(BaseChecker):
         fls = set()
         for fl in self.metadata.get('files'):
             if 'fileName' not in fl or not fl['fileName']:
-                message = "Required field 'fileName' is not found in metadata JSON."
+                message = "Required field 'fileName' not populated in 'files' section of the metadata JSON."
                 self.logger.info(message)
                 self.message = message
                 self.status = 'INVALID'
