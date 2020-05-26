@@ -1,14 +1,19 @@
 FROM continuumio/miniconda:4.7.12
 
+LABEL maintainer="junju.zhang@oicr.on.ca"
+
+ARG VERSION=0.1.0
+ARG NAME=seq-tools
+
 ENV PATH=/opt/conda/condabin:$PATH
 
-COPY . /tmp/seq-tools/
+COPY . /tmp/${NAME}/
 
-RUN cd /tmp/seq-tools/ && \
+RUN cd /tmp/${NAME}/ && \
     conda env create -f environment.yml && \
     conda clean -a
 
-ENV PATH=/opt/conda/envs/seq-tools-0.1.0/bin:$PATH
+ENV PATH=/opt/conda/envs/${NAME}-${VERSION}/bin:$PATH
 
 RUN groupadd -g 1000 ubuntu && \
     useradd -l -u 1000 -g ubuntu ubuntu -s /bin/bash && \
