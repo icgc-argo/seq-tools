@@ -59,11 +59,11 @@ class Checker(BaseChecker):
                 return
 
             if 'file_r1' not in rg or not rg['file_r1']:
-                    message = "Required field 'file_r1' is not found in metadata JSON in read group: %s." % rg['submitter_read_group_id']
-                    self.logger.info(message)
-                    self.message = message
-                    self.status = 'INVALID'
-                    return
+                message = "Required field 'file_r1' is not found in metadata JSON in read group: %s." % rg['submitter_read_group_id']
+                self.logger.info(message)
+                self.message = message
+                self.status = 'INVALID'
+                return
 
             if rg['is_paired_end']:
                 if 'file_r2' not in rg or not rg['file_r2']:
