@@ -97,7 +97,8 @@ def validate(ctx, submission_dir, metadata):
 
         click.echo('', err=True)
         summary_report['ended_at'] = ntcnow_iso()
-        time.sleep(.3)  # wait a bit to avoid mixing STDOUT with STDERR
+        # wait a bit to avoid mixing STDOUT with STDERR in terminal display
+        time.sleep(.3)
         click.echo(json.dumps(summary_report))
     else:
         perform_validation(ctx, metadata=metadata)
