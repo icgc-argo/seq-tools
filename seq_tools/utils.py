@@ -65,7 +65,10 @@ def file_pattern_exist(dirname, pattern):
 
 
 def find_files(dirname, pattern):
-    files = [f for f in os.listdir(dirname) if os.path.isfile(os.path.join(dirname,f))]
+    files = [f for f in os.listdir(dirname)
+             if (os.path.isfile(os.path.join(dirname, f)) or
+                 os.path.islink(os.path.join(dirname, f)))
+             ]
     files_found = []
     for f in files:
         if re.match(pattern, f):

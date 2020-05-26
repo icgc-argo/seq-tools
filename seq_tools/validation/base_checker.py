@@ -29,6 +29,8 @@ class BaseChecker(object):
         self._ctx = ctx
         self._metadata = metadata
         self._logger = ctx.obj['LOGGER']
+        self._submission_directory = ctx.obj['submission_report'].get('submission_directory')
+        self._files = ctx.obj['submission_report'].get('files')
         self._checks = ctx.obj['submission_report']['validation']['checks']
         self._checks.append({
             'checker': checker_name,
@@ -41,8 +43,16 @@ class BaseChecker(object):
         return self._ctx
 
     @property
+    def submission_directory(self):
+        return self._submission_directory
+
+    @property
     def metadata(self):
         return self._metadata
+
+    @property
+    def files(self):
+        return self._files
 
     @property
     def logger(self):

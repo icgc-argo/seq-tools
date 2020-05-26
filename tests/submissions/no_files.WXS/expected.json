@@ -1,9 +1,8 @@
 {
-  "files": [
-    "test_rg_3.bam"
-  ],
+  "metadata": "sequencing_experiment.json",
+  "files": [],
   "validation": {
-    "status": "VALID",
+    "status": "INVALID",
     "checks": [
       {
         "checker": "c110_rg_id_uniqueness",
@@ -17,8 +16,8 @@
       },
       {
         "checker": "c130_one_sample",
-        "status": "VALID",
-        "message": "One and only one sample check status: VALID"
+        "status": "INVALID",
+        "message": "'samples' section must contain exactly one sample in metadata, 2 found"
       },
       {
         "checker": "c140_platform_unit_uniqueness",
@@ -27,8 +26,8 @@
       },
       {
         "checker": "c150_rg_count_match",
-        "status": "VALID",
-        "message": "Read groups count check status: VALID"
+        "status": "INVALID",
+        "message": "The total number of read groups in 'read_groups' section is 3. It does NOT match the number specified in read_group_count: 4."
       },
       {
         "checker": "c170_fq_uniqueness_in_rgs",
@@ -42,8 +41,8 @@
       },
       {
         "checker": "c605_all_files_accessible",
-        "status": "VALID",
-        "message": "All submission files accessible check: VALID"
+        "status": "INVALID",
+        "message": "Files specified in metadata, but missed in submission directory: 'test_rg_3.bam'"
       }
     ]
   }
