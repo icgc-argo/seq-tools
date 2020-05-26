@@ -15,7 +15,6 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     Authors:
-        Junjun Zhang <junjun.zhang@oicr.on.ca>
         Linda Xiang <linda.xiang@oicr.on.ca>
 """
 
