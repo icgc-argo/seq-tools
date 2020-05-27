@@ -57,8 +57,8 @@ class Checker(BaseChecker):
                 self.message = message
                 self.status = 'INVALID'
                 return
-
-            if 'file_r1' not in rg or not rg['file_r1']:
+            
+            if not 'file_r1' in rg or not rg['file_r1']:
                 message = "Required field 'file_r1' is not found in metadata JSON in read group: %s." % rg['submitter_read_group_id']
                 self.logger.info(message)
                 self.message = message
@@ -72,12 +72,14 @@ class Checker(BaseChecker):
                     self.message = message
                     self.status = 'INVALID'
                     return
+
                 if rg['file_r1'].endswith('.bam') and not rg['file_r1'] == rg['file_r2']:
                     message = "Fields 'file_r1' and 'file_r2' should be the same for paired end BAM sequencing reads in read group: %s." % rg['submitter_read_group_id']
                     self.logger.info(message)
                     self.message = message
                     self.status = 'INVALID'
                     return
+
                 if not rg['file_r1'].endswith('.bam') and rg['file_r1'] == rg['file_r2']:
                     message = "Fields 'file_r1' and 'file_r2' should NOT be the same for paired end FASTQ sequencing reads in read group: %s." % rg['submitter_read_group_id']
                     self.logger.info(message)
