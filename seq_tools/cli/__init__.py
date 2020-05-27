@@ -21,6 +21,7 @@
 
 import click
 import json
+import time
 from seq_tools import __version__ as ver
 from ..validation import perform_validation
 from ..utils import ntcnow_iso
@@ -96,6 +97,8 @@ def validate(ctx, submission_dir, metadata):
 
         click.echo('', err=True)
         summary_report['ended_at'] = ntcnow_iso()
+        # wait a bit to avoid mixing STDOUT with STDERR in terminal display
+        time.sleep(.3)
         click.echo(json.dumps(summary_report))
     else:
         perform_validation(ctx, metadata=metadata)

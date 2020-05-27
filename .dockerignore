@@ -1,1 +1,15 @@
-tests
+dist
+build
+.vscode
+.github
+.pytest*
+*.egg-info
+tmp
+.python-version
+.gitignore
+.DS_Store
+*.bak
+*.log
+logs
+.log
+report.json
