@@ -39,6 +39,11 @@
         "checker": "c180_file_uniqueness",
         "status": "INVALID",
         "message": "File(s) duplicated in 'fileName' of the 'files' section in the metadata: 'test_rg_3.bam'"
+      },
+      {
+        "checker": "c605_all_files_accessible",
+        "status": "INVALID",
+        "message": "Files specified in metadata, but unaccessilbe in submission directory: 'test_rg_3.bam'"
       }
     ]
   }
