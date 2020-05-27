@@ -30,7 +30,7 @@
       "platform_unit": "74_8b",
       "is_paired_end": true,
       "file_r1": "D0RE2.1_r1.fq.gz",
-      "file_r2": "C0HVY.2_r2.fq.gz",
+      "file_r2": "D0RE2.1_r1.fq.gz",
       "read_length_r1": 150,
       "read_length_r2": 150,
       "insert_size": 298,

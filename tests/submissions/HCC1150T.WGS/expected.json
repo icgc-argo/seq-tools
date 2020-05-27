@@ -31,6 +31,11 @@
         "message": "Read groups count check status: VALID"
       },
       {
+        "checker": "c160_file_r1_r2_check",
+        "status": "INVALID",
+        "message": "Field 'file_r2' must be 'null' in metadata JSON for single end sequencing in read group: D0RE2_1a_1."
+      },
+      {
         "checker": "c170_fq_uniqueness_in_rgs",
         "status": "VALID",
         "message": "FASTQ uniqueness in read groups check status: VALID"

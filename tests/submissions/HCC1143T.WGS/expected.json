@@ -3,7 +3,7 @@
     "test_rg_3.bam"
   ],
   "validation": {
-    "status": "VALID",
+    "status": "INVALID",
     "checks": [
       {
         "checker": "c110_rg_id_uniqueness",
@@ -29,6 +29,11 @@
         "checker": "c150_rg_count_match",
         "status": "VALID",
         "message": "Read groups count check status: VALID"
+      },
+      {
+        "checker": "c160_file_r1_r2_check",
+        "status": "INVALID",
+        "message": "Required field 'file_r2' is not found in metadata JSON for paired end sequencing reads in read group: D0RE2_1a_1."
       },
       {
         "checker": "c170_fq_uniqueness_in_rgs",

@@ -11,14 +11,49 @@
     "status": "INVALID",
     "checks": [
       {
+        "checker": "c110_rg_id_uniqueness",
+        "status": "VALID",
+        "message": "Read group ID uniqueness check status: VALID"
+      },
+      {
+        "checker": "c120_permissible_char_in_rg_id",
+        "status": "VALID",
+        "message": "Read group ID permissible character check status: VALID"
+      },
+      {
+        "checker": "c130_one_sample",
+        "status": "VALID",
+        "message": "One and only one sample check status: VALID"
+      },
+      {
+        "checker": "c140_platform_unit_uniqueness",
+        "status": "VALID",
+        "message": "Platform unit uniqueness check status: VALID"
+      },
+      {
+        "checker": "c150_rg_count_match",
+        "status": "VALID",
+        "message": "Read groups count check status: VALID"
+      },
+      {
+        "checker": "c160_file_r1_r2_check",
+        "status": "INVALID",
+        "message": "Fields 'file_r1' and 'file_r2' should NOT be the same for paired end FASTQ sequencing reads in read group: D0RE2.1."
+      },
+      {
         "checker": "c170_fq_uniqueness_in_rgs",
         "status": "INVALID",
-        "message": "FASTQ file(s) duplicated in 'file_r1/file_r2' of the 'read_groups' section in the metadata: 'C0HVY.2_r2.fq.gz, D0RH0.2_r1.fq.gz'"
+        "message": "FASTQ file(s) duplicated in 'file_r1/file_r2' of the 'read_groups' section in the metadata: 'D0RE2.1_r1.fq.gz, D0RH0.2_r1.fq.gz'"
       },
       {
         "checker": "c180_file_uniqueness",
         "status": "VALID",
         "message": "Files uniqueness check in files section status: VALID"
+      },
+      {
+        "checker": "c605_all_files_accessible",
+        "status": "VALID",
+        "message": "All submission files accessible check: VALID"
       }
     ]
   }
