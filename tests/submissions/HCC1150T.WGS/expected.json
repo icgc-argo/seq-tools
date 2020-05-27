@@ -44,6 +44,7 @@
         "checker": "c605_all_files_accessible",
         "status": "INVALID",
         "message": "Files specified in metadata, but unaccessilbe in submission directory: 'test_rg_3.bam'"
-      }    ]
+      }
+    ]
   }
 }
