@@ -59,7 +59,7 @@ class Checker(BaseChecker):
                 return
             
             if not 'file_r1' in rg or not rg['file_r1']:
-                message = "Required field 'file_r1' is not found in metadata JSON in read group: %s." % rg['submitter_read_group_id']
+                message = "Required field 'file_r1' is not found or populated in metadata JSON in read group: %s." % rg['submitter_read_group_id']
                 self.logger.info(message)
                 self.message = message
                 self.status = 'INVALID'
@@ -67,7 +67,7 @@ class Checker(BaseChecker):
 
             if rg['is_paired_end']:
                 if 'file_r2' not in rg or not rg['file_r2']:
-                    message = "Required field 'file_r2' is not found in metadata JSON for paired end sequencing reads in read group: %s." % rg['submitter_read_group_id']
+                    message = "Required field 'file_r2' is not found or populated in metadata JSON for paired end sequencing reads in read group: %s." % rg['submitter_read_group_id']
                     self.logger.info(message)
                     self.message = message
                     self.status = 'INVALID'

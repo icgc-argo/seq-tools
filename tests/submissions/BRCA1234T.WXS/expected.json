@@ -34,7 +34,7 @@
       {
         "checker": "c160_file_r1_r2_check",
         "status": "INVALID",
-        "message": "File(s) specified in 'file_r1' or 'file_r2' missed in 'files' section of the metadata JSON: test_rg_4.bam"
+        "message": "Required field 'file_r1' is not found or populated in metadata JSON in read group: D0RE2_1a_1."
       },
       {
         "checker": "c170_fq_uniqueness_in_rgs",

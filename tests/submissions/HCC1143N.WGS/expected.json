@@ -29,6 +29,31 @@
         "checker": "c140_platform_unit_uniqueness",
         "status": "INVALID",
         "message": "'platform_unit' duplicated in metadata: '74_8c'"
+      },
+      {
+        "checker": "c150_rg_count_match",
+        "status": "INVALID",
+        "message": "The total number of read groups in 'read_groups' section is 4. It does NOT match the number specified in read_group_count: 3."
+      },
+      {
+        "checker": "c160_file_r1_r2_check",
+        "status": "INVALID",
+        "message": "Required field 'is_paired_end' should be Boolean type in read group: D0RE2.1."
+      },
+      {
+        "checker": "c170_fq_uniqueness_in_rgs",
+        "status": "INVALID",
+        "message": "FASTQ file(s) duplicated in 'file_r1/file_r2' of the 'read_groups' section in the metadata: 'D0RH0.2_r1.fq.gz, D0RH0.2_r2.fq.gz'"
+      },
+      {
+        "checker": "c180_file_uniqueness",
+        "status": "VALID",
+        "message": "Files uniqueness check in files section status: VALID"
+      },
+      {
+        "checker": "c605_all_files_accessible",
+        "status": "VALID",
+        "message": "All submission files accessible check: VALID"
       }
     ]
   }

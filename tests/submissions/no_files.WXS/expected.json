@@ -31,8 +31,8 @@
       },
       {
         "checker": "c160_file_r1_r2_check",
-        "status": "VALID",
-        "message": "Fields file_r1 and file_r2 check status: VALID"
+        "status": "INVALID",
+        "message": "File(s) specified in 'file_r1' or 'file_r2' missed in 'files' section of the metadata JSON: test_rg_4.bam"
       },
       {
         "checker": "c170_fq_uniqueness_in_rgs",
