@@ -82,7 +82,7 @@ def validate(ctx, submission_dir, metadata):
 
             perform_validation(ctx, subdir=subdir)
             status = ctx.obj['submission_report']['validation']['status']
-            click.echo('submission dir: %s, status: %s, current_time: %s, progress: %s/%s' % (
+            click.echo('submission_dir: %s, status: %s, current_time: %s, progress: %s/%s' % (
                 subdir, status, ntcnow_iso(), current, total
             ), err=True)
 
@@ -97,6 +97,7 @@ def validate(ctx, submission_dir, metadata):
 
         click.echo('', err=True)
         summary_report['ended_at'] = ntcnow_iso()
+
         # wait a bit to avoid mixing STDOUT with STDERR in terminal display
         time.sleep(.3)
         click.echo(json.dumps(summary_report))
