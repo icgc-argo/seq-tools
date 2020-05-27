@@ -30,6 +30,26 @@
         "checker": "c150_rg_count_match",
         "status": "INVALID",
         "message": "The total number of read groups in 'read_groups' section is 3. It does NOT match the number specified in read_group_count: 4."
+      },
+      {
+        "checker": "c160_file_r1_r2_check",
+        "status": "INVALID",
+        "message": "Required field 'file_r1' is not found or populated in metadata JSON in read group: D0RE2_1a_1."
+      },
+      {
+        "checker": "c170_fq_uniqueness_in_rgs",
+        "status": "VALID",
+        "message": "FASTQ uniqueness in read groups check status: VALID"
+      },
+      {
+        "checker": "c180_file_uniqueness",
+        "status": "VALID",
+        "message": "Files uniqueness check in files section status: VALID"
+      },
+      {
+        "checker": "c605_all_files_accessible",
+        "status": "VALID",
+        "message": "All submission files accessible check: VALID"
       }
     ]
   }

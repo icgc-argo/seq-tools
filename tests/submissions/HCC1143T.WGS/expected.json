@@ -31,6 +31,11 @@
         "message": "Read groups count check status: VALID"
       },
       {
+        "checker": "c160_file_r1_r2_check",
+        "status": "VALID",
+        "message": "Fields file_r1 and file_r2 check status: VALID"
+      },
+      {
         "checker": "c170_fq_uniqueness_in_rgs",
         "status": "VALID",
         "message": "FASTQ uniqueness in read groups check status: VALID"
