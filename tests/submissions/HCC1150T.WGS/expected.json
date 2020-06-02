@@ -46,6 +46,11 @@
         "message": "File(s) duplicated in 'fileName' of the 'files' section in the metadata: 'test_rg_3.bam'"
       },
       {
+        "checker": "c200_rg_id_in_bam_uniqueness",
+        "status": "INVALID",
+        "message": "'read_group_id_in_bam' must be unique if populated in read_groups section: 'C0HVY.2'"
+      },
+      {
         "checker": "c605_all_files_accessible",
         "status": "INVALID",
         "message": "Files specified in metadata, but unaccessilbe in submission directory: 'test_rg_3.bam'"
