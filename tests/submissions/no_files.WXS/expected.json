@@ -45,6 +45,11 @@
         "message": "Files uniqueness check in files section status: VALID"
       },
       {
+        "checker": "c200_rg_id_in_bam_uniqueness",
+        "status": "VALID",
+        "message": "'read_group_id_in_bam' uniqueness check status: VALID"
+      },
+      {
         "checker": "c605_all_files_accessible",
         "status": "INVALID",
         "message": "Files specified in metadata, but missed in submission directory: 'test_rg_3.bam'"
