@@ -48,7 +48,7 @@
       {
         "checker": "c200_rg_id_in_bam_uniqueness",
         "status": "INVALID",
-        "message": "'read_group_id_in_bam' must be unique if populated in read_groups section: 'C0HVY.2'"
+        "message": "'read_group_id_in_bam' must be unique if populated in read_groups section, however duplicate(s) found: 'C0HVY.2'"
       },
       {
         "checker": "c605_all_files_accessible",

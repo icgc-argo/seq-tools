@@ -46,7 +46,7 @@ class Checker(BaseChecker):
                 rg_ids_in_bam.add(rg['read_group_id_in_bam'])
 
         if duplicated_ids:
-            message = "'read_group_id_in_bam' must be unique if populated in read_groups section: '%s'" % \
+            message = "'read_group_id_in_bam' must be unique if populated in read_groups section, however duplicate(s) found: '%s'" % \
                 ', '.join(duplicated_ids)
             self.logger.info(message)
             self.message = message
