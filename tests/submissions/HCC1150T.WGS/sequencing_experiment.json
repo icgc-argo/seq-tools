@@ -86,6 +86,14 @@
       "fileType": "BAM",
       "fileAccess": "controlled",
       "dataType": "submitted_reads"
+    },
+    {
+      "fileName": "test_rg_4_not_real.bam",
+      "fileSize": 14935,
+      "fileMd5sum": "3f160ccdb1eae97337b42018bf141f7c",
+      "fileType": "BAM",
+      "fileAccess": "controlled",
+      "dataType": "submitted_reads"
     }
   ]
 }
