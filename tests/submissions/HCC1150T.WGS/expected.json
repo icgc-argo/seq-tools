@@ -1,6 +1,7 @@
 {
   "files": [
-    "test_rg_3.bam"
+    "test_rg_3.bam",
+    "test_rg_4_not_real.bam"
   ],
   "validation": {
     "status": "INVALID",
@@ -44,6 +45,11 @@
         "checker": "c180_file_uniqueness",
         "status": "INVALID",
         "message": "File(s) duplicated in 'fileName' of the 'files' section in the metadata: 'test_rg_3.bam'"
+      },
+      {
+        "checker": "c190_no_extra_files",
+        "status": "INVALID",
+        "message": "Found extra files specified in 'files' section of the metadata JSON, please remove unneeded files: test_rg_4_not_real.bam"
       },
       {
         "checker": "c200_rg_id_in_bam_uniqueness",
