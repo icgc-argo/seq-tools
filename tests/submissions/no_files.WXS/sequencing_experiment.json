@@ -93,6 +93,14 @@
       "fileType": "BAM",
       "fileAccess": "controlled",
       "dataType": "submitted_reads"
+    },
+    {
+      "fileName": "seq/test_rg_3.bam",
+      "fileSize": 14935,
+      "fileMd5sum": "3f160ccdb1eae97337b42018bf141f7c",
+      "fileType": "BAM",
+      "fileAccess": "controlled",
+      "dataType": "submitted_reads"
     }
   ]
 }
