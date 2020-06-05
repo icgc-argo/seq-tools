@@ -21,6 +21,13 @@ def test_validate(submission):
     runner = CliRunner()
     result = runner.invoke(main, ['validate', submission])
 
+    err_text_file = os.path.join(submission, 'expected-error-startswith.txt')
+    if os.path.isfile(err_text_file):
+        with open(err_text_file) as f:
+            expected_err = f.read()
+            assert result.output.startswith(expected_err)
+        return
+
     with open(os.path.join(submission, 'expected.json')) as f:
         expected = json.load(f)
 

@@ -42,13 +42,13 @@ finally:
 
 def perform_validation(ctx, subdir=None, metadata=None):
     if not (subdir or metadata):
-        echo(
-            'Must specify submission directory or metadata as JSON string.'
-        )
+        echo('Must specify submission directory or metadata as JSON string.', err=True)
         ctx.abort()
     elif subdir and metadata:
-        echo('Can not specify both submission dir and metadata')
+        echo('Can not specify both submission dir and metadata', err=True)
         ctx.abort()
+
+    metadata_file = 'sequencing_experiment.json'
 
     # initialize logger
     ctx.obj['subdir'] = subdir
@@ -77,18 +77,27 @@ def perform_validation(ctx, subdir=None, metadata=None):
 
     # get SONG metadata
     if subdir:
-        try:
-            with open(os.path.join(
-                    subdir, "sequencing_experiment.json"), 'r') as f:
-                metadata = json.load(f)
-                ctx.obj['submission_report']['metadata'] = \
-                    "sequencing_experiment.json"
-        except Exception:
-            message = "Failed to open sequencing_experiment.json in: '%s'. " \
-                "Unable to continue with further checks." % subdir
-            logger.info(message)
-            ctx.obj['submission_report']['validation']['message'] = message
-            ctx.obj['submission_report']['validation']['status'] = "INVALID"
+        # when subdir supplied, before everything else, check whether metadata file exists
+        if subdir and not os.path.isfile(os.path.join(subdir, metadata_file)):
+            message = "Not able to find required metadata file: '%s' in specified submission " \
+                "directory: %s" % (metadata_file, subdir)
+            # logger.info(message)
+            echo(message, err=True)
+            return
+
+        else:
+            try:
+                with open(os.path.join(
+                        subdir, metadata_file), 'r') as f:
+                    metadata = json.load(f)
+                    ctx.obj['submission_report']['metadata'] = metadata_file
+            except Exception as ex:
+                message = "Failed to open '%s' in: '%s'. " \
+                    "Unable to continue with further checks. Error message: %s" % \
+                    (metadata_file, subdir, str(ex))
+                logger.info(message)
+                ctx.obj['submission_report']['validation']['message'] = message
+                ctx.obj['submission_report']['validation']['status'] = "INVALID"
 
     else:  # metadata supplied
         ctx.obj['submission_report'].pop('files')  # files not applicable here
