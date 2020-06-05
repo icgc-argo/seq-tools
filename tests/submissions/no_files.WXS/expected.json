@@ -50,9 +50,14 @@
         "message": "'read_group_id_in_bam' uniqueness check status: VALID"
       },
       {
+        "checker": "c210_no_path_in_filename",
+        "status": "INVALID",
+        "message": "'fileName' must NOT contain path in the 'files' section of the metadata, offending name(s): 'seq/test_rg_3.bam'"
+      },
+      {
         "checker": "c605_all_files_accessible",
         "status": "INVALID",
-        "message": "Files specified in metadata, but missed in submission directory: 'test_rg_3.bam'"
+        "message": "Files specified in metadata, but missed in submission directory: 'seq/test_rg_3.bam, test_rg_3.bam'"
       }
     ]
   }

@@ -53,7 +53,7 @@ class Checker(BaseChecker):
 
         if files_missed_in_subdir:
             message = "Files specified in metadata, but missed in submission directory: '%s'" % \
-                ', '.join(files_missed_in_subdir)
+                ', '.join(sorted(files_missed_in_subdir))
             self.logger.info(message)
             self.message = message
             self.status = 'INVALID'
@@ -61,7 +61,7 @@ class Checker(BaseChecker):
 
         if files_unaccessbile_in_subdir:
             message = "Files specified in metadata, but unaccessilbe in submission directory: '%s'" % \
-                ', '.join(files_unaccessbile_in_subdir)
+                ', '.join(sorted(files_unaccessbile_in_subdir))
             self.logger.info(message)
             self.message = message
             self.status = 'INVALID'
