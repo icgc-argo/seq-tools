@@ -24,6 +24,7 @@ import os
 from base_checker import BaseChecker
 import subprocess
 import re
+import sys
 
 class Checker(BaseChecker):
     def __init__(self, ctx, metadata):
@@ -44,19 +45,24 @@ class Checker(BaseChecker):
         offending_ids = {}
         for f in files_in_subdir:
             if not os.path.basename(f).endswith('.bam'): continue
-            if not os.access(os.path.join(self.submission_directory, os.path.basename(f)), os.R_OK):
-                message = "File in submission directory is NOT accessible: '%s'" % os.path.basename(f)
+            fpath = os.path.join(self.submission_directory, os.path.basename(f))
+            if not os.access(fpath, os.R_OK):
+                message = "BAM file in submission directory is NOT accessible: '%s'" % os.path.basename(f)
                 self.logger.info(message)
                 self.message = message
                 self.status = 'Not applicable'
                 return
-            fpath = os.path.join(self.submission_directory, os.path.basename(f))
+            
             # retrieve the @RG from BAM header
             try:
                 header = subprocess.check_output(['samtools', 'view', '-H', fpath])
             except Exception as e:
-                sys.exit('\n%s: Retrieve BAM header failed: %s' % (e, fpath))
-            
+                message = "BAM file in submission directory is NOT accessible: '%s'" % os.path.basename(f)
+                self.logger.info(message)
+                self.message = message
+                self.status = 'Not applicable'
+                return
+
             # get @RG
             header_array = header.decode('utf-8').rstrip().split('\n')
 

@@ -1,7 +1,7 @@
 {
   "metadata": "sequencing_experiment.json",
   "files": [
-    "test_rg_3.bam"
+    "test1_rg_3.bam"
   ],
   "validation": {
     "status": "INVALID",
@@ -60,6 +60,11 @@
         "checker": "c605_all_files_accessible",
         "status": "VALID",
         "message": "All submission files accessible check: VALID"
+      },
+      {
+        "checker": "c610_rg_id_in_bam_check",
+        "status": "INVALID",
+        "message": "'RGID' in BAM header contains invalid character: 'test1_rg_3.bam: D0RH0$.2'. Invalid characters include: whitespace, comma, $, %, ?, /, *."
       }
     ]
   }

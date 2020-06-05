@@ -58,6 +58,11 @@
         "checker": "c605_all_files_accessible",
         "status": "INVALID",
         "message": "Files specified in metadata, but missed in submission directory: 'seq/test_rg_3.bam, test_rg_3.bam'"
+      },
+      {
+        "checker": "c610_rg_id_in_bam_check",
+        "status": "Not applicable",
+        "message": "No file information available in the submission directory. This is likely a metadata only validation, should not have invoked this checker. Please ignore."
       }
     ]
   }

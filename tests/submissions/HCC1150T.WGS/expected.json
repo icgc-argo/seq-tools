@@ -60,6 +60,11 @@
         "checker": "c605_all_files_accessible",
         "status": "INVALID",
         "message": "Files specified in metadata, but unaccessilbe in submission directory: 'test_rg_3.bam'"
+      },
+      {
+        "checker": "c610_rg_id_in_bam_check",
+        "status": "Not applicable",
+        "message": "BAM file in submission directory is NOT accessible: 'test_rg_4_not_real.bam'"
       }
     ]
   }
