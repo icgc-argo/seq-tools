@@ -109,7 +109,7 @@ class Checker(BaseChecker):
                 self.logger.info(message)
 
         except Exception as ex:
-            self.status = 'ERROR'
+            self.status = 'INVALID'
             message = "An error occurred during the execution of this checker. This is likely " \
                 "due to problem(s) identified by earlier check(s), please fix reported problem " \
                 "and then run the validation again."

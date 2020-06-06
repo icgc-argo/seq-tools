@@ -1,7 +1,6 @@
 {
   "files": [
-    "test_rg_3.bam",
-    "test_rg_4_not_real.bam"
+    "test_rg_5.bam"
   ],
   "validation": {
     "status": "INVALID",
@@ -33,8 +32,8 @@
       },
       {
         "checker": "c160_file_r1_r2_check",
-        "status": "INVALID",
-        "message": "Field 'file_r2' must be 'null' in metadata JSON for single end sequencing in read group: D0RE2_1a_1."
+        "status": "VALID",
+        "message": "Fields file_r1 and file_r2 check status: VALID"
       },
       {
         "checker": "c170_fq_uniqueness_in_rgs",
@@ -43,28 +42,28 @@
       },
       {
         "checker": "c180_file_uniqueness",
-        "status": "INVALID",
-        "message": "File(s) duplicated in 'fileName' of the 'files' section in the metadata: 'test_rg_3.bam'"
-      },
-      {
-        "checker": "c190_no_extra_files",
-        "status": "INVALID",
-        "message": "Found extra files specified in 'files' section of the metadata JSON, please remove unneeded files: test_rg_4_not_real.bam"
+        "status": "VALID",
+        "message": "Files uniqueness check in files section status: VALID"
       },
       {
         "checker": "c200_rg_id_in_bam_uniqueness",
-        "status": "INVALID",
-        "message": "'read_group_id_in_bam' must be unique if populated in read_groups section, however duplicate(s) found: 'C0HVY.2'"
+        "status": "VALID",
+        "message": "'read_group_id_in_bam' uniqueness check status: VALID"
+      },
+      {
+        "checker": "c210_no_path_in_filename",
+        "status": "VALID",
+        "message": "No path in fileName check in 'files' section status: VALID"
       },
       {
         "checker": "c605_all_files_accessible",
-        "status": "INVALID",
-        "message": "Files specified in metadata, but unaccessilbe in submission directory: 'test_rg_3.bam'"
+        "status": "VALID",
+        "message": "All submission files accessible check: VALID"
       },
       {
         "checker": "c610_rg_id_in_bam",
         "status": "INVALID",
-        "message": "An error occurred during the execution of this checker. This is likely due to problem(s) identified by earlier check(s), please fix reported problem and then run the validation again."
+        "message": "No read group ID found in header for BAM: test_rg_5.bam"
       }
     ]
   }

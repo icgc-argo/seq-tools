@@ -61,7 +61,7 @@
       },
       {
         "checker": "c610_rg_id_in_bam",
-        "status": "ERROR",
+        "status": "INVALID",
         "message": "An error occurred during the execution of this checker. This is likely due to problem(s) identified by earlier check(s), please fix reported problem and then run the validation again."
       }
     ]
