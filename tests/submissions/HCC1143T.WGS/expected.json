@@ -61,9 +61,9 @@
         "message": "All submission files accessible check: VALID"
       },
       {
-        "checker": "c610_rg_id_in_bam_check",
+        "checker": "c610_rg_id_in_bam",
         "status": "VALID",
-        "message": "'RGID' in BAM header check: VALID"
+        "message": "Read group ID in BAM header check: VALID"
       }
     ]
   }

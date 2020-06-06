@@ -60,9 +60,9 @@
         "message": "Files specified in metadata, but missed in submission directory: 'seq/test_rg_3.bam, test_rg_3.bam'"
       },
       {
-        "checker": "c610_rg_id_in_bam_check",
-        "status": "Not applicable",
-        "message": "No file information available in the submission directory. This is likely a metadata only validation, should not have invoked this checker. Please ignore."
+        "checker": "c610_rg_id_in_bam",
+        "status": "ERROR",
+        "message": "An error occurred during the execution of this checker. This is likely due to problem(s) identified by earlier check(s), please fix reported problem and then run the validation again."
       }
     ]
   }

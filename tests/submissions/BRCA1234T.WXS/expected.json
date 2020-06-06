@@ -62,9 +62,9 @@
         "message": "All submission files accessible check: VALID"
       },
       {
-        "checker": "c610_rg_id_in_bam_check",
-        "status": "INVALID",
-        "message": "'RGID' in BAM header contains invalid character: 'test1_rg_3.bam: D0RH0$.2'. Invalid characters include: whitespace, comma, $, %, ?, /, *."
+        "checker": "c610_rg_id_in_bam",
+        "status": "VALID",
+        "message": "Read group ID in BAM header check: VALID"
       }
     ]
   }
