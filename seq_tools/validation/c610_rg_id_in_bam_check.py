@@ -24,70 +24,94 @@ import os
 from base_checker import BaseChecker
 import subprocess
 import re
-import sys
+
 
 class Checker(BaseChecker):
     def __init__(self, ctx, metadata):
         super().__init__(ctx, metadata, __name__)
 
     def check(self):
-        files_in_subdir = self.files
+        # can add more ascii characters later as we verify safe to add
+        re_permissible_rgid = r'[0-9a-zA-Z-_:\.]+'
 
-        if not files_in_subdir:
-            message = "No file information available in the submission " \
-                "directory. This is likely a metadata only validation, " \
-                "should not have invoked this checker. Please ignore."
-            self.logger.info(message)
-            self.message = message
-            self.status = 'Not applicable'
-            return
+        try:
+            files_in_metadata = self.metadata['files']  # check files specified in metadata
 
-        offending_ids = {}
-        for f in files_in_subdir:
-            if not os.path.basename(f).endswith('.bam'): continue
-            fpath = os.path.join(self.submission_directory, os.path.basename(f))
-            if not os.access(fpath, os.R_OK):
-                message = "BAM file in submission directory is NOT accessible: '%s'" % os.path.basename(f)
+            offending_ids = {}
+            for f in files_in_metadata:
+                f = f['fileName']
+                if not f.endswith('.bam'):  # not a BAM, skip
+                    continue
+
+                bam_file = os.path.join(self.submission_directory, f)
+
+                # retrieve the @RG from BAM header
+                header = subprocess.check_output(
+                    ['samtools', 'view', '-H', bam_file],
+                    stderr=subprocess.STDOUT
+                )
+                header_array = header.decode('utf-8').rstrip().split('\n')
+
+                rg_ids = set()
+                duplicated_rg_ids = set()
+                for line in header_array:
+                    if not line.startswith("@RG"):
+                        continue
+                    rg_array = line.rstrip().replace('\t', '\\t')
+
+                    # get rg_id from BAM header
+                    rg_id_in_bam = ':'.join([
+                        kv for kv in rg_array.split('\\t') if kv.startswith('ID:')
+                    ][0].split(':')[1:])
+
+                    # check rg_id uniqueness
+                    if rg_id_in_bam in rg_ids:
+                        duplicated_rg_ids.add(rg_id_in_bam)
+                    else:
+                        rg_ids.add(rg_id_in_bam)
+
+                    # check permissible characters in rg_id
+                    if not re.search(re_permissible_rgid, rg_id_in_bam):
+                        if not offending_ids.get(f):
+                            offending_ids[f] = set()
+                        offending_ids[f].add(rg_id_in_bam)
+
+                if not rg_ids:
+                    self.status = 'INVALID'
+                    message = "No read group ID found in header for BAM: %s" % f
+                    self.message = message
+                    self.logger.info(message)
+                    return
+
+                elif duplicated_rg_ids:
+                    self.status = 'INVALID'
+                    message = "Duplicated read group ID found: %s in BAM: %s" % \
+                        (", ".join(sorted(duplicated_rg_ids)), f)
+                    self.message = message
+                    self.logger.info(message)
+                    return
+
+            if offending_ids:
+                msg = []
+                for k, v in offending_ids.items():
+                    msg.append("BAM %s: %s" % (k, ', '.join(sorted(v))))
+
+                message = "Read group ID in BAM header contains non-permissible character: %s" % \
+                    '; '.join(msg)
+
                 self.logger.info(message)
                 self.message = message
-                self.status = 'Not applicable'
-                return
-            
-            # retrieve the @RG from BAM header
-            try:
-                header = subprocess.check_output(['samtools', 'view', '-H', fpath])
-            except Exception as e:
-                message = "BAM file in submission directory is NOT accessible: '%s'" % os.path.basename(f)
-                self.logger.info(message)
+                self.status = 'INVALID'
+            else:
+                self.status = 'VALID'
+                message = "Read group ID in BAM header check: VALID"
                 self.message = message
-                self.status = 'Not applicable'
-                return
+                self.logger.info(message)
 
-            # get @RG
-            header_array = header.decode('utf-8').rstrip().split('\n')
-
-            for line in header_array:
-                if not line.startswith("@RG"): continue
-                rg_array = line.rstrip().replace('\t', '\\t')
-                # get rg_id from BAM header
-                rg_id_in_bam = ':'.join([ kv for kv in rg_array.split('\\t') if kv.startswith('ID:') ][0].split(':')[1:])
-                if re.search(r'[,/?%*\ \$]', rg_id_in_bam):
-                    if not offending_ids.get(os.path.basename(f)): 
-                        offending_ids[os.path.basename(f)] = set()
-                    offending_ids[os.path.basename(f)].add(rg_id_in_bam)
-
-        if offending_ids:
-            msg = []
-            for k, v in offending_ids.items():
-                msg.append("%s: %s" % (k, ', '.join(v)))
-            
-            message = "'RGID' in BAM header contains invalid character: '%s'. " % '; '.join(msg) + "Invalid characters include: whitespace, comma, $, %, ?, /, *." 
-             
-            self.logger.info(message)
-            self.message = message
-            self.status = 'INVALID'        
-        else:
-            self.status = 'VALID'
-            message = "'RGID' in BAM header check: VALID"
+        except Exception as ex:
+            self.status = 'ERROR'
+            message = "An error occurred during the execution of this checker. This is likely " \
+                "due to 'INVALID' result of an earlier check, please fix those reported problem " \
+                "and run the validation again. Additional error message: %s" % str(ex)
             self.message = message
             self.logger.info(message)
