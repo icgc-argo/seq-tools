@@ -101,7 +101,8 @@ class BaseChecker(object):
                     "please fix reported problem and then run the validation again."
                 _self.message = "%s More information of the exception can be found " \
                     "in the latest log file under: %s" \
-                    % (message, os.path.join(_self.submission_directory, 'logs'))
+                    % (message, os.path.join(
+                        os.path.basename(_self.submission_directory), 'logs', ''))
                 _self.logger.info("[%s] %s Additional message: %s" % (
                     _self.checker, message, str(ex)))
         return func

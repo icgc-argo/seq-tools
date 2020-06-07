@@ -119,12 +119,14 @@ def perform_validation(ctx, subdir=None, metadata=None):
 
         if 'INVALID' in check_status:
             ctx.obj['submission_report']['validation']['status'] = 'INVALID'
+        elif 'UNKNOWN' in check_status:
+            ctx.obj['submission_report']['validation']['status'] = 'UNKNOWN'
         elif 'WARNING' in check_status:
             ctx.obj['submission_report']['validation']['status'] = 'WARNING'
-        elif 'VALID' in check_status:
+        elif 'VALID' in check_status and len(check_status) == 1:  # only has 'VALID' status
             ctx.obj['submission_report']['validation']['status'] = 'VALID'
         else:  # should never happen
-            ctx.obj['submission_report']['validation']['status'] = 'UNKNOWN'
+            ctx.obj['submission_report']['validation']['status'] = None
 
     # complete the validation
     ctx.obj['submission_report']['ended_at'] = ntcnow_iso()
