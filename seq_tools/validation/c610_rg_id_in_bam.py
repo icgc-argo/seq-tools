@@ -33,7 +33,7 @@ class Checker(BaseChecker):
     @BaseChecker._catch_exception
     def check(self):
         # can add more ascii characters later as we verify safe to add
-        re_permissible_rgid = r'[0-9a-zA-Z-_:\.]+'
+        re_permissible_rgid = r'^[0-9a-zA-Z-_:\'\.]+$'
 
         files_in_metadata = self.metadata['files']  # check files specified in metadata
 
@@ -96,8 +96,10 @@ class Checker(BaseChecker):
             for k, v in offending_ids.items():
                 msg.append("BAM %s: %s" % (k, ', '.join(sorted(v))))
 
-            message = "Read group ID in BAM header contains non-permissible character: %s" % \
-                '; '.join(msg)
+            message = "Read group ID in BAM header contains non-permissible character " \
+                "(valid characters include: %s). Offending ID(s): %s" % (
+                    ''.join(re_permissible_rgid[1:-2]), '; '.join(msg)
+                )
 
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message
