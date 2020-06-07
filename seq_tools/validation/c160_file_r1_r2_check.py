@@ -27,17 +27,18 @@ class Checker(BaseChecker):
     def __init__(self, ctx, metadata):
         super().__init__(ctx, metadata, __name__)
 
+    @BaseChecker._catch_exception
     def check(self):
         if not self.metadata.get('read_groups'):
             message = "Missing 'read_groups' section in the metadata JSON"
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
             return
 
         if not self.metadata.get('files'):
             message = "Missing 'files' section in the metadata JSON"
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
             return
@@ -46,21 +47,21 @@ class Checker(BaseChecker):
         for rg in self.metadata.get('read_groups'):
             if 'is_paired_end' not in rg:
                 message = "Required field 'is_paired_end' is not found in metadata JSON in read group: %s." % rg['submitter_read_group_id']
-                self.logger.info(message)
+                self.logger.info(f'[{self.checker}] {message}')
                 self.message = message
                 self.status = 'INVALID'
                 return
 
             if not isinstance(rg['is_paired_end'], bool):
                 message = "Required field 'is_paired_end' should be Boolean type in read group: %s." % rg['submitter_read_group_id']
-                self.logger.info(message)
+                self.logger.info(f'[{self.checker}] {message}')
                 self.message = message
                 self.status = 'INVALID'
                 return
-            
-            if not 'file_r1' in rg or not rg['file_r1']:
+
+            if 'file_r1' not in rg or not rg['file_r1']:
                 message = "Required field 'file_r1' is not found or populated in metadata JSON in read group: %s." % rg['submitter_read_group_id']
-                self.logger.info(message)
+                self.logger.info(f'[{self.checker}] {message}')
                 self.message = message
                 self.status = 'INVALID'
                 return
@@ -68,21 +69,21 @@ class Checker(BaseChecker):
             if rg['is_paired_end']:
                 if 'file_r2' not in rg or not rg['file_r2']:
                     message = "Required field 'file_r2' is not found or populated in metadata JSON for paired end sequencing reads in read group: %s." % rg['submitter_read_group_id']
-                    self.logger.info(message)
+                    self.logger.info(f'[{self.checker}] {message}')
                     self.message = message
                     self.status = 'INVALID'
                     return
 
                 if rg['file_r1'].endswith('.bam') and not rg['file_r1'] == rg['file_r2']:
                     message = "Fields 'file_r1' and 'file_r2' should be the same for paired end BAM sequencing reads in read group: %s." % rg['submitter_read_group_id']
-                    self.logger.info(message)
+                    self.logger.info(f'[{self.checker}] {message}')
                     self.message = message
                     self.status = 'INVALID'
                     return
 
                 if not rg['file_r1'].endswith('.bam') and rg['file_r1'] == rg['file_r2']:
                     message = "Fields 'file_r1' and 'file_r2' should NOT be the same for paired end FASTQ sequencing reads in read group: %s." % rg['submitter_read_group_id']
-                    self.logger.info(message)
+                    self.logger.info(f'[{self.checker}] {message}')
                     self.message = message
                     self.status = 'INVALID'
                     return
@@ -90,7 +91,7 @@ class Checker(BaseChecker):
             else:
                 if 'file_r2' in rg and rg['file_r2']:
                     message = "Field 'file_r2' must be 'null' in metadata JSON for single end sequencing in read group: %s." % rg['submitter_read_group_id']
-                    self.logger.info(message)
+                    self.logger.info(f'[{self.checker}] {message}')
                     self.message = message
                     self.status = 'INVALID'
                     return
@@ -102,7 +103,7 @@ class Checker(BaseChecker):
         for fl in self.metadata.get('files'):
             if 'fileName' not in fl or not fl['fileName']:
                 message = "Required field 'fileName' not populated in 'files' section of the metadata JSON."
-                self.logger.info(message)
+                self.logger.info(f'[{self.checker}] {message}')
                 self.message = message
                 self.status = 'INVALID'
                 return
@@ -114,10 +115,10 @@ class Checker(BaseChecker):
             message = "File(s) specified in 'file_r1' or 'file_r2' missed in 'files' section of the metadata JSON: %s" % ", ".join(missing_files)
             self.message = message
             self.status = 'INVALID'
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
 
         else:
             self.status = 'VALID'
             message = "Fields file_r1 and file_r2 check status: VALID"
             self.message = message
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')

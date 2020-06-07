@@ -27,10 +27,11 @@ class Checker(BaseChecker):
     def __init__(self, ctx, metadata):
         super().__init__(ctx, metadata, __name__)
 
+    @BaseChecker._catch_exception
     def check(self):
         if not self.metadata.get('read_groups'):
             message = "Missing 'read_groups' section in the metadata JSON"
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
             return
@@ -39,7 +40,7 @@ class Checker(BaseChecker):
         for rg in self.metadata.get('read_groups'):
             if 'submitter_read_group_id' not in rg:
                 message = "Required field 'submitter_read_group_id' not found in metadata JSON"
-                self.logger.info(message)
+                self.logger.info(f'[{self.checker}] {message}')
                 self.message = message
                 self.status = 'INVALID'
                 return
@@ -52,11 +53,11 @@ class Checker(BaseChecker):
                 "is shorter then 2 characters: '%s'. " \
                 "Permissible characters include: a-z, A-Z, 0-9, - (hyphen), " \
                 "_ (underscore) and . (dot)" % ', '.join(offending_ids)
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
         else:
             self.status = 'VALID'
             message = "Read group ID permissible character check status: VALID"
             self.message = message
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
