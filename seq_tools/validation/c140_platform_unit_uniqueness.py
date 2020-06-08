@@ -26,10 +26,11 @@ class Checker(BaseChecker):
     def __init__(self, ctx, metadata):
         super().__init__(ctx, metadata, __name__)
 
+    @BaseChecker._catch_exception
     def check(self):
         if not self.metadata.get('read_groups'):
             message = "Missing 'read_groups' section in the metadata JSON"
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
             return
@@ -39,7 +40,7 @@ class Checker(BaseChecker):
         for rg in self.metadata.get('read_groups'):
             if 'platform_unit' not in rg:
                 message = "Required field 'platform_unit' not found in metadata JSON"
-                self.logger.info(message)
+                self.logger.info(f'[{self.checker}] {message}')
                 self.message = message
                 self.status = 'INVALID'
                 return
@@ -50,13 +51,13 @@ class Checker(BaseChecker):
                 pus.add(rg['platform_unit'])
 
         if duplicated_pus:
-            message =  "'platform_unit' duplicated in metadata: '%s'" % \
+            message = "'platform_unit' duplicated in metadata: '%s'" % \
                 ', '.join(duplicated_pus)
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
         else:
             self.status = 'VALID'
             message = "Platform unit uniqueness check status: VALID"
             self.message = message
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')

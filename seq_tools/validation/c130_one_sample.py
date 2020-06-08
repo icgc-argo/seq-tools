@@ -26,12 +26,13 @@ class Checker(BaseChecker):
     def __init__(self, ctx, metadata):
         super().__init__(ctx, metadata, __name__)
 
+    @BaseChecker._catch_exception
     def check(self):
         if not self.metadata.get('samples'):
             message = "Missing 'samples' section in the metadata JSON"
             self.message = message
             self.status = 'INVALID'
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
             return
 
         if len(self.metadata.get('samples')) != 1:
@@ -39,9 +40,9 @@ class Checker(BaseChecker):
                 len(self.metadata.get('samples'))
             self.message = message
             self.status = 'INVALID'
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
         else:
             message = "One and only one sample check status: VALID"
             self.status = 'VALID'
             self.message = message
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')

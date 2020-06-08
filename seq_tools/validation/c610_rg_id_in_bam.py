@@ -30,88 +30,82 @@ class Checker(BaseChecker):
     def __init__(self, ctx, metadata):
         super().__init__(ctx, metadata, __name__)
 
+    @BaseChecker._catch_exception
     def check(self):
         # can add more ascii characters later as we verify safe to add
-        re_permissible_rgid = r'[0-9a-zA-Z-_:\.]+'
+        re_permissible_rgid = r'^[0-9a-zA-Z-_:\'\.]+$'
 
-        try:
-            files_in_metadata = self.metadata['files']  # check files specified in metadata
+        files_in_metadata = self.metadata['files']  # check files specified in metadata
 
-            offending_ids = {}
-            for f in files_in_metadata:
-                f = f['fileName']
-                if not f.endswith('.bam'):  # not a BAM, skip
+        offending_ids = {}
+        for f in files_in_metadata:
+            f = f['fileName']
+            if not f.endswith('.bam'):  # not a BAM, skip
+                continue
+
+            bam_file = os.path.join(self.submission_directory, f)
+
+            # retrieve the @RG from BAM header
+            header = subprocess.check_output(
+                ['samtools', 'view', '-H', bam_file],
+                stderr=subprocess.STDOUT
+            )
+            header_array = header.decode('utf-8').rstrip().split('\n')
+
+            rg_ids = set()
+            duplicated_rg_ids = set()
+            for line in header_array:
+                if not line.startswith("@RG"):
                     continue
+                rg_array = line.rstrip().replace('\t', '\\t')
 
-                bam_file = os.path.join(self.submission_directory, f)
+                # get rg_id from BAM header
+                rg_id_in_bam = ':'.join([
+                    kv for kv in rg_array.split('\\t') if kv.startswith('ID:')
+                ][0].split(':')[1:])
 
-                # retrieve the @RG from BAM header
-                header = subprocess.check_output(
-                    ['samtools', 'view', '-H', bam_file],
-                    stderr=subprocess.STDOUT
-                )
-                header_array = header.decode('utf-8').rstrip().split('\n')
+                # check rg_id uniqueness
+                if rg_id_in_bam in rg_ids:
+                    duplicated_rg_ids.add(rg_id_in_bam)
+                else:
+                    rg_ids.add(rg_id_in_bam)
 
-                rg_ids = set()
-                duplicated_rg_ids = set()
-                for line in header_array:
-                    if not line.startswith("@RG"):
-                        continue
-                    rg_array = line.rstrip().replace('\t', '\\t')
+                # check permissible characters in rg_id
+                if not re.search(re_permissible_rgid, rg_id_in_bam):
+                    if not offending_ids.get(f):
+                        offending_ids[f] = set()
+                    offending_ids[f].add(rg_id_in_bam)
 
-                    # get rg_id from BAM header
-                    rg_id_in_bam = ':'.join([
-                        kv for kv in rg_array.split('\\t') if kv.startswith('ID:')
-                    ][0].split(':')[1:])
-
-                    # check rg_id uniqueness
-                    if rg_id_in_bam in rg_ids:
-                        duplicated_rg_ids.add(rg_id_in_bam)
-                    else:
-                        rg_ids.add(rg_id_in_bam)
-
-                    # check permissible characters in rg_id
-                    if not re.search(re_permissible_rgid, rg_id_in_bam):
-                        if not offending_ids.get(f):
-                            offending_ids[f] = set()
-                        offending_ids[f].add(rg_id_in_bam)
-
-                if not rg_ids:
-                    self.status = 'INVALID'
-                    message = "No read group ID found in header for BAM: %s" % f
-                    self.message = message
-                    self.logger.info(message)
-                    return
-
-                elif duplicated_rg_ids:
-                    self.status = 'INVALID'
-                    message = "Duplicated read group ID found: %s in BAM: %s" % \
-                        (", ".join(sorted(duplicated_rg_ids)), f)
-                    self.message = message
-                    self.logger.info(message)
-                    return
-
-            if offending_ids:
-                msg = []
-                for k, v in offending_ids.items():
-                    msg.append("BAM %s: %s" % (k, ', '.join(sorted(v))))
-
-                message = "Read group ID in BAM header contains non-permissible character: %s" % \
-                    '; '.join(msg)
-
-                self.logger.info(message)
-                self.message = message
+            if not rg_ids:
                 self.status = 'INVALID'
-            else:
-                self.status = 'VALID'
-                message = "Read group ID in BAM header check: VALID"
+                message = "No read group ID found in header for BAM: %s" % f
                 self.message = message
-                self.logger.info(message)
+                self.logger.info(f'[{self.checker}] {message}')
+                return
 
-        except Exception as ex:
-            self.status = 'INVALID'
-            message = "An error occurred during the execution of this checker. This is likely " \
-                "due to problem(s) identified by earlier check(s), please fix reported problem " \
-                "and then run the validation again."
+            elif duplicated_rg_ids:
+                self.status = 'INVALID'
+                message = "Duplicated read group ID found: %s in BAM: %s" % \
+                    (", ".join(sorted(duplicated_rg_ids)), f)
+                self.message = message
+                self.logger.info(f'[{self.checker}] {message}')
+                return
+
+        if offending_ids:
+            msg = []
+            for k, v in offending_ids.items():
+                msg.append("BAM %s: %s" % (k, ', '.join(sorted(v))))
+
+            message = "Read group ID in BAM header contains non-permissible character " \
+                "(valid characters include: %s). Offending ID(s): %s" % (
+                    ''.join(re_permissible_rgid[1:-2]), '; '.join(msg)
+                )
+
+            self.logger.info(f'[{self.checker}] {message}')
             self.message = message
-            self.logger.info("%s Additional error message: %s" % (message, str(ex)))
+            self.status = 'INVALID'
+        else:
+            self.status = 'VALID'
+            message = "Read group ID in BAM header check: VALID"
+            self.message = message
+            self.logger.info(f'[{self.checker}] {message}')

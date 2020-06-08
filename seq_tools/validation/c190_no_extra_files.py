@@ -27,17 +27,18 @@ class Checker(BaseChecker):
     def __init__(self, ctx, metadata):
         super().__init__(ctx, metadata, __name__)
 
+    @BaseChecker._catch_exception
     def check(self):
         if not self.metadata.get('read_groups'):
             message = "Missing 'read_groups' section in the metadata JSON"
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
             return
 
         if not self.metadata.get('files'):
             message = "Missing 'files' section in the metadata JSON"
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
             return
@@ -54,7 +55,7 @@ class Checker(BaseChecker):
             if 'fileName' not in fl or not fl['fileName']:
                 message = "Required field 'fileName' not populated in 'files' " \
                     "section of the metadata JSON."
-                self.logger.info(message)
+                self.logger.info(f'[{self.checker}] {message}')
                 self.message = message
                 self.status = 'INVALID'
                 return
@@ -67,10 +68,10 @@ class Checker(BaseChecker):
                 "please remove unneeded files: %s" % ", ".join(extra_files)
             self.message = message
             self.status = 'INVALID'
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
 
         else:
             self.status = 'VALID'
             message = "No extra files check status: VALID"
             self.message = message
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')

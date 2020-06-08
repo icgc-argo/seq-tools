@@ -26,10 +26,11 @@ class Checker(BaseChecker):
     def __init__(self, ctx, metadata):
         super().__init__(ctx, metadata, __name__)
 
+    @BaseChecker._catch_exception
     def check(self):
         if not self.metadata.get('files'):
             message = "Missing 'files' section in the metadata JSON"
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
             return
@@ -37,9 +38,9 @@ class Checker(BaseChecker):
         fns = set()
         duplicated_fns = set()
         for fl in self.metadata.get('files'):
-            if not 'fileName' in fl or not fl['fileName']:
+            if 'fileName' not in fl or not fl['fileName']:
                 message = "Required field 'fileName' is not found in metadata JSON."
-                self.logger.info(message)
+                self.logger.info(f'[{self.checker}] {message}')
                 self.message = message
                 self.status = 'INVALID'
                 return
@@ -53,11 +54,11 @@ class Checker(BaseChecker):
             message = "File(s) duplicated in 'fileName' of " \
                 "the 'files' section in the metadata: '%s'" % \
                 ', '.join(duplicated_fns)
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
         else:
             self.status = 'VALID'
             message = "Files uniqueness check in files section status: VALID"
             self.message = message
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')

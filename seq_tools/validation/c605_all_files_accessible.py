@@ -27,6 +27,7 @@ class Checker(BaseChecker):
     def __init__(self, ctx, metadata):
         super().__init__(ctx, metadata, __name__)
 
+    @BaseChecker._catch_exception
     def check(self):
         files_in_subdir = self.files
 
@@ -34,7 +35,7 @@ class Checker(BaseChecker):
             message = "No file information available in the submission " \
                 "directory. This is likely a metadata only validation, " \
                 "should not have invoked this checker. Please ignore."
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'UNKNOWN'
             return
@@ -54,7 +55,7 @@ class Checker(BaseChecker):
         if files_missed_in_subdir:
             message = "Files specified in metadata, but missed in submission directory: '%s'" % \
                 ', '.join(sorted(files_missed_in_subdir))
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
             return
@@ -62,7 +63,7 @@ class Checker(BaseChecker):
         if files_unaccessbile_in_subdir:
             message = "Files specified in metadata, but unaccessilbe in submission directory: '%s'" % \
                 ', '.join(sorted(files_unaccessbile_in_subdir))
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
             return
@@ -70,4 +71,4 @@ class Checker(BaseChecker):
         self.status = 'VALID'
         message = "All submission files accessible check: VALID"
         self.message = message
-        self.logger.info(message)
+        self.logger.info(f'[{self.checker}] {message}')

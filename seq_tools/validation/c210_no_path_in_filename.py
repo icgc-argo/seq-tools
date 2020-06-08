@@ -28,10 +28,11 @@ class Checker(BaseChecker):
     def __init__(self, ctx, metadata):
         super().__init__(ctx, metadata, __name__)
 
+    @BaseChecker._catch_exception
     def check(self):
         if not self.metadata.get('files'):
             message = "Missing 'files' section in the metadata JSON"
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
             return
@@ -41,7 +42,7 @@ class Checker(BaseChecker):
             if 'fileName' not in fl or not fl['fileName']:
                 message = "Required field 'fileName' is not found or not populated in 'files' " \
                     "section of the metadata JSON."
-                self.logger.info(message)
+                self.logger.info(f'[{self.checker}] {message}')
                 self.message = message
                 self.status = 'INVALID'
                 return
@@ -52,11 +53,11 @@ class Checker(BaseChecker):
         if filename_with_path:
             message = "'fileName' must NOT contain path in the 'files' section of " \
                 "the metadata, offending name(s): '%s'" % ', '.join(sorted(filename_with_path))
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
         else:
             self.status = 'VALID'
             message = "No path in fileName check in 'files' section status: VALID"
             self.message = message
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')

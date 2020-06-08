@@ -27,17 +27,18 @@ class Checker(BaseChecker):
     def __init__(self, ctx, metadata):
         super().__init__(ctx, metadata, __name__)
 
+    @BaseChecker._catch_exception
     def check(self):
         if not self.metadata.get('read_groups'):
             message = "Missing 'read_groups' section in the metadata JSON"
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
             return
 
         if not self.metadata.get('read_group_count'):
             message = "Missing 'read_group_count' field in the metadata JSON"
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
             return
@@ -47,10 +48,10 @@ class Checker(BaseChecker):
                 (len(self.metadata.get('read_groups')), self.metadata.get('read_group_count'))
             self.message = message
             self.status = 'INVALID'
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
 
         else:
             self.status = 'VALID'
             message = "Read groups count check status: VALID"
             self.message = message
-            self.logger.info(message)
+            self.logger.info(f'[{self.checker}] {message}')
