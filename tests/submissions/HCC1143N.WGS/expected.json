@@ -61,6 +61,11 @@
         "message": "'read_group_id_in_bam' uniqueness check status: VALID"
       },
       {
+        "checker": "c220_no_rg_id_in_bam_for_fq",
+        "status": "INVALID",
+        "message": "'read_group_id_in_bam' must NOT be populated in 'read_groups' section when it is not a BAM file: 'D0RE2.1', ''"
+      },
+      {
         "checker": "c605_all_files_accessible",
         "status": "VALID",
         "message": "All submission files accessible check: VALID"
