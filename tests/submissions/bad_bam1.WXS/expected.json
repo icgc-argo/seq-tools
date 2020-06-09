@@ -27,8 +27,8 @@
       },
       {
         "checker": "c150_rg_count_match",
-        "status": "VALID",
-        "message": "Read groups count check status: VALID"
+        "status": "INVALID",
+        "message": "'read_group_count' not populated with an integer or value not greater than 0 in the metadata JSON"
       },
       {
         "checker": "c160_file_r1_r2_check",
@@ -54,6 +54,11 @@
         "checker": "c210_no_path_in_filename",
         "status": "VALID",
         "message": "No path in fileName check in 'files' section status: VALID"
+      },
+      {
+        "checker": "c220_no_rg_id_in_bam_for_fq",
+        "status": "VALID",
+        "message": "'read_group_id_in_bam' not populated for FASTQ check: VALID"
       },
       {
         "checker": "c605_all_files_accessible",

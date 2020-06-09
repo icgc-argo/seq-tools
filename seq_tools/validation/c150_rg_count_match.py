@@ -36,15 +36,23 @@ class Checker(BaseChecker):
             self.status = 'INVALID'
             return
 
-        if not self.metadata.get('read_group_count'):
+        if self.metadata.get('read_group_count') is None:
             message = "Missing 'read_group_count' field in the metadata JSON"
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
             return
 
+        if not isinstance(self.metadata['read_group_count'], int) or self.metadata['read_group_count'] < 1:
+            message = "'read_group_count' not populated with an integer or value not greater than 0 in the metadata JSON"
+            self.logger.info(f'[{self.checker}] {message}')
+            self.message = message
+            self.status = 'INVALID'
+            return
+
         if len(self.metadata.get('read_groups')) != self.metadata.get('read_group_count'):
-            message =  "The total number of read groups in 'read_groups' section is %s. It does NOT match the number specified in read_group_count: %s." % \
+            message = "The total number of read groups in 'read_groups' section is %s. It does NOT match the number " \
+                "specified in read_group_count: %s." % \
                 (len(self.metadata.get('read_groups')), self.metadata.get('read_group_count'))
             self.message = message
             self.status = 'INVALID'

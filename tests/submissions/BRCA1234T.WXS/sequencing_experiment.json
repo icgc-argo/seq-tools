@@ -11,7 +11,7 @@
     "experimental_strategy": "WGS",
     "sequencing_date": "2014-12-12"
   },
-  "read_group_count": 4,
+  "read_group_count": "1",
   "read_groups": [
     {
       "submitter_read_group_id": "D0RE2_1a_1",

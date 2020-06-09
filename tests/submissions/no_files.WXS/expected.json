@@ -55,6 +55,11 @@
         "message": "'fileName' must NOT contain path in the 'files' section of the metadata, offending name(s): 'seq/test_rg_3.bam'"
       },
       {
+        "checker": "c220_no_rg_id_in_bam_for_fq",
+        "status": "VALID",
+        "message": "'read_group_id_in_bam' not populated for FASTQ check: VALID"
+      },
+      {
         "checker": "c605_all_files_accessible",
         "status": "INVALID",
         "message": "Files specified in metadata, but missed in submission directory: 'seq/test_rg_3.bam, test_rg_3.bam'"

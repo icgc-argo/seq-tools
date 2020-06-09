@@ -56,6 +56,16 @@
         "message": "'read_group_id_in_bam' uniqueness check status: VALID"
       },
       {
+        "checker": "c210_no_path_in_filename",
+        "status": "VALID",
+        "message": "No path in fileName check in 'files' section status: VALID"
+      },
+      {
+        "checker": "c220_no_rg_id_in_bam_for_fq",
+        "status": "VALID",
+        "message": "'read_group_id_in_bam' not populated for FASTQ check: VALID"
+      },
+      {
         "checker": "c605_all_files_accessible",
         "status": "VALID",
         "message": "All submission files accessible check: VALID"
