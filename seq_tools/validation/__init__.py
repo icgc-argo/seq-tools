@@ -77,37 +77,49 @@ def perform_validation(ctx, subdir=None, metadata=None):
 
     # get SONG metadata
     if subdir:
-        # when subdir supplied, before everything else, check whether metadata file exists
-        if subdir and not os.path.isfile(os.path.join(subdir, metadata_file)):
-            message = "Not able to find required metadata file: '%s' in specified submission " \
-                "directory: %s" % (metadata_file, subdir)
-            # logger.info(message)
-            echo(message, err=True)
-            return
+        try:
+            with open(os.path.join(
+                    subdir, metadata_file), 'r') as f:
+                metadata = json.load(f)
+                ctx.obj['submission_report']['metadata'] = metadata_file
 
-        else:
-            try:
-                with open(os.path.join(
-                        subdir, metadata_file), 'r') as f:
-                    metadata = json.load(f)
-                    ctx.obj['submission_report']['metadata'] = metadata_file
-            except Exception as ex:
-                message = "Failed to open '%s' in: '%s'. " \
-                    "Unable to continue with further checks. Error message: %s" % \
-                    (metadata_file, subdir, str(ex))
+            if not isinstance(metadata, dict):
+                message = "Metadata file '%s' is not a JSON object. " \
+                    "Unable to continue with further checks." % metadata_file
                 logger.info(message)
                 ctx.obj['submission_report']['validation']['message'] = message
                 ctx.obj['submission_report']['validation']['status'] = "INVALID"
+        except FileNotFoundError:
+            message = "Metadata file '%s' not found under '%s'. " \
+                 "Unable to continue with further checks." % (metadata_file, os.path.join(subdir, ''))
+            logger.info(message)
+            ctx.obj['submission_report']['validation']['message'] = message
+            ctx.obj['submission_report']['validation']['status'] = "INVALID"
+        except Exception as ex:
+            message = "Failed to open '%s' under '%s'. " \
+                "Unable to continue with further checks. Error message: %s" % \
+                (metadata_file, os.path.join(subdir, ''), str(ex))
+            logger.info(message)
+            ctx.obj['submission_report']['validation']['message'] = message
+            ctx.obj['submission_report']['validation']['status'] = "INVALID"
 
     else:  # metadata supplied
         ctx.obj['submission_report'].pop('files')  # files not applicable here
         try:
             metadata = json.loads(metadata)
+
+            if not isinstance(metadata, dict):
+                message = "Provided metadata is not a JSON object. " \
+                    "Unable to continue with further checks." % metadata_file
+                logger.info(message)
+                ctx.obj['submission_report']['validation']['message'] = message
+                ctx.obj['submission_report']['validation']['status'] = "INVALID"
         except Exception as ex:
-            logger.info(
-                "Unable to load metadata, please ensure it's valid JSON "
-                "string. Error: %s" % str(ex))
-            ctx.abort()
+            message = "Unable to load metadata, please ensure it's a valid JSON " \
+                "string. Error: %s" % str(ex)
+            logger.info(message)
+            ctx.obj['submission_report']['validation']['message'] = message
+            ctx.obj['submission_report']['validation']['status'] = "INVALID"
 
         ctx.obj['submission_report']['metadata'] = '<supplied as JSON string>'
 

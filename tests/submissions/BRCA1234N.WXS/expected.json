@@ -1,0 +1,9 @@
+{
+  "files": [
+    "test_rg_3.bam"
+  ],
+  "validation": {
+    "status": "INVALID",
+    "checks": []
+  }
+}
