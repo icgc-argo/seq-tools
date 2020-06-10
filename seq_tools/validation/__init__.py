@@ -42,13 +42,13 @@ finally:
 
 def perform_validation(ctx, subdir=None, metadata=None):
     if not (subdir or metadata):
-        echo(
-            'Must specify submission directory or metadata as JSON string.'
-        )
+        echo('Must specify submission directory or metadata as JSON string.', err=True)
         ctx.abort()
     elif subdir and metadata:
-        echo('Can not specify both submission dir and metadata')
+        echo('Can not specify both submission dir and metadata', err=True)
         ctx.abort()
+
+    metadata_file = 'sequencing_experiment.json'
 
     # initialize logger
     ctx.obj['subdir'] = subdir
@@ -79,13 +79,26 @@ def perform_validation(ctx, subdir=None, metadata=None):
     if subdir:
         try:
             with open(os.path.join(
-                    subdir, "sequencing_experiment.json"), 'r') as f:
+                    subdir, metadata_file), 'r') as f:
                 metadata = json.load(f)
-                ctx.obj['submission_report']['metadata'] = \
-                    "sequencing_experiment.json"
-        except Exception:
-            message = "Failed to open sequencing_experiment.json in: '%s'. " \
-                "Unable to continue with further checks." % subdir
+                ctx.obj['submission_report']['metadata'] = metadata_file
+
+            if not isinstance(metadata, dict):
+                message = "Metadata file '%s' is not a JSON object. " \
+                    "Unable to continue with further checks." % metadata_file
+                logger.info(message)
+                ctx.obj['submission_report']['validation']['message'] = message
+                ctx.obj['submission_report']['validation']['status'] = "INVALID"
+        except FileNotFoundError:
+            message = "Metadata file '%s' not found under '%s'. " \
+                 "Unable to continue with further checks." % (metadata_file, os.path.join(subdir, ''))
+            logger.info(message)
+            ctx.obj['submission_report']['validation']['message'] = message
+            ctx.obj['submission_report']['validation']['status'] = "INVALID"
+        except Exception as ex:
+            message = "Failed to open '%s' under '%s'. " \
+                "Unable to continue with further checks. Error message: %s" % \
+                (metadata_file, os.path.join(subdir, ''), str(ex))
             logger.info(message)
             ctx.obj['submission_report']['validation']['message'] = message
             ctx.obj['submission_report']['validation']['status'] = "INVALID"
@@ -94,11 +107,19 @@ def perform_validation(ctx, subdir=None, metadata=None):
         ctx.obj['submission_report'].pop('files')  # files not applicable here
         try:
             metadata = json.loads(metadata)
+
+            if not isinstance(metadata, dict):
+                message = "Provided metadata is not a JSON object. " \
+                    "Unable to continue with further checks." % metadata_file
+                logger.info(message)
+                ctx.obj['submission_report']['validation']['message'] = message
+                ctx.obj['submission_report']['validation']['status'] = "INVALID"
         except Exception as ex:
-            logger.info(
-                "Unable to load metadata, please ensure it's valid JSON "
-                "string. Error: %s" % str(ex))
-            ctx.abort()
+            message = "Unable to load metadata, please ensure it's a valid JSON " \
+                "string. Error: %s" % str(ex)
+            logger.info(message)
+            ctx.obj['submission_report']['validation']['message'] = message
+            ctx.obj['submission_report']['validation']['status'] = "INVALID"
 
         ctx.obj['submission_report']['metadata'] = '<supplied as JSON string>'
 
