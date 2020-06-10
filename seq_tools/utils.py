@@ -21,6 +21,7 @@
 
 import os
 import re
+import json
 from click import echo
 import logging
 import datetime
@@ -98,6 +99,12 @@ def get_latest_releases():
         json_response = res.json()
     except Exception:
         echo('Unable to check for update of seq-tools. Please verify Internet connection.', err=True)
+        return latest_releases
+
+    if isinstance(json_response, dict):
+        if 'rate limit exceeded' in json.dumps(json_response):
+            # echo('Unable to check for update of seq-tools. Github API rate limit exceeded.', err=True)
+            pass
         return latest_releases
 
     for r in json_response:  # releases are ordered in reverse chronological way

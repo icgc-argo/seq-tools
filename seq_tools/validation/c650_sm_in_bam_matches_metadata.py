@@ -34,7 +34,7 @@ class Checker(BaseChecker):
         # get all RG ID from BAM(s)
         files_in_metadata = self.metadata['files']
 
-        sm_in_bams = {}
+        all_sms = set()
         bams = set()
         for f in files_in_metadata:
             f = f['fileName']
@@ -51,9 +51,6 @@ class Checker(BaseChecker):
             )
             header_array = header.decode('utf-8').rstrip().split('\n')
 
-            if f not in sm_in_bams:
-                sm_in_bams[f] = set()
-
             for line in header_array:
                 if not line.startswith("@RG"):
                     continue
@@ -64,34 +61,29 @@ class Checker(BaseChecker):
                     kv for kv in rg_array.split('\\t') if kv.startswith('SM:')
                 ][0].split(':')[1:])
 
-                sm_in_bams[f].add(sm_in_bam)
+                all_sms.add(sm_in_bam)
 
-        offending_bams = {}
-        all_sms = set()
-        for bam in sm_in_bams:
-            all_sms.update(sm_in_bams[bam])
-            if len(sm_in_bams[bam]) != 1:
-                offending_bams[bam] = sm_in_bams[bam]
+        # this could raise exception if 'samples' does not exist in metadata, which is fine
+        # earlier check (c130) should have already reported the problem
+        sample = self.metadata['samples'][0]
 
-        # even individual BAMs are fine with one SM, but they may have different SMs
-        # in such case every BAM is an offending BAM
-        if not offending_bams and len(all_sms) > 1:
-            offending_bams = sm_in_bams
-
-        if bams and len(all_sms) == 0:
+        submitter_sample_id = sample.get('submitterSampleId')
+        if submitter_sample_id is None:
             self.status = 'INVALID'
-            message = "No SM found in @RG BAM header, BAM(s): %s" % ', '.join(bams)
+            message = "Required field 'submitterSampleId' not exists or not populated in the 'samples' section " \
+                "of the metadata JSON"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')
+            return
 
-        elif offending_bams:
-            msg = []
-            for k, v in offending_bams.items():
-                msg.append("BAM %s: '%s'" % (k, "', '".join(sorted(v))))
+        if bams and len(all_sms) != 1:
+            raise Exception("No SM or more than one SM found in BAM(s): '%s'. Please see earlier check status "
+                            "for details." % ', '.join(all_sms))
 
+        elif bams and list(all_sms)[0] != submitter_sample_id:
             self.status = 'INVALID'
-            message = "SM in @RG headers of all BAM(s) must be populated with the same value. BAM(s) with no SM " \
-                "or multiple SMs, or different SMs from different BAMs are found: %s" % '; '.join(msg)
+            message = "SM in BAM header does not match submitterSampleId in metadata JSON: %s vs %s" % \
+                (list(all_sms)[0], submitter_sample_id)
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message
 
