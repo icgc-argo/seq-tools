@@ -24,7 +24,7 @@ import json
 import time
 from seq_tools import __version__ as ver
 from ..validation import perform_validation
-from ..utils import ntcnow_iso
+from ..utils import ntcnow_iso, check_for_update
 
 
 def print_version(ctx, param, value):
@@ -37,14 +37,20 @@ def print_version(ctx, param, value):
 @click.group()
 @click.option('--debug/--no-debug', '-d', is_flag=True, default=False,
               help='Show debug information in STDERR.')
+@click.option('--ignore-update', '-i', is_flag=True, default=False,
+              help='Keep using the current version of seq-tools, ignore available update.')
+@click.option('--check-prerelease', '-p', is_flag=True, default=False,
+              help='In addition to stable release, also check new pre-release update if selected.')
 @click.option('--version', '-v', is_flag=True, callback=print_version,
               expose_value=False, is_eager=True,
               help='Show seq-tools version.')
 @click.pass_context
-def main(ctx, debug):
+def main(ctx, debug, ignore_update, check_prerelease):
     # initializing ctx.obj
     ctx.obj = {}
     ctx.obj['DEBUG'] = debug
+
+    check_for_update(ctx, ignore_update, check_prerelease)
 
 
 @main.command()

@@ -21,8 +21,12 @@
 
 import os
 import re
+from click import echo
 import logging
 import datetime
+import requests
+from packaging import version
+from seq_tools import __version__ as current_ver
 
 
 def initialize_log(ctx, dir):
@@ -79,3 +83,64 @@ def find_files(dirname, pattern):
 
 def ntcnow_iso() -> str:
     return datetime.datetime.utcnow().isoformat()[:-3] + 'Z'
+
+
+def get_latest_releases():
+    github_url = "https://api.github.com/repos/icgc-argo/seq-tools/releases"
+
+    latest_releases = {
+        'stable': None,
+        'prerelease': None
+    }
+
+    try:
+        res = requests.get(github_url, headers={'Accept': 'application/vnd.github.v3.text-match+json'})
+        json_response = res.json()
+    except Exception:
+        echo('Unable to check for update of seq-tools. Please verify Internet connection.', err=True)
+        return latest_releases
+
+    for r in json_response:  # releases are ordered in reverse chronological way
+        if latest_releases['prerelease'] and latest_releases['stable']:  # already found them
+            break
+
+        if r.get('prerelease'):
+            if not latest_releases['prerelease']:  # get the latest prerelease
+                latest_releases['prerelease'] = r.get('tag_name')
+        else:
+            if not latest_releases['stable']:  # get the latest stable release
+                latest_releases['stable'] = r.get('tag_name')
+
+    return latest_releases
+
+
+def check_for_update(ctx, ignore_update, check_prerelease):
+    # check for latest releases
+    latest_releases = get_latest_releases()
+    stable_release = latest_releases.get('stable')
+    prerelease = latest_releases.get('prerelease')
+
+    # there is a newer stable release
+    if stable_release and version.parse(stable_release) > version.parse(current_ver):
+        echo(
+            "A new stable version of 'seq-tools' is available: %s, current version: %s" %
+            (stable_release, current_ver), err=True)
+
+        if ignore_update:
+            echo("Ignore available update, keep using the current version.\n", err=True)
+        else:
+            echo(
+                "Please install it by running: "
+                "pip install git+https://github.com/icgc-argo/seq-tools.git@%s\n"
+                "Or use --ignore-update option to continue with the current version." % stable_release,
+                err=True)
+            ctx.abort()
+
+    # when set to check prerelease, no newer stable release, but newer prerelease
+    elif not ignore_update and check_prerelease \
+            and prerelease and version.parse(prerelease) > version.parse(current_ver):
+        echo(
+            "A new pre-release version of 'seq-tools' is available: %s, current version: %s\n"
+            "To install the pre-release version run: "
+            "pip install git+https://github.com/icgc-argo/seq-tools.git@%s\n" %
+            (prerelease, current_ver, prerelease), err=True)
