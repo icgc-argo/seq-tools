@@ -98,12 +98,12 @@ def get_latest_releases():
         res = requests.get(github_url, headers={'Accept': 'application/vnd.github.v3.text-match+json'})
         json_response = res.json()
     except Exception:
-        echo('Unable to check for update of seq-tools. Please verify Internet connection.', err=True)
+        echo("INFO: Unable to check for update of 'seq-tools'. Please verify Internet connection.", err=True)
         return latest_releases
 
     if isinstance(json_response, dict):
         if 'rate limit exceeded' in json.dumps(json_response):
-            # echo('Unable to check for update of seq-tools. Github API rate limit exceeded.', err=True)
+            echo("INFO: Unable to check for update of 'seq-tools'. Github API rate limit exceeded.", err=True)
             pass
         return latest_releases
 
@@ -130,7 +130,7 @@ def check_for_update(ctx, ignore_update, check_prerelease):
     # there is a newer stable release
     if stable_release and version.parse(stable_release) > version.parse(current_ver):
         echo(
-            "A new stable version of 'seq-tools' is available: %s, current version: %s" %
+            "INFO: A new stable version of 'seq-tools' is available: %s, current version: %s" %
             (stable_release, current_ver), err=True)
 
         if ignore_update:
@@ -147,7 +147,7 @@ def check_for_update(ctx, ignore_update, check_prerelease):
     elif not ignore_update and check_prerelease \
             and prerelease and version.parse(prerelease) > version.parse(current_ver):
         echo(
-            "A new pre-release version of 'seq-tools' is available: %s, current version: %s\n"
+            "INFO: A new pre-release version of 'seq-tools' is available: %s, current version: %s\n"
             "To install the pre-release version run: "
             "pip install git+https://github.com/icgc-argo/seq-tools.git@%s\n" %
             (prerelease, current_ver, prerelease), err=True)
