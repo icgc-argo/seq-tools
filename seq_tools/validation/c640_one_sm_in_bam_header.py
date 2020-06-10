@@ -65,9 +65,16 @@ class Checker(BaseChecker):
                 sm_in_bams[f].add(sm_in_bam)
 
         offending_bams = {}
+        all_sms = set()
         for bam in sm_in_bams:
+            all_sms.update(sm_in_bams[bam])
             if len(sm_in_bams[bam]) != 1:
                 offending_bams[bam] = sm_in_bams[bam]
+
+        # even individual BAMs are fine with one SM, but they may have different SMs
+        # in such case every BAM is an offending BAM
+        if not offending_bams and len(all_sms) > 1:
+            offending_bams = sm_in_bams
 
         if offending_bams:
             msg = []
@@ -75,8 +82,8 @@ class Checker(BaseChecker):
                 msg.append("BAM %s: '%s'" % (k, "', '".join(sorted(v))))
 
             self.status = 'INVALID'
-            message = "SM in @RG headers of one BAM must be populated with the same value. " \
-                "BAM(s) with no SM or multiple SMs are found: %s" % '; '.join(msg)
+            message = "SM in @RG headers of all BAM(s) must be populated with the same value. " \
+                "BAM(s) with no SM or multiple SMs, or different SMs are found: %s" % '; '.join(msg)
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message
         else:
