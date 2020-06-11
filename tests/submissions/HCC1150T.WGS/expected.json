@@ -54,7 +54,7 @@
       {
         "checker": "c200_rg_id_in_bam_uniqueness",
         "status": "INVALID",
-        "message": "'read_group_id_in_bam' must be unique if populated in read_groups section, however duplicate(s) found: 'C0HVY.2'"
+        "message": "'read_group_id_in_bam' must be unique within a BAM file if populated in read_groups section, however duplicate(s) found: BAM test_rg_3.bam: 'C0HVY.2'"
       },
       {
         "checker": "c210_no_path_in_filename",
@@ -78,6 +78,16 @@
       },
       {
         "checker": "c630_rg_id_in_bam_match",
+        "status": "UNKNOWN",
+        "message": "An exception occurred during the execution of this checker. This is likely due to problem(s) identified by earlier check(s), please fix reported problem and then run the validation again. More information of the exception can be found in the latest log file under: HCC1150T.WGS/logs/"
+      },
+      {
+        "checker": "c640_one_sm_in_bam_header",
+        "status": "UNKNOWN",
+        "message": "An exception occurred during the execution of this checker. This is likely due to problem(s) identified by earlier check(s), please fix reported problem and then run the validation again. More information of the exception can be found in the latest log file under: HCC1150T.WGS/logs/"
+      },
+      {
+        "checker": "c650_sm_in_bam_matches_metadata",
         "status": "UNKNOWN",
         "message": "An exception occurred during the execution of this checker. This is likely due to problem(s) identified by earlier check(s), please fix reported problem and then run the validation again. More information of the exception can be found in the latest log file under: HCC1150T.WGS/logs/"
       }

@@ -79,6 +79,16 @@
         "checker": "c630_rg_id_in_bam_match",
         "status": "VALID",
         "message": "'read_group_id_in_bam' in metadata matches RG ID in BAM check: VALID"
+      },
+      {
+        "checker": "c640_one_sm_in_bam_header",
+        "status": "VALID",
+        "message": "One and only one SM in @RG BAM header check: VALID"
+      },
+      {
+        "checker": "c650_sm_in_bam_matches_metadata",
+        "status": "VALID",
+        "message": "One and only one SM in @RG BAM header check: VALID"
       }
     ]
   }
