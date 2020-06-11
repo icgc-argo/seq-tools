@@ -36,22 +36,36 @@ class Checker(BaseChecker):
             self.status = 'INVALID'
             return
 
-        rg_ids_in_bam = set()
-        duplicated_ids = []
+        rg_ids_in_bams = {}
+        duplicated_ids = {}
         for rg in self.metadata.get('read_groups'):
-            if rg.get('read_group_id_in_bam', None) is None: 
+            filename = rg['file_r1']
+            if not filename.endswith('.bam'):  # skip if not a BAM
                 continue
-            if rg['read_group_id_in_bam'] in rg_ids_in_bam:
-                duplicated_ids.append(rg['read_group_id_in_bam'])
+
+            if rg.get('read_group_id_in_bam') is None:
+                continue
+
+            if filename not in rg_ids_in_bams:
+                rg_ids_in_bams[filename] = set()
+
+            if rg['read_group_id_in_bam'] in rg_ids_in_bams[filename]:
+                if filename not in duplicated_ids:
+                    duplicated_ids[filename] = set()
+                duplicated_ids[filename].add(rg['read_group_id_in_bam'])
             else:
-                rg_ids_in_bam.add(rg['read_group_id_in_bam'])
+                rg_ids_in_bams[filename].add(rg['read_group_id_in_bam'])
 
         if duplicated_ids:
-            message = "'read_group_id_in_bam' must be unique if populated in read_groups section, however duplicate(s) found: '%s'" % \
-                ', '.join(duplicated_ids)
+            msg = []
+            for k, v in duplicated_ids.items():
+                msg.append("BAM %s: '%s'" % (k, "', '".join(sorted(v))))
+
+            self.status = 'INVALID'
+            message = "'read_group_id_in_bam' must be unique within a BAM file if populated in read_groups section, " \
+                "however duplicate(s) found: %s" % '; '.join(msg)
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message
-            self.status = 'INVALID'
         else:
             self.status = 'VALID'
             message = "'read_group_id_in_bam' uniqueness check status: VALID"

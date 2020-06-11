@@ -104,7 +104,6 @@ def get_latest_releases():
     if isinstance(json_response, dict):
         if 'rate limit exceeded' in json.dumps(json_response):
             echo("INFO: Unable to check for update of 'seq-tools'. Github API rate limit exceeded.", err=True)
-            pass
         return latest_releases
 
     for r in json_response:  # releases are ordered in reverse chronological way
