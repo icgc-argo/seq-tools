@@ -26,6 +26,7 @@ from click import echo
 import logging
 import datetime
 import requests
+import subprocess
 from packaging import version
 from seq_tools import __version__ as current_ver
 
@@ -150,3 +151,69 @@ def check_for_update(ctx, ignore_update, check_prerelease):
             "To install the pre-release version run: "
             "pip install git+https://github.com/icgc-argo/seq-tools.git@%s\n" %
             (prerelease, current_ver, prerelease), err=True)
+
+
+def run_cmd(cmd):
+    p = subprocess.Popen(
+        [cmd],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        shell=True)
+    stdout, stderr = p.communicate()
+
+    return stdout.decode("utf-8"), stderr.decode("utf-8"), p.returncode
+
+
+def base_estimate(seq_file, logger, checker) -> int:
+    if seq_file.endswith('.bam'):
+        # get total read count
+        cmd = "samtools flagstat %s" % seq_file
+        bam_stats, stderr, returncode = run_cmd(cmd)
+
+        if returncode != 0:
+            raise Exception(
+                "Execution of samtools flagstat on BAM: %s returned non-zero code: %s. Stderr: %s" %
+                (seq_file, returncode, stderr))
+
+        total_line = [l for l in bam_stats.rstrip().split('\n') if ' in total ' in l]
+
+        if len(total_line) != 1:
+            raise Exception(
+                "Unable to parse samtools flagstat output to find total number of reads in BAM: %s" % seq_file)
+        else:
+            m = re.match(r'^(\d+) \+ (\d+) in total .+', total_line[0])
+            if m:
+                reads_qc_pass = int(m.group(1))
+                reads_qc_fail = int(m.group(2))
+                logger.info("[%s] Count of QC passed reads: %s, used for estimating sequencing coverage." %
+                            (checker, reads_qc_pass))
+                logger.info("[%s] Count of QC failed reads: %s, not used for estimating sequencing coverage." %
+                            (checker, reads_qc_fail))
+            else:
+                raise Exception(
+                    "Unable to parse samtools flagstat output to find total number of QC passed / failed reads "
+                    "in BAM: %s" % seq_file)
+
+        # guesstimate read length by pull out first 5000 QC passed reads from each end and check their lengths
+        # first end reads
+        cmd = "samtools view -f 0x40 -F 0x200 %s | head -%s" % (seq_file, 5000)
+        reads, stderr, returncode = run_cmd(cmd)
+        read_lengths = [len(r.split('\t')[9]) for r in reads.rstrip().split('\n')]
+        f_average_len = sum(read_lengths) / len(read_lengths)
+
+        # second end reads
+        cmd = "samtools view -f 0x80 -F 0x200 %s | head -%s" % (seq_file, 5000)
+        reads, stderr, returncode = run_cmd(cmd)
+        read_lengths = [len(r.split('\t')[9]) for r in reads.rstrip().split('\n')]
+        s_average_len = sum(read_lengths) / len(read_lengths)
+
+        read_length = (f_average_len + s_average_len) / 2
+
+        return int(reads_qc_pass * read_length)
+
+    else:
+        # retrieve first 5000 reads, get average read length, create gz or bz2 compressed tmp file and get its size
+        # comparing ths size with original file size to estimate total number of reads
+        pass
+
+    return 0
