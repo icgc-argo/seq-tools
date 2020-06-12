@@ -89,7 +89,7 @@
       {
         "checker": "c670_coverage_estimate",
         "status": "INVALID",
-        "message": "Unable to continue with coverage estimate. EOF marker is absent, BAM file is probably truncated: test_rg_7.bam. Validation result: INVALID"
+        "message": "Unable to continue with coverage estimation. EOF marker is absent, BAM file is probably truncated: test_rg_7.bam. Validation result: INVALID"
       }
     ]
   }
