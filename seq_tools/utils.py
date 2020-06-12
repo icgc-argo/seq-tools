@@ -26,6 +26,7 @@ from click import echo
 import logging
 import datetime
 import requests
+import subprocess
 from packaging import version
 from seq_tools import __version__ as current_ver
 
@@ -150,3 +151,115 @@ def check_for_update(ctx, ignore_update, check_prerelease):
             "To install the pre-release version run: "
             "pip install git+https://github.com/icgc-argo/seq-tools.git@%s\n" %
             (prerelease, current_ver, prerelease), err=True)
+
+
+def run_cmd(cmd):
+    p = subprocess.Popen(
+        [cmd],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        shell=True)
+    stdout, stderr = p.communicate()
+
+    return stdout.decode("utf-8"), stderr.decode("utf-8"), p.returncode
+
+
+def base_estimate(seq_file, logger, checker) -> int:
+    reads_to_sample = 5000
+
+    if seq_file.endswith('.bam'):
+        # get total read count
+        cmd = "samtools flagstat %s" % seq_file
+        bam_stats, stderr, returncode = run_cmd(cmd)
+
+        if "EOF marker is absent" in stderr:
+            raise Exception("EOF marker is absent")
+
+        if returncode != 0:
+            raise Exception(
+                "Execution of samtools flagstat on BAM: %s returned non-zero code: %s. Stderr: %s" %
+                (seq_file, returncode, stderr))
+
+        total_line = [l for l in bam_stats.rstrip().split('\n') if ' in total ' in l]
+
+        if len(total_line) != 1:
+            raise Exception(
+                "Unable to parse samtools flagstat output to find total number of reads in BAM: %s" % seq_file)
+        else:
+            m = re.match(r'^(\d+) \+ (\d+) in total .+', total_line[0])
+            if m:
+                reads_qc_pass = int(m.group(1))
+                reads_qc_fail = int(m.group(2))
+                logger.info("[%s] Count of QC passed reads: %s, used for estimating sequencing coverage." %
+                            (checker, reads_qc_pass))
+                logger.info("[%s] Count of QC failed reads: %s, not used for estimating sequencing coverage." %
+                            (checker, reads_qc_fail))
+            else:
+                raise Exception(
+                    "Unable to parse samtools flagstat output to find total number of QC passed / failed reads "
+                    "in BAM: %s" % seq_file)
+
+        # guesstimate read length by pull out first 5000 QC passed reads from each end and check their lengths
+        # first end reads
+        cmd = "samtools view -f 0x40 -F 0x200 %s | head -%s" % (seq_file, reads_to_sample)
+        reads, stderr, returncode = run_cmd(cmd)
+        read_lengths = [len(r.split('\t')[9]) for r in reads.rstrip().split('\n')]
+        f_average_len = int(sum(read_lengths) / len(read_lengths))
+        logger.info("[%s] Average lenght of reads from first end: %s, from first %s reads in BAM: %s." %
+                    (checker, f_average_len, len(read_lengths), seq_file))
+
+        # second end reads
+        cmd = "samtools view -f 0x80 -F 0x200 %s | head -%s" % (seq_file, reads_to_sample)
+        reads, stderr, returncode = run_cmd(cmd)
+        read_lengths = [len(r.split('\t')[9]) for r in reads.rstrip().split('\n')]
+
+        if len(read_lengths):  # paired end sequencing
+            s_average_len = int(sum(read_lengths) / len(read_lengths))
+            logger.info("[%s] Average lenght of reads from second end: %s, from first %s reads in BAM: %s." %
+                        (checker, s_average_len, len(read_lengths), seq_file))
+
+            read_length = (f_average_len + s_average_len) / 2
+        else:  # likely single end sequencing
+            read_length = f_average_len
+
+        return int(reads_qc_pass * read_length)
+
+    else:
+        # retrieve first 5000 reads, get average read length, create gz or bz2 compressed tmp file and get its size
+        # comparing ths size with original file size to estimate total number of reads
+        if seq_file.endswith('.bz2'):
+            compression_tool = ('bzip2', 'bunzip2')
+        elif seq_file.endswith('.gz'):
+            compression_tool = ('gzip', 'gunzip')
+        else:
+            raise Exception("Unspported file format for FASTQ, file: %s" % seq_file)
+
+        cmd = "%s -c %s | head -%s | tee /dev/stderr | %s - | wc -c" % (
+            compression_tool[1], seq_file, 4 * reads_to_sample, compression_tool[0])
+
+        portion_size, reads, ret_code = run_cmd(cmd)
+
+        line_count = 0
+        read_lengths = []
+        for line in reads.rstrip().split('\n'):
+            line_count += 1
+            if (line_count + 2) % 4 == 0:
+                read_lengths.append(len(line))
+
+        average_len = int(sum(read_lengths) / len(read_lengths))
+        if len(read_lengths) < reads_to_sample:  # we've got all the reads
+            logger.info("[%s] Average lenght of reads: %s, from %s reads in FASTQ: %s." %
+                        (checker, average_len, len(read_lengths), seq_file))
+            return sum(read_lengths)
+
+        else:
+            logger.info("[%s] Average lenght of reads: %s, from first %s reads in FASTQ: %s." %
+                        (checker, average_len, len(read_lengths), seq_file))
+
+            file_size = os.path.getsize(seq_file)
+            estimated_read_count = len(read_lengths) * file_size / int(portion_size)
+
+            logger.info("[%s] Estimated read count: %s for FASTQ: %s." %
+                        (checker, estimated_read_count, seq_file))
+
+            return estimated_read_count * average_len

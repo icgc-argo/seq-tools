@@ -67,6 +67,11 @@
         "message": "All submission files accessible check: VALID"
       },
       {
+        "checker": "c607_coverage_estimate",
+        "status": "INVALID",
+        "message": "Sequencing coverage estimate: 4.31e-06, lower than mimimum threshold: 20 for WGS. Validation result: INVALID"
+      },
+      {
         "checker": "c610_rg_id_in_bam",
         "status": "INVALID",
         "message": "Read group ID in BAM header contains non-permissible character (valid characters include: [0-9a-zA-Z-_:\\'\\.]). Offending ID(s): BAM test1_rg_3.bam: D0RH0$.2"

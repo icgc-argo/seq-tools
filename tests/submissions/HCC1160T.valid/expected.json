@@ -3,7 +3,7 @@
     "test_rg_6.bam"
   ],
   "validation": {
-    "status": "VALID",
+    "status": "INVALID",
     "checks": [
       {
         "checker": "c110_rg_id_uniqueness",
@@ -64,6 +64,11 @@
         "checker": "c605_all_files_accessible",
         "status": "VALID",
         "message": "All submission files accessible check: VALID"
+      },
+      {
+        "checker": "c607_coverage_estimate",
+        "status": "INVALID",
+        "message": "Sequencing coverage estimate: 4.31e-06, lower than mimimum threshold: 20 for WGS. Validation result: INVALID"
       },
       {
         "checker": "c610_rg_id_in_bam",
