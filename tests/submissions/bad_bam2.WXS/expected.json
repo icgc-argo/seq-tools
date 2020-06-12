@@ -61,6 +61,11 @@
         "message": "All submission files accessible check: VALID"
       },
       {
+        "checker": "c607_coverage_estimate",
+        "status": "INVALID",
+        "message": "Sequencing coverage estimate: 1.27e-07, lower than mimimum threshold: 20 for WGS. Validation result: INVALID"
+      },
+      {
         "checker": "c610_rg_id_in_bam",
         "status": "INVALID",
         "message": "No read group ID found in header for BAM: test_rg_5.bam"
@@ -79,11 +84,6 @@
         "checker": "c650_sm_in_bam_matches_metadata",
         "status": "UNKNOWN",
         "message": "An exception occurred during the execution of this checker. This is likely due to problem(s) identified by earlier check(s), please fix reported problem and then run the validation again. More information of the exception can be found in the latest log file under: bad_bam2.WXS/logs/"
-      },
-      {
-        "checker": "c670_coverage_estimate",
-        "status": "INVALID",
-        "message": "Sequencing coverage estimate: 1.27e-07, lower than mimimum threshold: 20 for WGS. Validation result: INVALID"
       }
     ]
   }

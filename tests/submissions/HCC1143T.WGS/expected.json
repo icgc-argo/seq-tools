@@ -66,6 +66,11 @@
         "message": "All submission files accessible check: VALID"
       },
       {
+        "checker": "c607_coverage_estimate",
+        "status": "INVALID",
+        "message": "Sequencing coverage estimate: 4.31e-06, lower than mimimum threshold: 20 for WGS. Validation result: INVALID"
+      },
+      {
         "checker": "c610_rg_id_in_bam",
         "status": "VALID",
         "message": "Read group ID in BAM header check: VALID"
@@ -84,11 +89,6 @@
         "checker": "c650_sm_in_bam_matches_metadata",
         "status": "INVALID",
         "message": "SM in BAM header does not match submitterSampleId in metadata JSON: HCC1143 vs HCC1143T"
-      },
-      {
-        "checker": "c670_coverage_estimate",
-        "status": "INVALID",
-        "message": "Sequencing coverage estimate: 4.31e-06, lower than mimimum threshold: 20 for WGS. Validation result: INVALID"
       }
     ]
   }

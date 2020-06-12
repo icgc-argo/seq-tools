@@ -72,6 +72,11 @@
         "message": "Files specified in metadata, but unaccessilbe in submission directory: 'test_rg_3.bam'"
       },
       {
+        "checker": "c607_coverage_estimate",
+        "status": "UNKNOWN",
+        "message": "An exception occurred during the execution of this checker. This is likely due to problem(s) identified by earlier check(s), please fix reported problem and then run the validation again. More information of the exception can be found in the latest log file under: HCC1150T.WGS/logs/"
+      },
+      {
         "checker": "c610_rg_id_in_bam",
         "status": "UNKNOWN",
         "message": "An exception occurred during the execution of this checker. This is likely due to problem(s) identified by earlier check(s), please fix reported problem and then run the validation again. More information of the exception can be found in the latest log file under: HCC1150T.WGS/logs/"
@@ -88,11 +93,6 @@
       },
       {
         "checker": "c650_sm_in_bam_matches_metadata",
-        "status": "UNKNOWN",
-        "message": "An exception occurred during the execution of this checker. This is likely due to problem(s) identified by earlier check(s), please fix reported problem and then run the validation again. More information of the exception can be found in the latest log file under: HCC1150T.WGS/logs/"
-      },
-      {
-        "checker": "c670_coverage_estimate",
         "status": "UNKNOWN",
         "message": "An exception occurred during the execution of this checker. This is likely due to problem(s) identified by earlier check(s), please fix reported problem and then run the validation again. More information of the exception can be found in the latest log file under: HCC1150T.WGS/logs/"
       }
