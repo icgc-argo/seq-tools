@@ -23,7 +23,7 @@ import os
 from base_checker import BaseChecker
 from seq_tools.utils import base_estimate
 
-
+# technote from Illumina: https://www.illumina.com/documents/products/technotes/technote_coverage_calculation.pdf
 COVERAGE_THRESHOLD = {
     "WGS": {
         "WARNING": 25,
