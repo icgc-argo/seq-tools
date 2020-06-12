@@ -81,24 +81,26 @@ class Checker(BaseChecker):
             if rg.get('submitter_read_group_id') not in rg_id_in_bams.get(filename, []):
                 if filename not in offending_ids:
                     offending_ids[filename] = []
-                offending_ids[filename].append(rg_id_in_bam)
-
+                offending_ids[filename].append(rg.get('submitter_read_group_id'))
+        
         if offending_ids:
             msg = []
             for k, v in offending_ids.items():
                 msg.append("BAM %s: %s" % (k, ', '.join(sorted(v))))
 
             self.status = 'INVALID'
-            message = "The metadata does NOT provide 'read_group_id_in_bam'. " \
-                "'submitter_read_group_id' specified in 'read_groups' section of the metadata not found " \
+            message = "'read_group_id_in_bam' are NOT provided in metadata and " \
+                "'submitter_read_group_id' specified in 'read_groups' section of the metadata are not found " \
                 "in BAM file. Offending ID(s): %s" % '; '.join(msg)
-            self.logger.info(f'[{self.checker}] {message}')
             self.message = message
+            self.logger.info(f'[{self.checker}] {message}')
+
         elif rg_id_in_bam:
             self.status = 'VALID'
-            message = "'read_group_id_in_bam' are provided in metadata. Please refer to the next checker for further information."
+            message = "'read_group_id_in_bam' are provided in metadata and the current checker is skipped. Please refer to the next checker for further information."
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')
+
         else:
             self.status = 'VALID'
             message = "'submitter_read_group_id' in metadata matches RG ID in BAM check: VALID"

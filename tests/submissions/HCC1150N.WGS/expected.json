@@ -76,6 +76,11 @@
         "message": "Read group ID in BAM header check: VALID"
       },
       {
+        "checker": "c620_rg_id_in_bam_check",
+        "status": "VALID",
+        "message": "'submitter_read_group_id' in metadata matches RG ID in BAM check: VALID"
+      },
+      {
         "checker": "c630_rg_id_in_bam_match",
         "status": "VALID",
         "message": "'read_group_id_in_bam' in metadata matches RG ID in BAM check: VALID"
