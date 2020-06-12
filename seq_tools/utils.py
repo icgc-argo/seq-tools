@@ -165,10 +165,15 @@ def run_cmd(cmd):
 
 
 def base_estimate(seq_file, logger, checker) -> int:
+    reads_to_sample = 5000
+
     if seq_file.endswith('.bam'):
         # get total read count
         cmd = "samtools flagstat %s" % seq_file
         bam_stats, stderr, returncode = run_cmd(cmd)
+
+        if "EOF marker is absent" in stderr:
+            raise Exception("EOF marker is absent")
 
         if returncode != 0:
             raise Exception(
@@ -196,7 +201,7 @@ def base_estimate(seq_file, logger, checker) -> int:
 
         # guesstimate read length by pull out first 5000 QC passed reads from each end and check their lengths
         # first end reads
-        cmd = "samtools view -f 0x40 -F 0x200 %s | head -%s" % (seq_file, 5000)
+        cmd = "samtools view -f 0x40 -F 0x200 %s | head -%s" % (seq_file, reads_to_sample)
         reads, stderr, returncode = run_cmd(cmd)
         read_lengths = [len(r.split('\t')[9]) for r in reads.rstrip().split('\n')]
         f_average_len = int(sum(read_lengths) / len(read_lengths))
@@ -204,7 +209,7 @@ def base_estimate(seq_file, logger, checker) -> int:
                     (checker, f_average_len, len(read_lengths), seq_file))
 
         # second end reads
-        cmd = "samtools view -f 0x80 -F 0x200 %s | head -%s" % (seq_file, 5000)
+        cmd = "samtools view -f 0x80 -F 0x200 %s | head -%s" % (seq_file, reads_to_sample)
         reads, stderr, returncode = run_cmd(cmd)
         read_lengths = [len(r.split('\t')[9]) for r in reads.rstrip().split('\n')]
 
@@ -229,7 +234,6 @@ def base_estimate(seq_file, logger, checker) -> int:
         else:
             raise Exception("Unspported file format for FASTQ, file: %s" % seq_file)
 
-        reads_to_sample = 5000
         cmd = "%s -c %s | head -%s | tee /dev/stderr | %s - | wc -c" % (
             compression_tool[1], seq_file, 4 * reads_to_sample, compression_tool[0])
 

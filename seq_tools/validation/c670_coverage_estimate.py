@@ -66,7 +66,20 @@ class Checker(BaseChecker):
         for f in files_in_metadata:
             seq_file = os.path.join(self.submission_directory, f['fileName'])
 
-            total_base_estimate += base_estimate(seq_file, self.logger, self.checker)
+            try:
+                total_base_estimate += base_estimate(seq_file, self.logger, self.checker)
+            except Exception as ex:
+                if str(ex) == "EOF marker is absent":
+                    self.status = 'INVALID'
+                    message = "Unable to continue with coverage estimation. EOF marker is absent, BAM file is probably " \
+                        "truncated: %s. Validation result: %s" % \
+                        (os.path.basename(seq_file), self.status)
+                    self.message = message
+                    self.logger.info(f'[{self.checker}] {message}')
+                    return
+
+                else:
+                    raise Exception(str(ex))
 
         coverage = total_base_estimate / COVERAGE_THRESHOLD[experimental_strategy]['GENOME_SIZE']
 
