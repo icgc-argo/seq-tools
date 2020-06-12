@@ -89,6 +89,11 @@
         "checker": "c650_sm_in_bam_matches_metadata",
         "status": "VALID",
         "message": "One and only one SM in @RG BAM header check: VALID"
+      },
+      {
+        "checker": "c670_coverage_estimate",
+        "status": "INVALID",
+        "message": "Sequencing coverage estimate: 4.31e-06, lower than mimimum threshold: 20 for WGS. Validation result: INVALID"
       }
     ]
   }

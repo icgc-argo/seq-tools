@@ -199,21 +199,63 @@ def base_estimate(seq_file, logger, checker) -> int:
         cmd = "samtools view -f 0x40 -F 0x200 %s | head -%s" % (seq_file, 5000)
         reads, stderr, returncode = run_cmd(cmd)
         read_lengths = [len(r.split('\t')[9]) for r in reads.rstrip().split('\n')]
-        f_average_len = sum(read_lengths) / len(read_lengths)
+        f_average_len = int(sum(read_lengths) / len(read_lengths))
+        logger.info("[%s] Average lenght of reads from first end: %s, from first %s reads in BAM: %s." %
+                    (checker, f_average_len, len(read_lengths), seq_file))
 
         # second end reads
         cmd = "samtools view -f 0x80 -F 0x200 %s | head -%s" % (seq_file, 5000)
         reads, stderr, returncode = run_cmd(cmd)
         read_lengths = [len(r.split('\t')[9]) for r in reads.rstrip().split('\n')]
-        s_average_len = sum(read_lengths) / len(read_lengths)
 
-        read_length = (f_average_len + s_average_len) / 2
+        if len(read_lengths):  # paired end sequencing
+            s_average_len = int(sum(read_lengths) / len(read_lengths))
+            logger.info("[%s] Average lenght of reads from second end: %s, from first %s reads in BAM: %s." %
+                        (checker, s_average_len, len(read_lengths), seq_file))
+
+            read_length = (f_average_len + s_average_len) / 2
+        else:  # likely single end sequencing
+            read_length = f_average_len
 
         return int(reads_qc_pass * read_length)
 
     else:
         # retrieve first 5000 reads, get average read length, create gz or bz2 compressed tmp file and get its size
         # comparing ths size with original file size to estimate total number of reads
-        pass
+        if seq_file.endswith('.bz2'):
+            compression_tool = ('bzip2', 'bunzip2')
+        elif seq_file.endswith('.gz'):
+            compression_tool = ('gzip', 'gunzip')
+        else:
+            raise Exception("Unspported file format for FASTQ, file: %s" % seq_file)
 
-    return 0
+        reads_to_sample = 5000
+        cmd = "%s -c %s | head -%s | tee /dev/stderr | %s - | wc -c" % (
+            compression_tool[1], seq_file, 4 * reads_to_sample, compression_tool[0])
+
+        portion_size, reads, ret_code = run_cmd(cmd)
+
+        line_count = 0
+        read_lengths = []
+        for line in reads.rstrip().split('\n'):
+            line_count += 1
+            if (line_count + 2) % 4 == 0:
+                read_lengths.append(len(line))
+
+        average_len = int(sum(read_lengths) / len(read_lengths))
+        if len(read_lengths) < reads_to_sample:  # we've got all the reads
+            logger.info("[%s] Average lenght of reads: %s, from %s reads in FASTQ: %s." %
+                        (checker, average_len, len(read_lengths), seq_file))
+            return sum(read_lengths)
+
+        else:
+            logger.info("[%s] Average lenght of reads: %s, from first %s reads in FASTQ: %s." %
+                        (checker, average_len, len(read_lengths), seq_file))
+
+            file_size = os.path.getsize(seq_file)
+            estimated_read_count = len(read_lengths) * file_size / int(portion_size)
+
+            logger.info("[%s] Estimated read count: %s for FASTQ: %s." %
+                        (checker, estimated_read_count, seq_file))
+
+            return estimated_read_count * average_len
