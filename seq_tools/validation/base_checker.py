@@ -27,7 +27,7 @@ from abc import ABCMeta, abstractmethod
 class BaseChecker(object):
     __metaclass__ = ABCMeta
 
-    def __init__(self, ctx, metadata, checker_name):
+    def __init__(self, ctx, metadata, checker_name, depends_on: list = []):
         self._ctx = ctx
         self._metadata = metadata
         self._logger = ctx.obj['LOGGER']
@@ -39,6 +39,10 @@ class BaseChecker(object):
             'status': None,
             'message': None
         })
+        self._depends_on = depends_on
+
+        if self._depends_on:
+            self._verify_dependencies()
 
     @property
     def ctx(self):
@@ -59,6 +63,10 @@ class BaseChecker(object):
     @property
     def logger(self):
         return self._logger
+
+    @property
+    def depends_on(self):
+        return self._depends_on
 
     @property
     def checker(self):
@@ -87,6 +95,30 @@ class BaseChecker(object):
     @abstractmethod
     def check(self):
         pass
+
+    def _verify_dependencies(self):
+        check_statuses = {}
+        for c in self._checks:
+            check_statuses[c['checker']] = c.get('status')
+
+        not_valid_checks = []
+        for d in self.depends_on:
+            if d == self.checker:
+                self.logger.info("[%s] Ignore self dependency: %s" % (self.checker, d))
+                continue
+            if d not in check_statuses:
+                self.logger.info("[%s] Ignore incorrect dependency: %s. Dependent checks must be run earlier." %
+                                 (self.checker, d))
+                continue
+            if check_statuses[d] != 'VALID':
+                not_valid_checks.append("%s: %s" % (d, check_statuses[d]))
+
+        if not_valid_checks:
+            self.status = 'UNKNOWN'
+            message = "Not all dependent checks are in 'VALID' status: %s. Please fix reported problem " \
+                "and then run the validation again." % ', '.join(not_valid_checks)
+            self.message = message
+            self.logger.info("[%s] %s" % (self.checker, message))
 
     def _catch_exception(f):
         @functools.wraps(f)
