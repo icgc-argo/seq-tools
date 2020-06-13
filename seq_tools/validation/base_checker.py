@@ -115,7 +115,7 @@ class BaseChecker(object):
 
         if not_valid_checks:
             self.status = 'UNKNOWN'
-            message = "Not all dependent checks are in 'VALID' status: %s. Please fix reported problem " \
+            message = "Not all dependent checks are in VALID status: %s. Please fix reported problem " \
                 "and then run the validation again." % ', '.join(not_valid_checks)
             self.message = message
             self.logger.info("[%s] %s" % (self.checker, message))

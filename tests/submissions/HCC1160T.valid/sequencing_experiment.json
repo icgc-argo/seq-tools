@@ -5,7 +5,7 @@
   "studyId": "TEST-PR",
   "experiment": {
     "submitter_sequencing_experiment_id": "TEST_EXP",
-    "sequencing_center": "EXT",
+    "sequencing_center": "BI",
     "platform": "ILLUMINA",
     "platform_model": "HiSeq 2000",
     "experimental_strategy": "WGS",

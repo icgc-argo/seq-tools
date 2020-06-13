@@ -94,6 +94,11 @@
         "checker": "c650_sm_in_bam_matches_metadata",
         "status": "VALID",
         "message": "One and only one SM in @RG BAM header check: VALID"
+      },
+      {
+        "checker": "c660_metadata_in_bam_rg_header",
+        "status": "UNKNOWN",
+        "message": "Not all dependent checks are in VALID status: c160_file_r1_r2_check: INVALID. Please fix reported problem and then run the validation again."
       }
     ]
   }
