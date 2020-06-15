@@ -1,11 +1,11 @@
 {
   "files": [
-    "D0RE2.1_r2.fq.gz",
-    "D0RH0.2_r1.fq.gz",
-    "D0RE2.1_r1.fq.gz",
-    "D0RH0.2_r2.fq.gz",
-    "C0HVY.2_r2.fq.gz",
-    "C0HVY.2_r1.fq.gz"
+    "C0HVY.2_r1.fq.bz2",
+    "C0HVY.2_r2.fq.bz2",
+    "D0RE2.1_r1.fq.bz2",
+    "D0RE2.1_r2.fq.bz2",
+    "D0RH0.2_r1.fq.bz2",
+    "D0RH0.2_r2.fq.bz2"
   ],
   "validation": {
     "status": "INVALID",
@@ -43,7 +43,7 @@
       {
         "checker": "c170_fq_uniqueness_in_rgs",
         "status": "INVALID",
-        "message": "FASTQ file(s) duplicated in 'file_r1/file_r2' of the 'read_groups' section in the metadata: 'D0RH0.2_r1.fq.gz, D0RH0.2_r2.fq.gz'"
+        "message": "FASTQ file(s) duplicated in 'file_r1/file_r2' of the 'read_groups' section in the metadata: 'D0RH0.2_r1.fq.bz2, D0RH0.2_r2.fq.bz2'"
       },
       {
         "checker": "c180_file_uniqueness",
@@ -69,6 +69,11 @@
         "checker": "c605_all_files_accessible",
         "status": "VALID",
         "message": "All submission files accessible check: VALID"
+      },
+      {
+        "checker": "c607_coverage_estimate",
+        "status": "INVALID",
+        "message": "Sequencing coverage estimate: 4.31e-06, lower than mimimum threshold: 20 for WGS. Validation result: INVALID"
       },
       {
         "checker": "c610_rg_id_in_bam",
