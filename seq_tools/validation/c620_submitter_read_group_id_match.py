@@ -82,22 +82,22 @@ class Checker(BaseChecker):
                 if filename not in offending_ids:
                     offending_ids[filename] = []
                 offending_ids[filename].append(rg.get('submitter_read_group_id'))
-        
+
         if offending_ids:
             msg = []
             for k, v in offending_ids.items():
                 msg.append("BAM %s: %s" % (k, ', '.join(sorted(v))))
 
             self.status = 'INVALID'
-            message = "For read groups, when 'read_group_id_in_bam' are NOT provided, " \
-                "'submitter_read_group_id' in the metadata are not found in BAM file. " \
-                "Offending ID(s): %s" % '; '.join(msg)
+            message = "For each read group, when 'read_group_id_in_bam' is not provided, " \
+                "'submitter_read_group_id' in the metadata JSON must match RG ID in the BAM file. " \
+                "Offending submitter_read_group_id(s): %s" % '; '.join(msg)
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')
 
         else:
             self.status = 'VALID'
-            message = "For read groups, when 'read_group_id_in_bam' are NOT provided, " \
-                "'submitter_read_group_id' in the metadata match RG IDs in BAM check: VALID"
+            message = "For each read group, when 'read_group_id_in_bam' is not provided, " \
+                "'submitter_read_group_id' in the metadata JSON must match RG ID in BAM. Validation result: VALID"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

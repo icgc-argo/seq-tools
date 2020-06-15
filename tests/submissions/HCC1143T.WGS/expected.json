@@ -78,7 +78,7 @@
       {
         "checker": "c620_submitter_read_group_id_match",
         "status": "INVALID",
-        "message": "For read groups, when 'read_group_id_in_bam' are NOT provided, 'submitter_read_group_id' in the metadata are not found in BAM file. Offending ID(s): BAM test_rg_3.bam: D0RE2_1a_1"
+        "message": "For each read group, when 'read_group_id_in_bam' is not provided, 'submitter_read_group_id' in the metadata JSON must match RG ID in the BAM file. Offending submitter_read_group_id(s): BAM test_rg_3.bam: D0RE2_1a_1"
       },
       {
         "checker": "c630_rg_id_in_bam_match",

@@ -142,8 +142,8 @@ class Checker(BaseChecker):
 
         if mismatches:
             mismatches_strings = []
-            for f in mismatches:  # file
-                for rg in mismatches[f]:  # rg
+            for f in sorted(mismatches):  # file, use sorted so that order is determinastic, good for comparision in tests
+                for rg in sorted(mismatches[f]):  # rg
                     mismatches_strings.append("[BAM %s @RG %s: (%s)]" % (f, rg, ", ".join(mismatches[f][rg])))
 
             self.status = 'WARNING'
