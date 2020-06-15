@@ -71,9 +71,9 @@
         "message": "Read group ID in BAM header check: VALID"
       },
       {
-        "checker": "c620_rg_id_in_bam_check",
+        "checker": "c620_submitter_read_group_id_match",
         "status": "VALID",
-        "message": "'read_group_id_in_bam' are provided in metadata and the current checker is skipped. Please refer to the next checker for further information."
+        "message": "For read groups, when 'read_group_id_in_bam' are NOT provided, 'submitter_read_group_id' in the metadata match RG IDs in BAM check: VALID"
       },
       {
         "checker": "c630_rg_id_in_bam_match",

@@ -68,14 +68,14 @@ class Checker(BaseChecker):
         read_groups = self.metadata['read_groups']
 
         offending_ids = {}
-        rg_id_in_bam = []
+        # rg_id_in_bam = []
         for rg in read_groups:
             filename = rg['file_r1']
             if not filename.endswith('.bam'):
                 continue  # skip if not BAM
 
             if rg.get('read_group_id_in_bam', None) is not None:
-                rg_id_in_bam.append(rg['read_group_id_in_bam'])
+                # rg_id_in_bam.append(rg['read_group_id_in_bam'])
                 continue
 
             if rg.get('submitter_read_group_id') not in rg_id_in_bams.get(filename, []):
@@ -89,20 +89,15 @@ class Checker(BaseChecker):
                 msg.append("BAM %s: %s" % (k, ', '.join(sorted(v))))
 
             self.status = 'INVALID'
-            message = "'read_group_id_in_bam' are NOT provided in metadata and " \
-                "'submitter_read_group_id' specified in 'read_groups' section of the metadata are not found " \
-                "in BAM file. Offending ID(s): %s" % '; '.join(msg)
-            self.message = message
-            self.logger.info(f'[{self.checker}] {message}')
-
-        elif rg_id_in_bam:
-            self.status = 'VALID'
-            message = "'read_group_id_in_bam' are provided in metadata and the current checker is skipped. Please refer to the next checker for further information."
+            message = "For read groups, when 'read_group_id_in_bam' are NOT provided, " \
+                "'submitter_read_group_id' in the metadata are not found in BAM file. " \
+                "Offending ID(s): %s" % '; '.join(msg)
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')
 
         else:
             self.status = 'VALID'
-            message = "'submitter_read_group_id' in metadata matches RG ID in BAM check: VALID"
+            message = "For read groups, when 'read_group_id_in_bam' are NOT provided, " \
+                "'submitter_read_group_id' in the metadata match RG IDs in BAM check: VALID"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

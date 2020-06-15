@@ -77,7 +77,7 @@
         "message": "An exception occurred during the execution of this checker. This is likely due to problem(s) identified by earlier check(s), please fix reported problem and then run the validation again. More information of the exception can be found in the latest log file under: HCC1150T.WGS/logs/"
       },
       {
-        "checker": "c620_rg_id_in_bam_check",
+        "checker": "c620_submitter_read_group_id_match",
         "status": "UNKNOWN",
         "message": "An exception occurred during the execution of this checker. This is likely due to problem(s) identified by earlier check(s), please fix reported problem and then run the validation again. More information of the exception can be found in the latest log file under: HCC1150T.WGS/logs/"
       },
