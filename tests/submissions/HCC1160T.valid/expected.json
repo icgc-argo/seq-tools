@@ -94,6 +94,11 @@
         "checker": "c650_sm_in_bam_matches_metadata",
         "status": "VALID",
         "message": "One and only one SM in @RG BAM header check: VALID"
+      },
+      {
+        "checker": "c660_metadata_in_bam_rg_header",
+        "status": "VALID",
+        "message": "Information (excluding ID and SM which are validated elsewhere) in BAM @RG header match experiment/read group info in metadata JSON: VALID"
       }
     ]
   }
