@@ -148,7 +148,7 @@ class Checker(BaseChecker):
 
             self.status = 'WARNING'
             message = "Information (excluding ID and SM which are validated elsewhere) in BAM @RG header does NOT match " \
-                "experiment/read group info in metadata. NOTE that information is the metadata JSON document will be " \
+                "experiment/read group info in metadata JSON. NOTE that information is the metadata JSON document will be " \
                 "kept and used in ICGC ARGO uniform analysis while unmatched info in BAM header will be lost. Details of " \
                 "the difference: %s" % "; ".join(mismatches_strings)
 
