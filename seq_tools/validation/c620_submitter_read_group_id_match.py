@@ -52,11 +52,11 @@ class Checker(BaseChecker):
             for line in header_array:
                 if not line.startswith("@RG"):
                     continue
-                rg_array = line.rstrip().replace('\t', '\\t')
+                rg_array = line.rstrip()
 
                 # get rg_id from BAM header
                 rg_id_in_bam = ':'.join([
-                    kv for kv in rg_array.split('\\t') if kv.startswith('ID:')
+                    kv for kv in rg_array.split('\t') if kv.startswith('ID:')
                 ][0].split(':')[1:])
 
                 if f not in rg_id_in_bams:
