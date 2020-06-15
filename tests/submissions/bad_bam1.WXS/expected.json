@@ -77,6 +77,11 @@
         "message": "Duplicated read group ID found: C0HVY.2 in BAM: test_rg_4.bam"
       },
       {
+        "checker": "c620_submitter_read_group_id_match",
+        "status": "UNKNOWN",
+        "message": "An exception occurred during the execution of this checker. This is likely due to problem(s) identified by earlier check(s), please fix reported problem and then run the validation again. More information of the exception can be found in the latest log file under: bad_bam1.WXS/logs/"
+      },
+      {
         "checker": "c630_rg_id_in_bam_match",
         "status": "UNKNOWN",
         "message": "An exception occurred during the execution of this checker. This is likely due to problem(s) identified by earlier check(s), please fix reported problem and then run the validation again. More information of the exception can be found in the latest log file under: bad_bam1.WXS/logs/"

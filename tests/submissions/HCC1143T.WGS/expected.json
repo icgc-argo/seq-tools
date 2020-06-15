@@ -76,6 +76,11 @@
         "message": "Read group ID in BAM header check: VALID"
       },
       {
+        "checker": "c620_submitter_read_group_id_match",
+        "status": "INVALID",
+        "message": "For read groups, when 'read_group_id_in_bam' are NOT provided, 'submitter_read_group_id' in the metadata are not found in BAM file. Offending ID(s): BAM test_rg_3.bam: D0RE2_1a_1"
+      },
+      {
         "checker": "c630_rg_id_in_bam_match",
         "status": "VALID",
         "message": "'read_group_id_in_bam' in metadata matches RG ID in BAM check: VALID"
