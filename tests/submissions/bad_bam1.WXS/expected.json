@@ -99,7 +99,7 @@
       {
         "checker": "c660_metadata_in_bam_rg_header",
         "status": "UNKNOWN",
-        "message": "Not all dependent checks are in VALID status: c610_rg_id_in_bam: INVALID. Please fix reported problem and then run the validation again."
+        "message": "Not all dependent checks are in VALID status: c610_rg_id_in_bam: INVALID, c620_submitter_read_group_id_match: UNKNOWN. Please fix reported problem and then run the validation again."
       }
     ]
   }

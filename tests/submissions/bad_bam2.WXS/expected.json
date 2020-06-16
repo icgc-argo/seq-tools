@@ -72,13 +72,13 @@
       },
       {
         "checker": "c620_submitter_read_group_id_match",
-        "status": "VALID",
-        "message": "For each read group, when 'read_group_id_in_bam' is not provided, 'submitter_read_group_id' in the metadata JSON must match RG ID in BAM. Validation result: VALID"
+        "status": "INVALID",
+        "message": "For each read group, when 'read_group_id_in_bam' is not provided, 'submitter_read_group_id' in the metadata JSON must match RG ID in the BAM file. Offending submitter_read_group_id(s): BAM test_rg_5.bam: D0RE2_1a_1"
       },
       {
         "checker": "c630_rg_id_in_bam_match",
         "status": "INVALID",
-        "message": "'read_group_id_in_bam' specified in 'read_groups' section of the metadata not found in BAM file. Offending ID(s): BAM test_rg_5.bam: C0HVY.2, D0RE2_1', D0RH0:2''"
+        "message": "'read_group_id_in_bam' specified in 'read_groups' section of the metadata not found in BAM file. Offending ID(s): BAM test_rg_5.bam: D0RE2_1', D0RH0:2''"
       },
       {
         "checker": "c640_one_sm_in_bam_header",
@@ -93,7 +93,7 @@
       {
         "checker": "c660_metadata_in_bam_rg_header",
         "status": "UNKNOWN",
-        "message": "Not all dependent checks are in VALID status: c610_rg_id_in_bam: INVALID. Please fix reported problem and then run the validation again."
+        "message": "Not all dependent checks are in VALID status: c610_rg_id_in_bam: INVALID, c620_submitter_read_group_id_match: INVALID. Please fix reported problem and then run the validation again."
       }
     ]
   }

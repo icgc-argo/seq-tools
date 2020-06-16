@@ -65,7 +65,8 @@ class Checker(BaseChecker):
                 'c200_rg_id_in_bam_uniqueness',
                 'c180_file_uniqueness',
                 'c605_all_files_accessible',
-                'c610_rg_id_in_bam'
+                'c610_rg_id_in_bam',
+                'c620_submitter_read_group_id_match'
             ]
         )
 
