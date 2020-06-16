@@ -62,6 +62,11 @@
         "message": "'read_group_id_in_bam' not populated for FASTQ check: VALID"
       },
       {
+        "checker": "c240_submitter_rg_id_collide_with_rg_id_in_bam",
+        "status": "VALID",
+        "message": "For any read group, when 'read_group_id_in_bam' is not populated, 'submitter_read_group_id' must NOT be the same as 'read_group_id_in_bam' of another read group from the same BAM file. Validation result: VALID"
+      },
+      {
         "checker": "c605_all_files_accessible",
         "status": "VALID",
         "message": "All submission files accessible check: VALID"
