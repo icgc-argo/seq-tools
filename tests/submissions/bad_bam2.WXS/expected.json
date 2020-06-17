@@ -56,6 +56,11 @@
         "message": "No path in fileName check in 'files' section status: VALID"
       },
       {
+        "checker": "c240_submitter_rg_id_collide_with_rg_id_in_bam",
+        "status": "INVALID",
+        "message": "For any read group, when 'read_group_id_in_bam' is not populated, 'submitter_read_group_id' must NOT be the same as 'read_group_id_in_bam' of another read group from the same BAM file. However, offending submitter_read_group_id(s) found: D0RE2_1a_1"
+      },
+      {
         "checker": "c605_all_files_accessible",
         "status": "VALID",
         "message": "All submission files accessible check: VALID"
@@ -78,7 +83,7 @@
       {
         "checker": "c630_rg_id_in_bam_match",
         "status": "INVALID",
-        "message": "'read_group_id_in_bam' specified in 'read_groups' section of the metadata not found in BAM file. Offending ID(s): BAM test_rg_5.bam: D0RE2_1', D0RH0:2''"
+        "message": "'read_group_id_in_bam' specified in 'read_groups' section of the metadata not found in BAM file. Offending ID(s): BAM test_rg_5.bam: D0RE2_1', D0RE2_1a_1"
       },
       {
         "checker": "c640_one_sm_in_bam_header",
@@ -93,7 +98,7 @@
       {
         "checker": "c660_metadata_in_bam_rg_header",
         "status": "UNKNOWN",
-        "message": "Not all dependent checks are in VALID status: c610_rg_id_in_bam: INVALID, c620_submitter_read_group_id_match: INVALID. Please fix reported problem and then run the validation again."
+        "message": "Not all dependent checks are in VALID status: c240_submitter_rg_id_collide_with_rg_id_in_bam: INVALID, c610_rg_id_in_bam: INVALID, c620_submitter_read_group_id_match: INVALID. Please fix reported problem and then run the validation again."
       }
     ]
   }

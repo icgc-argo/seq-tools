@@ -63,6 +63,7 @@ class Checker(BaseChecker):
                 'c110_rg_id_uniqueness',
                 'c160_file_r1_r2_check',
                 'c200_rg_id_in_bam_uniqueness',
+                'c240_submitter_rg_id_collide_with_rg_id_in_bam',
                 'c180_file_uniqueness',
                 'c605_all_files_accessible',
                 'c610_rg_id_in_bam',
