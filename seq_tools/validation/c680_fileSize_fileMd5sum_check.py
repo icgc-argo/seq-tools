@@ -49,20 +49,17 @@ class Checker(BaseChecker):
 
         files_in_metadata = self.metadata['files']
 
-        mismatches = {}  # dict to keep all mismatches from all files
+        mismatches = defaultdict(list)  # dict to keep all mismatches from all files
         for f in files_in_metadata:
             seq_file = os.path.join(self.submission_directory, f['fileName'])
             real_size = calculate_size(seq_file)
             real_md5 = calculate_md5(seq_file)
-            if mismatches.get(f['fileName']) is None:
-                mismatches[f['fileName']] = []
             if not real_size == f['fileSize']:
                 mismatches[f['fileName']].append(
                         "%s: %s vs %s" % ('fileSize', real_size, f['fileSize']))
             if not real_md5 == f['fileMd5sum']:
                 mismatches[f['fileName']].append(
                         "%s: %s vs %s" % ('fileMd5sum', real_md5, f['fileMd5sum']))
-            if not mismatches[f['fileName']]: mismatches.pop(f['fileName'])
 
         if mismatches:
             mismatches_strings = []
