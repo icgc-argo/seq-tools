@@ -109,6 +109,11 @@
         "checker": "c660_metadata_in_bam_rg_header",
         "status": "UNKNOWN",
         "message": "Not all dependent checks are in VALID status: c160_file_r1_r2_check: INVALID. Please fix reported problem and then run the validation again."
+      },
+      {
+        "checker": "c680_fileSize_fileMd5sum_check",
+        "status": "INVALID",
+        "message": "The fileSize or fileMd5sum calculated from the submission sequencing files does NOT match the info provided in metadata JSON. Details of the difference: [seq file /Users/lxiang/projects/icgc-argo/seq-tools/tests/submissions/HCC1150N.WGS/C0HVY.2_r1.fq.gz: fileSize: 2040 vs 5381, fileMd5sum: 64cf635dbc54f53cae2cb03ec8e8471b vs 6584ebb05edfbd6f59be6307556bd871]; [seq file /Users/lxiang/projects/icgc-argo/seq-tools/tests/submissions/HCC1150N.WGS/C0HVY.2_r2.fq.gz: fileSize: 2042 vs 5381, fileMd5sum: ceb7e66d031cb894fa9d1d3f8da65fc7 vs d649696f346eb75b95b68e8ecd45f44f]; [seq file /Users/lxiang/projects/icgc-argo/seq-tools/tests/submissions/HCC1150N.WGS/D0RE2.1_r1.fq.gz: fileSize: 2309 vs 6148, fileMd5sum: 44bea7aa32a1afb68eec24496b608545 vs 058510bbdab2dccc14a2d7402a21248d]; [seq file /Users/lxiang/projects/icgc-argo/seq-tools/tests/submissions/HCC1150N.WGS/D0RE2.1_r2.fq.gz: fileSize: 2365 vs 6148, fileMd5sum: d73b37eca9375258ab42905f7943b1b6 vs 5fb35647198666b6a06e8539074282fd]; [seq file /Users/lxiang/projects/icgc-argo/seq-tools/tests/submissions/HCC1150N.WGS/D0RH0.2_r1.fq.gz: fileSize: 1872 vs 4784, fileMd5sum: b90a3c9750db29406f31e9488d5b7e2b vs eb109b8774df03084024bc09a86721be]; [seq file /Users/lxiang/projects/icgc-argo/seq-tools/tests/submissions/HCC1150N.WGS/D0RH0.2_r2.fq.gz: fileSize: 1894 vs 4784, fileMd5sum: a407247b584daa078114ab05e6e489be vs ed209fda15a5928087104253a6bfb42d]"
       }
     ]
   }

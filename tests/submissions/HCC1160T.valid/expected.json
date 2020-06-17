@@ -104,6 +104,11 @@
         "checker": "c660_metadata_in_bam_rg_header",
         "status": "VALID",
         "message": "Information (excluding ID and SM which are validated elsewhere) in BAM @RG header match experiment/read group info in metadata JSON: VALID"
+      },
+      {
+        "checker": "c680_fileSize_fileMd5sum_check",
+        "status": "VALID",
+        "message": "The fileSize and fileMd5sum calculated from the submission sequencing files both match the info provided in metadata JSON: VALID"
       }
     ]
   }

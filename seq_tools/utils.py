@@ -29,6 +29,7 @@ import requests
 import subprocess
 from packaging import version
 from seq_tools import __version__ as current_ver
+import hashlib
 
 
 def initialize_log(ctx, dir):
@@ -263,3 +264,13 @@ def base_estimate(seq_file, logger, checker) -> int:
                         (checker, estimated_read_count, seq_file))
 
             return estimated_read_count * average_len
+
+def calculate_size(file_path):
+    return os.stat(file_path).st_size
+
+def calculate_md5(file_path):
+    md5 = hashlib.md5()
+    with open(file_path, 'rb') as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b''):
+            md5.update(chunk)
+    return md5.hexdigest()

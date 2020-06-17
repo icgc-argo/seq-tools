@@ -99,6 +99,11 @@
         "checker": "c660_metadata_in_bam_rg_header",
         "status": "UNKNOWN",
         "message": "Not all dependent checks are in VALID status: c240_submitter_rg_id_collide_with_rg_id_in_bam: INVALID, c610_rg_id_in_bam: INVALID, c620_submitter_read_group_id_match: INVALID. Please fix reported problem and then run the validation again."
+      },
+      {
+        "checker": "c680_fileSize_fileMd5sum_check",
+        "status": "INVALID",
+        "message": "The fileSize or fileMd5sum calculated from the submission sequencing files does NOT match the info provided in metadata JSON. Details of the difference: [seq file /Users/lxiang/projects/icgc-argo/seq-tools/tests/submissions/bad_bam2.WXS/test_rg_5.bam: fileSize: 3068 vs 14935, fileMd5sum: da9ad400724e4eb2e4743961aa689b76 vs 3f160ccdb1eae97337b42018bf141f7c]"
       }
     ]
   }
