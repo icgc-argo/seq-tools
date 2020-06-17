@@ -74,6 +74,6 @@ class Checker(BaseChecker):
 
         else:
             self.status = 'VALID'
-            message = "BAM sanity check by samtools quickchck. Validation result: VALID"
+            message = "BAM sanity check by samtools quickcheck. Validation result: VALID"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

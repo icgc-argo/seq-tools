@@ -73,7 +73,7 @@
       {
         "checker": "c608_bam_sanity",
         "status": "VALID",
-        "message": "BAM sanity check by samtools quickchck. Validation result: VALID"
+        "message": "BAM sanity check by samtools quickcheck. Validation result: VALID"
       },
       {
         "checker": "c610_rg_id_in_bam",
