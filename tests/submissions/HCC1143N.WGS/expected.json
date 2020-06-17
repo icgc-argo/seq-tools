@@ -109,6 +109,11 @@
         "checker": "c660_metadata_in_bam_rg_header",
         "status": "UNKNOWN",
         "message": "Not all dependent checks are in VALID status: c110_rg_id_uniqueness: INVALID, c160_file_r1_r2_check: INVALID, c240_submitter_rg_id_collide_with_rg_id_in_bam: UNKNOWN. Please fix reported problem and then run the validation again."
+      },
+      {
+        "checker": "c680_fileSize_fileMd5sum_check",
+        "status": "INVALID",
+        "message": "The fileSize or fileMd5sum calculated from the submission sequencing files does NOT match the info provided in metadata JSON. Details of the difference: [C0HVY.2_r1.fq.bz2: fileSize: 2001 vs 5381, fileMd5sum: ad7f4f429506a8def523f068c60d2305 vs 6584ebb05edfbd6f59be6307556bd871]; [C0HVY.2_r2.fq.bz2: fileSize: 2034 vs 5381, fileMd5sum: 9a3f32c80aff08e56965a6fd6dbb4d1f vs d649696f346eb75b95b68e8ecd45f44f]; [D0RE2.1_r1.fq.bz2: fileSize: 2256 vs 6148, fileMd5sum: b4b42e97477bb2fe6d76ea98cb6db711 vs 058510bbdab2dccc14a2d7402a21248d]; [D0RE2.1_r2.fq.bz2: fileSize: 2313 vs 6148, fileMd5sum: fae07fe5efc436c1f4c917a9703c6446 vs 5fb35647198666b6a06e8539074282fd]; [D0RH0.2_r1.fq.bz2: fileSize: 1857 vs 4784, fileMd5sum: ce113af3b61bf3d291840324271f92f3 vs eb109b8774df03084024bc09a86721be]; [D0RH0.2_r2.fq.bz2: fileSize: 1892 vs 4784, fileMd5sum: 83d37edabb6b01d7da509294fa8ffc47 vs ed209fda15a5928087104253a6bfb42d]"
       }
     ]
   }
