@@ -54,20 +54,20 @@ class Checker(BaseChecker):
             seq_file = os.path.join(self.submission_directory, f['fileName'])
             real_size = calculate_size(seq_file)
             real_md5 = calculate_md5(seq_file)
-            if mismatches.get(seq_file) is None:
-                mismatches[seq_file] = []
+            if mismatches.get(f['fileName']) is None:
+                mismatches[f['fileName']] = []
             if not real_size == f['fileSize']:
-                mismatches[seq_file].append(
+                mismatches[f['fileName']].append(
                         "%s: %s vs %s" % ('fileSize', real_size, f['fileSize']))
             if not real_md5 == f['fileMd5sum']:
-                mismatches[seq_file].append(
+                mismatches[f['fileName']].append(
                         "%s: %s vs %s" % ('fileMd5sum', real_md5, f['fileMd5sum']))
-            if not mismatches[seq_file]: mismatches.pop(seq_file)
+            if not mismatches[f['fileName']]: mismatches.pop(f['fileName'])
 
         if mismatches:
             mismatches_strings = []
             for f in sorted(mismatches):  # file, use sorted so that order is determinastic, good for comparision in tests
-                mismatches_strings.append("[seq file %s: %s]" % (f, ", ".join(mismatches[f])))
+                mismatches_strings.append("[%s: %s]" % (f, ", ".join(mismatches[f])))
 
             self.status = 'INVALID'
             message = "The fileSize or fileMd5sum calculated from the submission sequencing files does NOT match " \

@@ -109,7 +109,7 @@
       {
         "checker": "c680_fileSize_fileMd5sum_check",
         "status": "INVALID",
-        "message": "The fileSize or fileMd5sum calculated from the submission sequencing files does NOT match the info provided in metadata JSON. Details of the difference: [seq file /Users/lxiang/projects/icgc-argo/seq-tools/tests/submissions/BRCA1234T.WXS/test1_rg_3.bam: fileSize: 16726 vs 14935, fileMd5sum: 9609b0153f6a7665255311ef5a47507e vs 3f160ccdb1eae97337b42018bf141f7c]"
+        "message": "The fileSize or fileMd5sum calculated from the submission sequencing files does NOT match the info provided in metadata JSON. Details of the difference: [test1_rg_3.bam: fileSize: 16726 vs 14935, fileMd5sum: 9609b0153f6a7665255311ef5a47507e vs 3f160ccdb1eae97337b42018bf141f7c]"
       }
     ]
   }
