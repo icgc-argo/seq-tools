@@ -56,6 +56,16 @@
         "message": "No path in fileName check in 'files' section status: VALID"
       },
       {
+        "checker": "c220_no_rg_id_in_bam_for_fq",
+        "status": "VALID",
+        "message": "'read_group_id_in_bam' not populated for FASTQ check: VALID"
+      },
+      {
+        "checker": "c230_files_info_data_category",
+        "status": "WARNING",
+        "message": "All files in the 'files' section of the metadata JSON are required to have 'info.data_category' field being populated with 'Sequencing Reads'. File(s) found not conforming to this requirement: 'test_rg_5.bam'."
+      },
+      {
         "checker": "c240_submitter_rg_id_collide_with_rg_id_in_bam",
         "status": "INVALID",
         "message": "For any read group, when 'read_group_id_in_bam' is not populated, 'submitter_read_group_id' must NOT be the same as 'read_group_id_in_bam' of another read group from the same BAM file. However, offending submitter_read_group_id(s) found: D0RE2_1a_1"
@@ -106,7 +116,7 @@
         "message": "Not all dependent checks are in VALID status: c240_submitter_rg_id_collide_with_rg_id_in_bam: INVALID, c610_rg_id_in_bam: INVALID, c620_submitter_read_group_id_match: INVALID. Please fix reported problem and then run the validation again."
       },
       {
-        "checker": "c680_fileSize_fileMd5sum_check",
+        "checker": "c680_fileSize_fileMd5sum_match",
         "status": "INVALID",
         "message": "The fileSize or fileMd5sum calculated from the submission sequencing files does NOT match the info provided in metadata JSON. Details of the difference: [test_rg_5.bam: fileSize: 3068 vs 14935, fileMd5sum: da9ad400724e4eb2e4743961aa689b76 vs 3f160ccdb1eae97337b42018bf141f7c]"
       }

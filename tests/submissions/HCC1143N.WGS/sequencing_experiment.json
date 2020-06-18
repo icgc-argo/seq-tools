@@ -88,7 +88,10 @@
       "fileMd5sum": "6584ebb05edfbd6f59be6307556bd871",
       "fileType": "FASTQ",
       "fileAccess": "controlled",
-      "dataType": "submitted_reads"
+      "dataType": "submitted_reads",
+      "info": {
+        "data_category": "Sequencing Reads"
+      }
     },
     {
       "fileName": "C0HVY.2_r2.fq.bz2",
@@ -96,7 +99,10 @@
       "fileMd5sum": "d649696f346eb75b95b68e8ecd45f44f",
       "fileType": "FASTQ",
       "fileAccess": "controlled",
-      "dataType": "submitted_reads"
+      "dataType": "submitted_reads",
+      "info": {
+        "data_category": "SequencingReads"
+      }
     },
     {
       "fileName": "D0RE2.1_r1.fq.bz2",
@@ -104,7 +110,10 @@
       "fileMd5sum": "058510bbdab2dccc14a2d7402a21248d",
       "fileType": "FASTQ",
       "fileAccess": "controlled",
-      "dataType": "submitted_reads"
+      "dataType": "submitted_reads",
+      "info": {
+        "data_category": "Sequencing Reads"
+      }
     },
     {
       "fileName": "D0RE2.1_r2.fq.bz2",
@@ -112,7 +121,10 @@
       "fileMd5sum": "5fb35647198666b6a06e8539074282fd",
       "fileType": "FASTQ",
       "fileAccess": "controlled",
-      "dataType": "submitted_reads"
+      "dataType": "submitted_reads",
+      "info": {
+        "data_category": "Sequencing Reads"
+      }
     },
     {
       "fileName": "D0RH0.2_r1.fq.bz2",
