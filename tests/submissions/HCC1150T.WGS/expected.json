@@ -77,6 +77,11 @@
         "message": "Not all dependent checks are in VALID status: c200_rg_id_in_bam_uniqueness: INVALID. Please fix reported problem and then run the validation again."
       },
       {
+        "checker": "c250_file_data_type",
+        "status": "UNKNOWN",
+        "message": "Not all dependent checks are in VALID status: c180_file_uniqueness: INVALID. Please fix reported problem and then run the validation again."
+      },
+      {
         "checker": "c605_all_files_accessible",
         "status": "INVALID",
         "message": "Files specified in metadata, but unaccessilbe in submission directory: 'test_rg_3.bam'"
