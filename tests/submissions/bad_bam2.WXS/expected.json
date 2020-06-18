@@ -66,11 +66,6 @@
         "message": "All submission files accessible check: VALID"
       },
       {
-        "checker": "c607_coverage_estimate",
-        "status": "INVALID",
-        "message": "Sequencing coverage estimate: 1.27e-07, lower than mimimum threshold: 20 for WGS. Validation result: INVALID"
-      },
-      {
         "checker": "c608_bam_sanity",
         "status": "VALID",
         "message": "BAM sanity check by samtools quickcheck. Validation result: VALID"
@@ -104,6 +99,11 @@
         "checker": "c660_metadata_in_bam_rg_header",
         "status": "UNKNOWN",
         "message": "Not all dependent checks are in VALID status: c240_submitter_rg_id_collide_with_rg_id_in_bam: INVALID, c610_rg_id_in_bam: INVALID, c620_submitter_read_group_id_match: INVALID. Please fix reported problem and then run the validation again."
+      },
+      {
+        "checker": "c670_coverage_estimate",
+        "status": "INVALID",
+        "message": "Sequencing coverage estimate: 1.27e-07, lower than mimimum threshold: 20 for WGS. Validation result: INVALID"
       },
       {
         "checker": "c680_fileSize_fileMd5sum_check",

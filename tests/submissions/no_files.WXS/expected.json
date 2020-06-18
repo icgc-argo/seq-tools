@@ -70,11 +70,6 @@
         "message": "Files specified in metadata, but missed in submission directory: 'seq/test_rg_3.bam, test_rg_3.bam'"
       },
       {
-        "checker": "c607_coverage_estimate",
-        "status": "UNKNOWN",
-        "message": "An exception occurred during the execution of this checker. This is likely due to problem(s) identified by earlier check(s), please fix reported problem and then run the validation again. More information of the exception can be found in the latest log file under: no_files.WXS/logs/"
-      },
-      {
         "checker": "c608_bam_sanity",
         "status": "UNKNOWN",
         "message": "Not all dependent checks are in VALID status: c605_all_files_accessible: INVALID. Please fix reported problem and then run the validation again."
@@ -108,6 +103,11 @@
         "checker": "c660_metadata_in_bam_rg_header",
         "status": "UNKNOWN",
         "message": "Not all dependent checks are in VALID status: c160_file_r1_r2_check: INVALID, c605_all_files_accessible: INVALID, c610_rg_id_in_bam: UNKNOWN, c620_submitter_read_group_id_match: UNKNOWN. Please fix reported problem and then run the validation again."
+      },
+      {
+        "checker": "c670_coverage_estimate",
+        "status": "UNKNOWN",
+        "message": "An exception occurred during the execution of this checker. This is likely due to problem(s) identified by earlier check(s), please fix reported problem and then run the validation again. More information of the exception can be found in the latest log file under: no_files.WXS/logs/"
       },
       {
         "checker": "c680_fileSize_fileMd5sum_check",
