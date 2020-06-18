@@ -81,6 +81,11 @@
         "message": "Sequencing coverage estimate: 1.27e-07, lower than mimimum threshold: 20 for WGS. Validation result: INVALID"
       },
       {
+        "checker": "c608_bam_sanity",
+        "status": "VALID",
+        "message": "BAM sanity check by samtools quickcheck. Validation result: VALID"
+      },
+      {
         "checker": "c610_rg_id_in_bam",
         "status": "INVALID",
         "message": "No read group ID found in header for BAM: test_rg_5.bam"

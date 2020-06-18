@@ -82,6 +82,11 @@
         "message": "Unable to continue with coverage estimation. EOF marker is absent, BAM file is probably truncated: test_rg_7.bam. Validation result: INVALID"
       },
       {
+        "checker": "c608_bam_sanity",
+        "status": "INVALID",
+        "message": "BAM file(s) samtools quickcheck failed: test_rg_7.bam. More information can be found in under: bad_bam1.WXS/logs/"
+      },
+      {
         "checker": "c610_rg_id_in_bam",
         "status": "INVALID",
         "message": "Duplicated read group ID found: C0HVY.2 in BAM: test_rg_4.bam"
