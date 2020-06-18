@@ -62,7 +62,7 @@
       {
         "checker": "c230_files_info_data_category",
         "status": "WARNING",
-        "message": "Field 'info.data_category' is NOT found for file(s): 'seq/test_rg_3.bam, test_rg_3.bam'"
+        "message": "All files in the 'files' section of the metadata JSON are required to have 'info.data_category' field being populated with 'Sequencing Reads'. File(s) found not conforming to this requirement: 'seq/test_rg_3.bam, test_rg_3.bam'."
       },
       {
         "checker": "c240_submitter_rg_id_collide_with_rg_id_in_bam",

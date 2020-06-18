@@ -68,7 +68,7 @@
       {
         "checker": "c230_files_info_data_category",
         "status": "WARNING",
-        "message": "Field 'info.data_category' is NOT found for file(s): 'C0HVY.2_r1.fq.gz, C0HVY.2_r2.fq.gz, D0RE2.1_r1.fq.gz, D0RE2.1_r2.fq.gz, D0RH0.2_r1.fq.gz, D0RH0.2_r2.fq.gz'"
+        "message": "All files in the 'files' section of the metadata JSON are required to have 'info.data_category' field being populated with 'Sequencing Reads'. File(s) found not conforming to this requirement: 'C0HVY.2_r1.fq.gz, C0HVY.2_r2.fq.gz, D0RE2.1_r1.fq.gz, D0RE2.1_r2.fq.gz, D0RH0.2_r1.fq.gz, D0RH0.2_r2.fq.gz'."
       },
       {
         "checker": "c240_submitter_rg_id_collide_with_rg_id_in_bam",

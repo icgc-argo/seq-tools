@@ -68,8 +68,8 @@
       },
       {
         "checker": "c230_files_info_data_category",
-        "status": "WARNING",
-        "message": "Field 'info.data_category' is NOT found for file(s): 'test_rg_3.bam, test_rg_4_not_real.bam'"
+        "status": "UNKNOWN",
+        "message": "Not all dependent checks are in VALID status: c180_file_uniqueness: INVALID. Please fix reported problem and then run the validation again."
       },
       {
         "checker": "c240_submitter_rg_id_collide_with_rg_id_in_bam",

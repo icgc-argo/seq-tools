@@ -28,7 +28,9 @@ class Checker(BaseChecker):
             ctx=ctx,
             metadata=metadata,
             checker_name=__name__,
-            depends_on=[] # dependent checks
+            depends_on=[
+                'c180_file_uniqueness'
+            ] # dependent checks
         )
 
     @BaseChecker._catch_exception
@@ -37,32 +39,19 @@ class Checker(BaseChecker):
         if self.status:
             return
 
-        file_without_data_category = defaultdict(list)
+        file_without_data_category = []
         for fl in self.metadata.get('files'):
-            if not fl.get('info') or not fl['info'].get('data_category'):
-                file_without_data_category['missing'].append(fl['fileName'])
-            elif not fl['info']['data_category'] == 'Sequencing Reads':
-                file_without_data_category['mismatch'].append(fl['fileName'])
+            if not fl.get('info') or not fl['info'].get('data_category') or not fl['info']['data_category'] == 'Sequencing Reads':
+                file_without_data_category.append(fl['fileName'])
 
         if file_without_data_category:
-            if 'mismatch' in file_without_data_category:
-                if 'missing' in file_without_data_category:
-                    message = "Field 'info.data_category' is NOT populated with 'Sequencing Reads' for " \
-                        "file(s): '%s'. Field 'info.data_category' is NOT found for file(s): '%s'." \
-                            % (', '.join(sorted(file_without_data_category['mismatch'])), \
-                            ', '.join(sorted(file_without_data_category['missing'])))
-                else:
-                    message = "Field 'info.data_category' is NOT populated with 'Sequencing Reads' for " \
-                        "file(s): '%s'" % ', '.join(sorted(file_without_data_category['mismatch']))
-                self.logger.info(f'[{self.checker}] {message}')
-                self.message = message
-                self.status = 'INVALID'
-            else:
-                message = "Field 'info.data_category' is NOT found for " \
-                    "file(s): '%s'" % ', '.join(sorted(file_without_data_category['missing']))
-                self.logger.info(f'[{self.checker}] {message}')
-                self.message = message
-                self.status = 'WARNING'
+            message = "All files in the 'files' section of the metadata JSON are required to " \
+                "have 'info.data_category' field being populated with 'Sequencing Reads'. " \
+                "File(s) found not conforming to this requirement: '%s'." \
+                % ', '.join(sorted(file_without_data_category))
+            self.logger.info(f'[{self.checker}] {message}')
+            self.message = message
+            self.status = 'WARNING'
              
         else:
             self.status = 'VALID'
