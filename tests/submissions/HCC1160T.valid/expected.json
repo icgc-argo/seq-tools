@@ -63,7 +63,7 @@
       {
         "checker": "c230_files_info_data_category",
         "status": "VALID",
-        "message": "Field 'data_category' is found populated with 'Sequencing Reads' status: VALID"
+        "message": "Field 'data_category' is found populated with 'Sequencing Reads'. Validation status: VALID"
       },
       {
         "checker": "c240_submitter_rg_id_collide_with_rg_id_in_bam",

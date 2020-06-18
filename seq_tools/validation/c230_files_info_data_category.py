@@ -50,6 +50,6 @@ class Checker(BaseChecker):
             self.status = 'INVALID'
         else:
             self.status = 'VALID'
-            message = "Field 'data_category' is found populated with 'Sequencing Reads' status: VALID"
+            message = "Field 'data_category' is found populated with 'Sequencing Reads'. Validation status: VALID"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')
