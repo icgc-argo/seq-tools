@@ -19,7 +19,7 @@
         Linda Xiang <linda.xiang@oicr.on.ca>
 """
 
-
+from collections import defaultdict
 from base_checker import BaseChecker
 
 class Checker(BaseChecker):
@@ -37,19 +37,35 @@ class Checker(BaseChecker):
         if self.status:
             return
 
-        file_without_data_category = set()
+        file_without_data_category = defaultdict(list)
         for fl in self.metadata.get('files'):
-            if not fl.get('info') or not fl['info'].get('data_category') or not fl['info']['data_category'] == 'Sequencing Reads':
-                file_without_data_category.add(fl['fileName'])
+            if not fl.get('info') or not fl['info'].get('data_category'):
+                file_without_data_category['missing'].append(fl['fileName'])
+            elif not fl['info']['data_category'] == 'Sequencing Reads':
+                file_without_data_category['mismatch'].append(fl['fileName'])
 
         if file_without_data_category:
-            message = "Field 'data_category' is NOT found or NOT populated with 'Sequencing Reads' for " \
-                "file(s): '%s'" % ', '.join(sorted(file_without_data_category))
-            self.logger.info(f'[{self.checker}] {message}')
-            self.message = message
-            self.status = 'INVALID'
+            if 'mismatch' in file_without_data_category:
+                if 'missing' in file_without_data_category:
+                    message = "Field 'info.data_category' is NOT populated with 'Sequencing Reads' for " \
+                        "file(s): '%s'. Field 'info.data_category' is NOT found for file(s): '%s'." \
+                            % (', '.join(sorted(file_without_data_category['mismatch'])), \
+                            ', '.join(sorted(file_without_data_category['missing'])))
+                else:
+                    message = "Field 'info.data_category' is NOT populated with 'Sequencing Reads' for " \
+                        "file(s): '%s'" % ', '.join(sorted(file_without_data_category['mismatch']))
+                self.logger.info(f'[{self.checker}] {message}')
+                self.message = message
+                self.status = 'INVALID'
+            else:
+                message = "Field 'info.data_category' is NOT found for " \
+                    "file(s): '%s'" % ', '.join(sorted(file_without_data_category['missing']))
+                self.logger.info(f'[{self.checker}] {message}')
+                self.message = message
+                self.status = 'WARNING'
+             
         else:
             self.status = 'VALID'
-            message = "Field 'data_category' is found populated with 'Sequencing Reads'. Validation status: VALID"
+            message = "Field 'info.data_category' is found populated with 'Sequencing Reads'. Validation status: VALID"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

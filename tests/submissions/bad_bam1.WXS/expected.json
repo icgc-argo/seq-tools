@@ -64,7 +64,7 @@
       {
         "checker": "c230_files_info_data_category",
         "status": "INVALID",
-        "message": "Field 'data_category' is NOT found or NOT populated with 'Sequencing Reads' for file(s): 'test_rg_4.bam'"
+        "message": "Field 'info.data_category' is NOT populated with 'Sequencing Reads' for file(s): 'test_rg_4.bam'"
       },
       {
         "checker": "c240_submitter_rg_id_collide_with_rg_id_in_bam",
