@@ -77,7 +77,10 @@
       "fileMd5sum": "46e6f9a9db1fb0f14bcea665e7afba7c",
       "fileType": "BAM",
       "fileAccess": "controlled",
-      "dataType": "submitted_reads"
+      "dataType": "submitted_reads",
+      "info": {
+        "data_category": "Sequencing Reads"
+      }
     }
   ]
 }

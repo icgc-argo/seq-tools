@@ -61,6 +61,11 @@
         "message": "'read_group_id_in_bam' not populated for FASTQ check: VALID"
       },
       {
+        "checker": "c230_files_info_data_category",
+        "status": "INVALID",
+        "message": "Field 'data_category' is NOT found or NOT populated with 'Sequencing Reads' for file(s): 'test_rg_3.bam'"
+      },
+      {
         "checker": "c240_submitter_rg_id_collide_with_rg_id_in_bam",
         "status": "VALID",
         "message": "For any read group, when 'read_group_id_in_bam' is not populated, 'submitter_read_group_id' must NOT be the same as 'read_group_id_in_bam' of another read group from the same BAM file. Validation result: VALID"
@@ -106,7 +111,7 @@
         "message": "Information (excluding ID and SM which are validated elsewhere) in BAM @RG header does NOT match experiment/read group info in metadata JSON. NOTE that information is the metadata JSON document will be kept and used in ICGC ARGO uniform analysis while unmatched info in BAM header will be lost. Details of the difference: [BAM test_rg_3.bam @RG C0HVY.2: (CN: BI vs EXT)]; [BAM test_rg_3.bam @RG D0RE2_1': (CN: BI vs EXT)]; [BAM test_rg_3.bam @RG D0RH0:2'': (CN: BI vs EXT)]"
       },
       {
-        "checker": "c680_fileSize_fileMd5sum_check",
+        "checker": "c680_fileSize_fileMd5sum_match",
         "status": "VALID",
         "message": "The fileSize and fileMd5sum calculated from the submission sequencing files both match the info provided in metadata JSON: VALID"
       }
