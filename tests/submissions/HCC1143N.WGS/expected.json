@@ -76,6 +76,11 @@
         "message": "Not all dependent checks are in VALID status: c110_rg_id_uniqueness: INVALID. Please fix reported problem and then run the validation again."
       },
       {
+        "checker": "c250_file_data_type",
+        "status": "INVALID",
+        "message": "All files in the 'files' section of the metadata JSON are required to have 'dataType' field being populated with 'Submitted Reads'. File(s) found not conforming to this requirement: 'C0HVY.2_r2.fq.bz2, D0RE2.1_r1.fq.bz2, D0RH0.2_r1.fq.bz2'."
+      },
+      {
         "checker": "c605_all_files_accessible",
         "status": "VALID",
         "message": "All submission files accessible check: VALID"

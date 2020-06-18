@@ -71,6 +71,11 @@
         "message": "For any read group, when 'read_group_id_in_bam' is not populated, 'submitter_read_group_id' must NOT be the same as 'read_group_id_in_bam' of another read group from the same BAM file. Validation result: VALID"
       },
       {
+        "checker": "c250_file_data_type",
+        "status": "VALID",
+        "message": "Field 'dataType' is found populated with 'Submitted Reads'. Validation status: VALID"
+      },
+      {
         "checker": "c605_all_files_accessible",
         "status": "VALID",
         "message": "All submission files accessible check: VALID"
