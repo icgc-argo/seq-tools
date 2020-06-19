@@ -112,8 +112,8 @@
       },
       {
         "checker": "c670_coverage_estimate",
-        "status": "INVALID",
-        "message": "Sequencing coverage estimate: 4.31e-06, lower than mimimum threshold: 20 for WGS. Validation result: INVALID"
+        "status": "UNKNOWN",
+        "message": "Not all dependent checks are in VALID status: c110_rg_id_uniqueness: INVALID. Please fix reported problem and then run the validation again."
       },
       {
         "checker": "c680_fileSize_fileMd5sum_check",

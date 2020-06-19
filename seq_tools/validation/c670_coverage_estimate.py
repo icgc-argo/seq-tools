@@ -40,10 +40,25 @@ COVERAGE_THRESHOLD = {
 
 class Checker(BaseChecker):
     def __init__(self, ctx, metadata):
-        super().__init__(ctx, metadata, __name__)
+        super().__init__(
+            ctx=ctx,
+            metadata=metadata,
+            checker_name=__name__,
+            depends_on=[  # dependent checks
+                'c110_rg_id_uniqueness',
+                'c180_file_uniqueness',
+                'c200_rg_id_in_bam_uniqueness',
+                'c605_all_files_accessible',
+                'c608_bam_sanity'
+            ]
+        )
 
     @BaseChecker._catch_exception
     def check(self):
+        # status already set at initiation
+        if self.status:
+            return
+
         files_in_metadata = self.metadata['files']
 
         experimental_strategy = self.metadata.get('experiment', {}).get('experimental_strategy')
@@ -66,20 +81,7 @@ class Checker(BaseChecker):
         for f in files_in_metadata:
             seq_file = os.path.join(self.submission_directory, f['fileName'])
 
-            try:
-                total_base_estimate += base_estimate(seq_file, self.logger, self.checker)
-            except Exception as ex:
-                if str(ex) == "EOF marker is absent":
-                    self.status = 'INVALID'
-                    message = "Unable to continue with coverage estimation. EOF marker is absent, BAM file is probably " \
-                        "truncated: %s. Validation result: %s" % \
-                        (os.path.basename(seq_file), self.status)
-                    self.message = message
-                    self.logger.info(f'[{self.checker}] {message}')
-                    return
-
-                else:
-                    raise Exception(str(ex))
+            total_base_estimate += base_estimate(seq_file, self.logger, self.checker)
 
         coverage = total_base_estimate / COVERAGE_THRESHOLD[experimental_strategy]['GENOME_SIZE']
 

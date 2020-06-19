@@ -11,7 +11,7 @@ def pytest_generate_tests(metafunc):
     if 'submission' in metafunc.fixturenames:
         submissions = []
 
-        for submmission_dir in glob(os.path.join(test_dir, 'submissions', '*.*')):
+        for submmission_dir in sorted(glob(os.path.join(test_dir, 'submissions', '*.*'))):
             submissions.append(submmission_dir)
 
         metafunc.parametrize('submission', submissions)

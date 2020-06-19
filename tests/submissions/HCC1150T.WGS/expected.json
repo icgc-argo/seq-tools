@@ -114,7 +114,7 @@
       {
         "checker": "c670_coverage_estimate",
         "status": "UNKNOWN",
-        "message": "An exception occurred during the execution of this checker. This is likely due to problem(s) identified by earlier check(s), please fix reported problem and then run the validation again. More information of the exception can be found in the latest log file under: HCC1150T.WGS/logs/"
+        "message": "Not all dependent checks are in VALID status: c180_file_uniqueness: INVALID, c200_rg_id_in_bam_uniqueness: INVALID, c605_all_files_accessible: INVALID, c608_bam_sanity: UNKNOWN. Please fix reported problem and then run the validation again."
       },
       {
         "checker": "c680_fileSize_fileMd5sum_check",
