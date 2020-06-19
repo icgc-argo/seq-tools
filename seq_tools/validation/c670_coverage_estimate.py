@@ -85,6 +85,8 @@ class Checker(BaseChecker):
 
         coverage = total_base_estimate / COVERAGE_THRESHOLD[experimental_strategy]['GENOME_SIZE']
 
+        coverage = 0.1  # add to here to debug, see whether tests pass on github
+
         if coverage < COVERAGE_THRESHOLD[experimental_strategy]['MINIMUM']:
             self.status = 'INVALID'
             message = "Sequencing coverage estimate: %.1e, lower than mimimum threshold: %s for %s. " \

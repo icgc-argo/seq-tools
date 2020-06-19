@@ -244,8 +244,10 @@ def base_estimate(seq_file, logger, checker) -> int:
 
             return estimated_read_count * average_len
 
+
 def calculate_size(file_path):
     return os.stat(file_path).st_size
+
 
 def calculate_md5(file_path):
     md5 = hashlib.md5()
