@@ -35,7 +35,7 @@ seq-tools validate *.*
 docker run -v `pwd`:`pwd` -w `pwd` quay.io/icgc-argo/seq-tools seq-tools validate *.*
 
 # validate metadata only
-seq-tools validate -m "`cat tests/submissions/HCC1160T.valid/sequencing_experiment.json`"
+seq-tools validate -m "`cat HCC1160T.valid/sequencing_experiment.json`"
 ```
 
 ## Testing
