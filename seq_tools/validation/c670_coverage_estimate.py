@@ -87,7 +87,7 @@ class Checker(BaseChecker):
 
         if coverage < COVERAGE_THRESHOLD[experimental_strategy]['MINIMUM']:
             self.status = 'INVALID'
-            message = "Sequencing coverage estimate: %.2e, lower than mimimum threshold: %s for %s. " \
+            message = "Sequencing coverage estimate: %.1e, lower than mimimum threshold: %s for %s. " \
                 "Validation result: %s" % \
                 (coverage, str(COVERAGE_THRESHOLD[experimental_strategy]['MINIMUM']), experimental_strategy, self.status)
             self.message = message
@@ -95,7 +95,7 @@ class Checker(BaseChecker):
 
         elif coverage < COVERAGE_THRESHOLD[experimental_strategy]['WARNING']:
             self.status = 'WARNING'
-            message = "Sequencing coverage estimate: %.2e. Lower than warning threshold: %s for %s. " \
+            message = "Sequencing coverage estimate: %.1e. Lower than warning threshold: %s for %s. " \
                 "Validation result: %s" % \
                 (coverage, str(COVERAGE_THRESHOLD[experimental_strategy]['WARNING']), experimental_strategy, self.status)
             self.message = message

@@ -103,7 +103,7 @@
       {
         "checker": "c670_coverage_estimate",
         "status": "INVALID",
-        "message": "Sequencing coverage estimate: 6.60e-08, lower than mimimum threshold: 20 for WGS. Validation result: INVALID"
+        "message": "Sequencing coverage estimate: 6.6e-08, lower than mimimum threshold: 20 for WGS. Validation result: INVALID"
       },
       {
         "checker": "c680_fileSize_fileMd5sum_check",
