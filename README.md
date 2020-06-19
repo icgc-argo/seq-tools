@@ -14,10 +14,12 @@ cd seq-tools
 pip install -r requirements.txt  # install Python dependencies
 pip install .   # for development use: pip install -e .
 
+# install a particular release without cloning the repo
+pip install git+https://github.com/icgc-argo/seq-tools.git@0.3.0
+
 # verify it by check the version
 seq-tools -v
 ```
-
 If you can run docker, no installation is needed. See the next section for how to run `seq-tools` using docker.
 
 ## Try it out
@@ -31,6 +33,9 @@ seq-tools validate *.*
 
 # use docker to do the same
 docker run -v `pwd`:`pwd` -w `pwd` quay.io/icgc-argo/seq-tools seq-tools validate *.*
+
+# validate metadata only
+seq-tools validate -m "`cat tests/submissions/HCC1160T.valid/sequencing_experiment.json`"
 ```
 
 ## Testing
