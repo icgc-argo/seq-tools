@@ -92,7 +92,7 @@
       "fileMd5sum": "3f160ccdb1eae97337b42018bf141f7c",
       "fileType": "BAM",
       "fileAccess": "controlled",
-      "dataType": "submitted_reads"
+      "dataType": "Submitted Reads"
     },
     {
       "fileName": "seq/test_rg_3.bam",
@@ -100,7 +100,7 @@
       "fileMd5sum": "3f160ccdb1eae97337b42018bf141f7c",
       "fileType": "BAM",
       "fileAccess": "controlled",
-      "dataType": "submitted_reads"
+      "dataType": null
     }
   ]
 }

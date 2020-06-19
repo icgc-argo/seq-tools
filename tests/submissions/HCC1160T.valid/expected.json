@@ -61,9 +61,19 @@
         "message": "'read_group_id_in_bam' not populated for FASTQ check: VALID"
       },
       {
+        "checker": "c230_files_info_data_category",
+        "status": "VALID",
+        "message": "Field 'info.data_category' is found populated with 'Sequencing Reads'. Validation status: VALID"
+      },
+      {
         "checker": "c240_submitter_rg_id_collide_with_rg_id_in_bam",
         "status": "VALID",
         "message": "For any read group, when 'read_group_id_in_bam' is not populated, 'submitter_read_group_id' must NOT be the same as 'read_group_id_in_bam' of another read group from the same BAM file. Validation result: VALID"
+      },
+      {
+        "checker": "c250_file_data_type",
+        "status": "VALID",
+        "message": "Field 'dataType' is found populated with 'Submitted Reads'. Validation status: VALID"
       },
       {
         "checker": "c605_all_files_accessible",
@@ -111,7 +121,7 @@
         "message": "Sequencing coverage estimate: 3.3e-06, lower than mimimum threshold: 20 for WGS. Validation result: INVALID"
       },
       {
-        "checker": "c680_fileSize_fileMd5sum_check",
+        "checker": "c680_fileSize_fileMd5sum_match",
         "status": "VALID",
         "message": "The fileSize and fileMd5sum calculated from the submission sequencing files both match the info provided in metadata JSON: VALID"
       }
