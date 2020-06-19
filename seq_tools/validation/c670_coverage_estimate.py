@@ -85,26 +85,35 @@ class Checker(BaseChecker):
 
         coverage = total_base_estimate / COVERAGE_THRESHOLD[experimental_strategy]['GENOME_SIZE']
 
-        coverage = 0.1  # add to here to debug, see whether tests pass on github
-
         if coverage < COVERAGE_THRESHOLD[experimental_strategy]['MINIMUM']:
             self.status = 'INVALID'
-            message = "Sequencing coverage estimate: %.1e, lower than mimimum threshold: %s for %s. " \
-                "Validation result: %s" % \
-                (coverage, str(COVERAGE_THRESHOLD[experimental_strategy]['MINIMUM']), experimental_strategy, self.status)
-            self.message = message
-            self.logger.info(f'[{self.checker}] {message}')
+            message = "Sequencing coverage estimated is lower than mimimum threshold: %s for %s." % \
+                (str(COVERAGE_THRESHOLD[experimental_strategy]['MINIMUM']), experimental_strategy)
+            self.message = "%s More information can be found in the latest log file under: %s. Validation result: %s" % (
+                    message,
+                    os.path.join(os.path.basename(self.submission_directory), 'logs', ''),
+                    self.status
+                )
+            self.logger.info("[%s] %s Estimated coverage: %.1e" % (self.checker, message, coverage))
 
         elif coverage < COVERAGE_THRESHOLD[experimental_strategy]['WARNING']:
             self.status = 'WARNING'
-            message = "Sequencing coverage estimate: %.1e. Lower than warning threshold: %s for %s. " \
-                "Validation result: %s" % \
-                (coverage, str(COVERAGE_THRESHOLD[experimental_strategy]['WARNING']), experimental_strategy, self.status)
-            self.message = message
-            self.logger.info(f'[{self.checker}] {message}')
+            message = "Sequencing coverage estimated is lower than warning threshold: %s for %s." % \
+                (str(COVERAGE_THRESHOLD[experimental_strategy]['WARNING']), experimental_strategy)
+            self.message = "%s More information can be found in the latest log file under: %s. Validation result: %s." % (
+                    message,
+                    os.path.join(os.path.basename(self.submission_directory), 'logs', ''),
+                    self.status
+                )
+            self.logger.info("[%s] %s Estimated coverage: %.1e" % (self.checker, message, coverage))
 
         else:
             self.status = 'VALID'
-            message = "Sequencing coverage estimate: %.2e. Validation status: %s" % (coverage, self.status)
-            self.message = message
-            self.logger.info(f'[{self.checker}] {message}')
+            message = "Sequencing coverage estimated meets required threshold: %s for %s." % \
+                (str(COVERAGE_THRESHOLD[experimental_strategy]['WARNING']), experimental_strategy)
+            self.message = "%s More information can be found in the latest log file under: %s. Validation result: %s." % (
+                    message,
+                    os.path.join(os.path.basename(self.submission_directory), 'logs', ''),
+                    self.status
+                )
+            self.logger.info("[%s] %s Estimated coverage: %.1e" % (self.checker, message, coverage))
