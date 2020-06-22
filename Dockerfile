@@ -2,7 +2,7 @@ FROM continuumio/miniconda:4.7.12
 
 LABEL maintainer="junju.zhang@oicr.on.ca"
 
-ARG VERSION=0.1.0
+ARG VERSION=0.4.0
 ARG NAME=seq-tools
 
 ENV PATH=/opt/conda/condabin:$PATH
