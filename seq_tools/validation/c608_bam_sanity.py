@@ -73,7 +73,7 @@ class Checker(BaseChecker):
             self.logger.info("[%s] %s. Additional message: %s" % (self.checker, message, '; '.join(errs)))
 
         else:
-            self.status = 'VALID'
-            message = "BAM sanity check by samtools quickcheck. Validation result: VALID"
+            self.status = 'PASS'
+            message = "BAM sanity check by samtools quickcheck. Validation result: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

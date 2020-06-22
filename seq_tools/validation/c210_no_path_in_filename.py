@@ -57,7 +57,7 @@ class Checker(BaseChecker):
             self.message = message
             self.status = 'INVALID'
         else:
-            self.status = 'VALID'
-            message = "No path in fileName check in 'files' section status: VALID"
+            self.status = 'PASS'
+            message = "No path in fileName check in 'files' section status: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

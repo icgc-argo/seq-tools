@@ -75,9 +75,9 @@ class Checker(BaseChecker):
             self.message = message
 
         else:
-            self.status = 'VALID'
+            self.status = 'PASS'
             message = "For any read group, when 'read_group_id_in_bam' is not populated, 'submitter_read_group_id' must " \
                 "NOT be the same as 'read_group_id_in_bam' of another read group from the same BAM file. Validation " \
-                "result: VALID"
+                "result: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

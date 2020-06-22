@@ -74,8 +74,8 @@ class Checker(BaseChecker):
             self.message = message
 
         else:
-            self.status = 'VALID'
+            self.status = 'PASS'
             message = "The fileSize and fileMd5sum calculated from the submission sequencing files both match " \
-                "the info provided in metadata JSON: VALID"
+                "the info provided in metadata JSON: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

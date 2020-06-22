@@ -42,7 +42,7 @@ class Checker(BaseChecker):
             self.status = 'INVALID'
             self.logger.info(f'[{self.checker}] {message}')
         else:
-            message = "One and only one sample check status: VALID"
-            self.status = 'VALID'
+            message = "One and only one sample check status: PASS"
+            self.status = 'PASS'
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

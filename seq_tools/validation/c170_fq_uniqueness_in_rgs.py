@@ -69,7 +69,7 @@ class Checker(BaseChecker):
             self.message = message
             self.status = 'INVALID'
         else:
-            self.status = 'VALID'
-            message = "FASTQ uniqueness in read groups check status: VALID"
+            self.status = 'PASS'
+            message = "FASTQ uniqueness in read groups check status: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

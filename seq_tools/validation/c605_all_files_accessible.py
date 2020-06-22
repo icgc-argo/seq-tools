@@ -68,7 +68,7 @@ class Checker(BaseChecker):
             self.status = 'INVALID'
             return
 
-        self.status = 'VALID'
-        message = "All submission files accessible check: VALID"
+        self.status = 'PASS'
+        message = "All submission files accessible check: PASS"
         self.message = message
         self.logger.info(f'[{self.checker}] {message}')

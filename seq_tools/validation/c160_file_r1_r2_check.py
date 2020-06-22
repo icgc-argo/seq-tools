@@ -118,7 +118,7 @@ class Checker(BaseChecker):
             self.logger.info(f'[{self.checker}] {message}')
 
         else:
-            self.status = 'VALID'
-            message = "Fields file_r1 and file_r2 check status: VALID"
+            self.status = 'PASS'
+            message = "Fields file_r1 and file_r2 check status: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

@@ -110,7 +110,7 @@ class BaseChecker(object):
                 self.logger.info("[%s] Ignore incorrect dependency: %s. Dependent checks must be run earlier." %
                                  (self.checker, d))
                 continue
-            if check_statuses[d] != 'VALID':
+            if check_statuses[d] != 'PASS':
                 not_valid_checks.append("%s: %s" % (d, check_statuses[d]))
 
         if not_valid_checks:

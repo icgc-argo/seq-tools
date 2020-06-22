@@ -54,7 +54,7 @@ class Checker(BaseChecker):
             self.status = 'WARNING'
              
         else:
-            self.status = 'VALID'
-            message = "Field 'info.data_category' is found populated with 'Sequencing Reads'. Validation status: VALID"
+            self.status = 'PASS'
+            message = "Field 'info.data_category' is found populated with 'Sequencing Reads'. Validation status: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

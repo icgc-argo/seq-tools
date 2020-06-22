@@ -93,7 +93,7 @@ class Checker(BaseChecker):
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message
         else:
-            self.status = 'VALID'
-            message = "'read_group_id_in_bam' in metadata matches RG ID in BAM check: VALID"
+            self.status = 'PASS'
+            message = "'read_group_id_in_bam' in metadata matches RG ID in BAM check: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

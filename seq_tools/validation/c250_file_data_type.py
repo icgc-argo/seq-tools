@@ -53,7 +53,7 @@ class Checker(BaseChecker):
             self.status = 'INVALID'
              
         else:
-            self.status = 'VALID'
-            message = "Field 'dataType' is found populated with 'Submitted Reads'. Validation status: VALID"
+            self.status = 'PASS'
+            message = "Field 'dataType' is found populated with 'Submitted Reads'. Validation status: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

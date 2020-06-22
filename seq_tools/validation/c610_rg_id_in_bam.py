@@ -105,7 +105,7 @@ class Checker(BaseChecker):
             self.message = message
             self.status = 'INVALID'
         else:
-            self.status = 'VALID'
-            message = "Read group ID in BAM header check: VALID"
+            self.status = 'PASS'
+            message = "Read group ID in BAM header check: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

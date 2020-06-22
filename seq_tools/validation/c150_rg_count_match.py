@@ -59,7 +59,7 @@ class Checker(BaseChecker):
             self.logger.info(f'[{self.checker}] {message}')
 
         else:
-            self.status = 'VALID'
-            message = "Read groups count check status: VALID"
+            self.status = 'PASS'
+            message = "Read groups count check status: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

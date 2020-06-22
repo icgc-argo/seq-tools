@@ -144,8 +144,8 @@ def perform_validation(ctx, subdir=None, metadata=None):
             ctx.obj['submission_report']['validation']['status'] = 'UNKNOWN'
         elif 'WARNING' in check_status:
             ctx.obj['submission_report']['validation']['status'] = 'WARNING'
-        elif 'VALID' in check_status and len(check_status) == 1:  # only has 'VALID' status
-            ctx.obj['submission_report']['validation']['status'] = 'VALID'
+        elif 'PASS' in check_status and len(check_status) == 1:  # only has 'PASS' status
+            ctx.obj['submission_report']['validation']['status'] = 'PASS'
         else:  # should never happen
             ctx.obj['submission_report']['validation']['status'] = None
 
