@@ -88,7 +88,7 @@ class Checker(BaseChecker):
             self.message = message
 
         else:
-            self.status = 'VALID'
-            message = "One and only one SM in @RG BAM header check: VALID"
+            self.status = 'PASS'
+            message = "One and only one SM in @RG BAM header check: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

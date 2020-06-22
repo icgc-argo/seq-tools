@@ -96,8 +96,8 @@ class Checker(BaseChecker):
             self.logger.info(f'[{self.checker}] {message}')
 
         else:
-            self.status = 'VALID'
+            self.status = 'PASS'
             message = "For each read group, when 'read_group_id_in_bam' is not provided, " \
-                "'submitter_read_group_id' in the metadata JSON must match RG ID in BAM. Validation result: VALID"
+                "'submitter_read_group_id' in the metadata JSON must match RG ID in BAM. Validation result: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

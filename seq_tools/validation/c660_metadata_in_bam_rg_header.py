@@ -158,8 +158,8 @@ class Checker(BaseChecker):
             self.message = message
 
         else:
-            self.status = 'VALID'
+            self.status = 'PASS'
             message = "Information (excluding ID and SM which are validated elsewhere) in BAM @RG header match " \
-                "experiment/read group info in metadata JSON: VALID"
+                "experiment/read group info in metadata JSON: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

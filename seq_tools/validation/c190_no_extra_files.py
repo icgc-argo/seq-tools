@@ -71,7 +71,7 @@ class Checker(BaseChecker):
             self.logger.info(f'[{self.checker}] {message}')
 
         else:
-            self.status = 'VALID'
-            message = "No extra files check status: VALID"
+            self.status = 'PASS'
+            message = "No extra files check status: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

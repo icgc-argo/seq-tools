@@ -7,23 +7,23 @@
     "checks": [
       {
         "checker": "c110_rg_id_uniqueness",
-        "status": "VALID",
-        "message": "Read group ID uniqueness check status: VALID"
+        "status": "PASS",
+        "message": "Read group ID uniqueness check status: PASS"
       },
       {
         "checker": "c120_permissible_char_in_rg_id",
-        "status": "VALID",
-        "message": "Read group ID permissible character check status: VALID"
+        "status": "PASS",
+        "message": "Read group ID permissible character check status: PASS"
       },
       {
         "checker": "c130_one_sample",
-        "status": "VALID",
-        "message": "One and only one sample check status: VALID"
+        "status": "PASS",
+        "message": "One and only one sample check status: PASS"
       },
       {
         "checker": "c140_platform_unit_uniqueness",
-        "status": "VALID",
-        "message": "Platform unit uniqueness check status: VALID"
+        "status": "PASS",
+        "message": "Platform unit uniqueness check status: PASS"
       },
       {
         "checker": "c150_rg_count_match",
@@ -32,33 +32,33 @@
       },
       {
         "checker": "c160_file_r1_r2_check",
-        "status": "VALID",
-        "message": "Fields file_r1 and file_r2 check status: VALID"
+        "status": "PASS",
+        "message": "Fields file_r1 and file_r2 check status: PASS"
       },
       {
         "checker": "c170_fq_uniqueness_in_rgs",
-        "status": "VALID",
-        "message": "FASTQ uniqueness in read groups check status: VALID"
+        "status": "PASS",
+        "message": "FASTQ uniqueness in read groups check status: PASS"
       },
       {
         "checker": "c180_file_uniqueness",
-        "status": "VALID",
-        "message": "Files uniqueness check in files section status: VALID"
+        "status": "PASS",
+        "message": "Files uniqueness check in files section status: PASS"
       },
       {
         "checker": "c200_rg_id_in_bam_uniqueness",
-        "status": "VALID",
-        "message": "'read_group_id_in_bam' uniqueness check status: VALID"
+        "status": "PASS",
+        "message": "'read_group_id_in_bam' uniqueness check status: PASS"
       },
       {
         "checker": "c210_no_path_in_filename",
-        "status": "VALID",
-        "message": "No path in fileName check in 'files' section status: VALID"
+        "status": "PASS",
+        "message": "No path in fileName check in 'files' section status: PASS"
       },
       {
         "checker": "c220_no_rg_id_in_bam_for_fq",
-        "status": "VALID",
-        "message": "'read_group_id_in_bam' not populated for FASTQ check: VALID"
+        "status": "PASS",
+        "message": "'read_group_id_in_bam' not populated for FASTQ check: PASS"
       },
       {
         "checker": "c230_files_info_data_category",
@@ -77,13 +77,13 @@
       },
       {
         "checker": "c605_all_files_accessible",
-        "status": "VALID",
-        "message": "All submission files accessible check: VALID"
+        "status": "PASS",
+        "message": "All submission files accessible check: PASS"
       },
       {
         "checker": "c608_bam_sanity",
-        "status": "VALID",
-        "message": "BAM sanity check by samtools quickcheck. Validation result: VALID"
+        "status": "PASS",
+        "message": "BAM sanity check by samtools quickcheck. Validation result: PASS"
       },
       {
         "checker": "c610_rg_id_in_bam",

@@ -70,7 +70,7 @@ class Checker(BaseChecker):
             return
 
         if experimental_strategy not in COVERAGE_THRESHOLD:
-            self.status = 'VALID'
+            self.status = 'PASS'
             message = "Sequencing coverage verification, no threshold set for %s. Validation result: %s" % \
                 (experimental_strategy, self.status)
             self.message = message
@@ -108,7 +108,7 @@ class Checker(BaseChecker):
             self.logger.info("[%s] %s Estimated coverage: %.1e" % (self.checker, message, coverage))
 
         else:
-            self.status = 'VALID'
+            self.status = 'PASS'
             message = "Sequencing coverage estimated meets required threshold: %s for %s." % \
                 (str(COVERAGE_THRESHOLD[experimental_strategy]['WARNING']), experimental_strategy)
             self.message = "%s More information can be found in the latest log file under: %s. Validation result: %s." % (

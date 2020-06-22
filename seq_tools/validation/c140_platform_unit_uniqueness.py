@@ -57,7 +57,7 @@ class Checker(BaseChecker):
             self.message = message
             self.status = 'INVALID'
         else:
-            self.status = 'VALID'
-            message = "Platform unit uniqueness check status: VALID"
+            self.status = 'PASS'
+            message = "Platform unit uniqueness check status: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

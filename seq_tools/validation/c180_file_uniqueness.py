@@ -58,7 +58,7 @@ class Checker(BaseChecker):
             self.message = message
             self.status = 'INVALID'
         else:
-            self.status = 'VALID'
-            message = "Files uniqueness check in files section status: VALID"
+            self.status = 'PASS'
+            message = "Files uniqueness check in files section status: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

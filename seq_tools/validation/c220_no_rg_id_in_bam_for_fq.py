@@ -42,7 +42,7 @@ class Checker(BaseChecker):
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message
         else:
-            self.status = 'VALID'
-            message = "'read_group_id_in_bam' not populated for FASTQ check: VALID"
+            self.status = 'PASS'
+            message = "'read_group_id_in_bam' not populated for FASTQ check: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')
