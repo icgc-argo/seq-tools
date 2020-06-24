@@ -59,7 +59,7 @@ class Checker(BaseChecker):
         if duplicated_ids:
             msg = []
             for k, v in duplicated_ids.items():
-                msg.append("BAM %s: '%s'" % (k, "', '".join(sorted(v))))
+                msg.append("BAM %s: %s" % (k, "', '".join(sorted(v))))
 
             self.status = 'INVALID'
             message = "'read_group_id_in_bam' must be unique within a BAM file if populated in read_groups section, " \

@@ -54,7 +54,7 @@
       {
         "checker": "c200_rg_id_in_bam_uniqueness",
         "status": "INVALID",
-        "message": "'read_group_id_in_bam' must be unique within a BAM file if populated in read_groups section, however duplicate(s) found: BAM test_rg_3.bam: 'C0HVY.2'"
+        "message": "'read_group_id_in_bam' must be unique within a BAM file if populated in read_groups section, however duplicate(s) found: BAM test_rg_3.bam: C0HVY.2"
       },
       {
         "checker": "c210_no_path_in_filename",

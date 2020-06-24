@@ -15,7 +15,6 @@
   "read_groups": [
     {
       "submitter_read_group_id": "D0RE2_1a_1",
-      "read_group_id_in_bam": "C0HVY.2",
       "platform_unit": "74_8a",
       "is_paired_end": true,
       "file_r1": "test_rg_3.bam",
@@ -28,7 +27,6 @@
     },
     {
       "submitter_read_group_id": "D0RE2_1a",
-      "read_group_id_in_bam": "D0RE2_1'",
       "platform_unit": "74_8b",
       "is_paired_end": true,
       "file_r1": "test_rg_4.bam",
@@ -41,7 +39,6 @@
     },
     {
       "submitter_read_group_id": "D0RH0_2b",
-      "read_group_id_in_bam": "D0RH0:2''",
       "platform_unit": "74_8c",
       "is_paired_end": true,
       "file_r1": "test_rg_3.bam",

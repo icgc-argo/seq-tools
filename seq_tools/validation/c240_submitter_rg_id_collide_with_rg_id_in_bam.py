@@ -63,7 +63,8 @@ class Checker(BaseChecker):
         offending_submitter_rg_ids = []
         for f in sorted(submitter_rg_ids_alone):
             for rg in sorted(submitter_rg_ids_alone[f]):
-                if rg in read_group_ids_in_bam[f]:  # submitter_rg_id collide with rg_id_in_bam
+                if isinstance(read_group_ids_in_bam.get(f), list) and \
+                        rg in read_group_ids_in_bam[f]:  # submitter_rg_id collide with rg_id_in_bam
                     offending_submitter_rg_ids.append(rg)
 
         if offending_submitter_rg_ids:
