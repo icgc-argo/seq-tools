@@ -33,7 +33,7 @@ class Checker(BaseChecker):
     @BaseChecker._catch_exception
     def check(self):
         # can add more ascii characters later as we verify safe to add
-        re_permissible_rgid = r'^[0-9a-zA-Z-_:\'\.]+$'
+        re_permissible_rgid = r'^[0-9a-zA-Z-_:\'\.\+]+$'
 
         files_in_metadata = self.metadata['files']  # check files specified in metadata
 
