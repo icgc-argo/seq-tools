@@ -89,7 +89,7 @@
       {
         "checker": "c610_rg_id_in_bam",
         "status": "INVALID",
-        "message": "Read group ID in BAM header contains non-permissible character (valid characters include: [0-9a-zA-Z-_:\\'\\.]). Offending ID(s): BAM test1_rg_3.bam: D0RH0$.2"
+        "message": "Read group ID in BAM header contains non-permissible character (valid characters include: [0-9a-zA-Z-_:\\'\\.\\+]). Offending ID(s): BAM test1_rg_3.bam: D0RH0$.2"
       },
       {
         "checker": "c620_submitter_read_group_id_match",
