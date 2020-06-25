@@ -21,6 +21,7 @@
 
 import os
 import functools
+import traceback
 from abc import ABCMeta, abstractmethod
 
 
@@ -125,18 +126,24 @@ class BaseChecker(object):
         def func(*args, **kwargs):
             try:
                 return f(*args, **kwargs)
-            except Exception as ex:
+            except Exception:
                 _self = args[0]
                 _self.status = 'UNKNOWN'
+
                 message = "An exception occurred during the execution of this checker. " \
                     "This is likely due to problem(s) identified by earlier check(s), " \
                     "please fix reported problem and then run the validation again."
-                _self.message = "%s More information of the exception can be found " \
-                    "in the latest log file under: %s" \
-                    % (message, os.path.join(
-                        os.path.basename(_self.submission_directory), 'logs', ''))
+
+                if _self.submission_directory is None:  # metadata only validation
+                    _self.message = "%s Use 'seq-tools -d' option to see more information on the exception in output to STDERR" \
+                        % message
+                else:  # metadata and data file validation
+                    _self.message = "%s More information of the exception can be found " \
+                        "in the latest log file under: %s" \
+                        % (message, os.path.join(os.path.basename(_self.submission_directory), 'logs', ''))
+
                 _self.logger.info("[%s] %s Additional message: %s" % (
-                    _self.checker, message, str(ex)))
+                    _self.checker, message, repr(traceback.format_exc())))
         return func
 
     _catch_exception = staticmethod(_catch_exception)
