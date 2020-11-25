@@ -4,7 +4,8 @@
 
 ## Installation
 
-For Ubuntu, please follow these steps to install the `seq-tools` (other OS should be similar):
+For Ubuntu, please make sure you have Python 3 (tested on 3.7, other 3.x versions should work too) installed
+first, then follow these steps to install the `seq-tools` (other OS should be similar):
 ```
 # install samtools (which is mainly used to retrieve BAM header information)
 sudo apt install samtools
