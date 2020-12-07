@@ -67,3 +67,4 @@ logs
 .vscode
 .python-version
 report.json
+validation_report.*

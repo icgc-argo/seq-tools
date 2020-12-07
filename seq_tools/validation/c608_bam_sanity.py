@@ -51,7 +51,7 @@ class Checker(BaseChecker):
             if not f.endswith('.bam'):  # not a BAM, skip
                 continue
 
-            bam_file = os.path.join(self.submission_directory, f)
+            bam_file = os.path.join(self.data_dir, f)
 
             cmd = "samtools quickcheck %s" % bam_file
 
@@ -69,7 +69,7 @@ class Checker(BaseChecker):
 
             self.status = 'INVALID'
             self.message = "%s. More information can be found in under: %s/logs/" % \
-                           (message, os.path.basename(self.submission_directory))
+                           (message, os.path.basename(self.data_dir))
             self.logger.info("[%s] %s. Additional message: %s" % (self.checker, message, '; '.join(errs)))
 
         else:

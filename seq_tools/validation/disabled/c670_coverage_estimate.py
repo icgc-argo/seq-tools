@@ -79,7 +79,7 @@ class Checker(BaseChecker):
 
         total_base_estimate = 0
         for f in files_in_metadata:
-            seq_file = os.path.join(self.submission_directory, f['fileName'])
+            seq_file = os.path.join(self.data_dir, f['fileName'])
 
             total_base_estimate += base_estimate(seq_file, self.logger, self.checker)
 
@@ -91,7 +91,7 @@ class Checker(BaseChecker):
                 (str(COVERAGE_THRESHOLD[experimental_strategy]['MINIMUM']), experimental_strategy)
             self.message = "%s More information can be found in the latest log file under: %s. Validation result: %s" % (
                     message,
-                    os.path.join(os.path.basename(self.submission_directory), 'logs', ''),
+                    os.path.join('logs', ''),
                     self.status
                 )
             self.logger.info("[%s] %s Estimated coverage: %.1e" % (self.checker, message, coverage))
@@ -102,7 +102,7 @@ class Checker(BaseChecker):
                 (str(COVERAGE_THRESHOLD[experimental_strategy]['WARNING']), experimental_strategy)
             self.message = "%s More information can be found in the latest log file under: %s. Validation result: %s." % (
                     message,
-                    os.path.join(os.path.basename(self.submission_directory), 'logs', ''),
+                    os.path.join('logs', ''),
                     self.status
                 )
             self.logger.info("[%s] %s Estimated coverage: %.1e" % (self.checker, message, coverage))
@@ -113,7 +113,7 @@ class Checker(BaseChecker):
                 (str(COVERAGE_THRESHOLD[experimental_strategy]['WARNING']), experimental_strategy)
             self.message = "%s More information can be found in the latest log file under: %s. Validation result: %s." % (
                     message,
-                    os.path.join(os.path.basename(self.submission_directory), 'logs', ''),
+                    os.path.join('logs', ''),
                     self.status
                 )
             self.logger.info("[%s] %s Estimated coverage: %.1e" % (self.checker, message, coverage))

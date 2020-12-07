@@ -116,11 +116,6 @@
         "message": "Not all dependent checks are in VALID status: c240_submitter_rg_id_collide_with_rg_id_in_bam: INVALID, c610_rg_id_in_bam: INVALID, c620_submitter_read_group_id_match: INVALID. Please fix reported problem and then run the validation again."
       },
       {
-        "checker": "c670_coverage_estimate",
-        "status": "INVALID",
-        "message": "Sequencing coverage estimated is lower than mimimum threshold: 20 for WGS. More information can be found in the latest log file under: bad_bam2.WXS/logs/. Validation result: INVALID"
-      },
-      {
         "checker": "c680_fileSize_fileMd5sum_match",
         "status": "INVALID",
         "message": "The fileSize or fileMd5sum calculated from the submission sequencing files does NOT match the info provided in metadata JSON. Details of the difference: [test_rg_5.bam: fileSize: 3068 vs 14935, fileMd5sum: da9ad400724e4eb2e4743961aa689b76 vs 3f160ccdb1eae97337b42018bf141f7c]"

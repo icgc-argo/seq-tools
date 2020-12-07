@@ -32,7 +32,7 @@ class Checker(BaseChecker):
         files_in_subdir = self.files
 
         if files_in_subdir is None:
-            message = "No file information available in the submission " \
+            message = "No file information available in the data " \
                 "directory. This is likely a metadata only validation, " \
                 "should not have invoked this checker. Please ignore."
             self.logger.info(f'[{self.checker}] {message}')
@@ -48,12 +48,12 @@ class Checker(BaseChecker):
             if f['fileName'] not in files_in_subdir:
                 files_missed_in_subdir.add(f['fileName'])
             elif not os.access(
-                    os.path.join(self.submission_directory, f['fileName']),
+                    os.path.join(self.data_dir, f['fileName']),
                     os.R_OK):
                 files_unaccessbile_in_subdir.add(f['fileName'])
 
         if files_missed_in_subdir:
-            message = "Files specified in metadata, but missed in submission directory: '%s'" % \
+            message = "Files specified in metadata, but missed in data directory: '%s'" % \
                 ', '.join(sorted(files_missed_in_subdir))
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message
@@ -61,7 +61,7 @@ class Checker(BaseChecker):
             return
 
         if files_unaccessbile_in_subdir:
-            message = "Files specified in metadata, but unaccessilbe in submission directory: '%s'" % \
+            message = "Files specified in metadata, but unaccessilbe in data directory: '%s'" % \
                 ', '.join(sorted(files_unaccessbile_in_subdir))
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message
@@ -69,6 +69,6 @@ class Checker(BaseChecker):
             return
 
         self.status = 'PASS'
-        message = "All submission files accessible check: PASS"
+        message = "All data files accessible check: PASS"
         self.message = message
         self.logger.info(f'[{self.checker}] {message}')

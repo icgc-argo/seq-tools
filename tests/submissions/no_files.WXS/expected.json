@@ -115,11 +115,6 @@
         "message": "Not all dependent checks are in VALID status: c160_file_r1_r2_check: INVALID, c605_all_files_accessible: INVALID, c610_rg_id_in_bam: UNKNOWN, c620_submitter_read_group_id_match: UNKNOWN. Please fix reported problem and then run the validation again."
       },
       {
-        "checker": "c670_coverage_estimate",
-        "status": "UNKNOWN",
-        "message": "Not all dependent checks are in VALID status: c605_all_files_accessible: INVALID, c608_bam_sanity: UNKNOWN. Please fix reported problem and then run the validation again."
-      },
-      {
         "checker": "c680_fileSize_fileMd5sum_match",
         "status": "UNKNOWN",
         "message": "Not all dependent checks are in VALID status: c605_all_files_accessible: INVALID. Please fix reported problem and then run the validation again."

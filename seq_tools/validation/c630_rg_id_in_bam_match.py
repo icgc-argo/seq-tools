@@ -40,7 +40,7 @@ class Checker(BaseChecker):
             if not f.endswith('.bam'):  # not a BAM, skip
                 continue
 
-            bam_file = os.path.join(self.submission_directory, f)
+            bam_file = os.path.join(self.data_dir, f)
 
             # retrieve the @RG from BAM header
             header = subprocess.check_output(
