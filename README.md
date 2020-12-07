@@ -10,6 +10,9 @@ first, then follow these steps to install the `seq-tools` (other OS should be si
 # install samtools (which is mainly used to retrieve BAM header information)
 sudo apt install samtools
 
+# suggest to install jq to view JSON / JSONL in human-friendly format
+sudo apt install jq
+
 # clone the repo
 git clone https://github.com/icgc-argo/seq-tools.git
 
@@ -27,7 +30,7 @@ seq-tools -v
 Try it with example submissions under `tests/submissions` (assume you already cloned the repository).
 ```
 cd tests/submissions
-# validate the metadata JSON under 'HCC1160T.valid' directory, this assumes the data files are in the same directory
+# validate the metadata JSON under 'HCC1160T.valid' directory, assuming data files are in the same directory
 seq-tools validate HCC1160T.valid/sequencing_experiment.json   # you should see summary of validation result
 
 # to view details of the above validation, the 'jq' to is suggested to view prettified JSONL file
@@ -39,8 +42,14 @@ seq-tools validate -d ../seq-data/ metadata_file_only/HCC1143T.WGS.meta.json
 # to view details of the above validation
 cat validation_report.INVALID.jsonl | jq | less
 
-# or validate all submission metadata JSONs using wildcard in one go, assuming all data files are under '../seq-data/'
-seq-tools validate -d ../seq-data/ */*.json   # you should see summary of validation result
+# or validate all metadata JSONs using wildcard in one go, assuming all data files are under '../seq-data/'
+seq-tools validate -d ../seq-data/ */*.json   # as the summary indicates, two validation reports are generated
+
+# view reported issues for INVALID metadata
+cat validation_report.INVALID.jsonl | jq | less
+
+# view details for PASS metadata
+cat validation_report.PASS.jsonl | jq | less
 ```
 
 ## Use it to validate your own submission
