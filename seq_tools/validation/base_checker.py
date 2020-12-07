@@ -139,8 +139,8 @@ class BaseChecker(object):
                         % message
                 else:  # metadata and data file validation
                     _self.message = "%s More information of the exception can be found " \
-                        "in the latest log file under: %s" \
-                        % (message, os.path.join(os.path.basename(_self.data_dir), 'logs', ''))
+                        "in the latest log file: %s" \
+                        % (message, _self.logger.handlers[0].baseFilename)
 
                 _self.logger.info("[%s] %s Additional message: %s" % (
                     _self.checker, message, repr(traceback.format_exc())))

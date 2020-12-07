@@ -15,8 +15,8 @@ git clone https://github.com/icgc-argo/seq-tools.git
 
 # install using pip
 cd seq-tools
-pip install -r requirements.txt  # install Python dependencies
-pip install .
+pip3 install -r requirements.txt  # install Python dependencies
+pip3 install .
 
 # verify it by check the version
 seq-tools -v
@@ -27,11 +27,20 @@ seq-tools -v
 Try it with example submissions under `tests/submissions` (assume you already cloned the repository).
 ```
 cd tests/submissions
-# validate the submission under 'HCC1160T.valid' directory
-seq-tools validate HCC1160T.valid   # you should see summary of validation result
+# validate the metadata JSON under 'HCC1160T.valid' directory, this assumes the data files are in the same directory
+seq-tools validate HCC1160T.valid/sequencing_experiment.json   # you should see summary of validation result
 
-# or validate all submission dirs using wildcard in one go
-seq-tools validate *.*   # you should see summary of validation result
+# to view details of the above validation, the 'jq' to is suggested to view prettified JSONL file
+cat validation_report.PASS.jsonl | jq | less
+
+# use '-d' option if data files are located in a different directory than where the metadata file lives
+seq-tools validate -d ../seq-data/ metadata_file_only/HCC1143T.WGS.meta.json
+
+# to view details of the above validation
+cat validation_report.INVALID.jsonl | jq | less
+
+# or validate all submission metadata JSONs using wildcard in one go, assuming all data files are under '../seq-data/'
+seq-tools validate -d ../seq-data/ */*.json   # you should see summary of validation result
 ```
 
 ## Use it to validate your own submission

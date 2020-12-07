@@ -95,8 +95,8 @@ def perform_validation(ctx, metadata_file=None, data_dir=None, metadata_str=None
                 ctx.obj['validation_report']['validation']['status'] = "INVALID"
         except Exception as ex:
             message = "Failed to open '%s'. " \
-                "Unable to continue with further checks. Error message: %s" % \
-                (metadata_file, str(ex))
+                "Unable to continue with further checks. Please make sure it is a valid JSON file " \
+                "and readable. Error message: %s" % (metadata_file, str(ex))
             logger.info(message)
             ctx.obj['validation_report']['validation']['message'] = message
             ctx.obj['validation_report']['validation']['status'] = "INVALID"

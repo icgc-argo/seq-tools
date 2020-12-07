@@ -82,8 +82,8 @@ def validate(ctx, metadata_str, metadata_file, data_dir):
             "version": ver,
             "started_at": ntcnow_iso(),
             "ended_at": None,
-            "message": "Please check out details in validation report:",
-            "log_file": log_file
+            "log_file": log_file,
+            "message": "Please check out details in validation report:"
         }
 
         total = len(metadata_file)
@@ -93,9 +93,20 @@ def validate(ctx, metadata_str, metadata_file, data_dir):
             current += 1
 
             perform_validation(ctx, metadata_file=metafile, data_dir=data_dir)
+
             status = ctx.obj['validation_report']['validation']['status']
+            status_with_stype = status
+            if status == 'INVALID':
+                status_with_stype = click.style(status, fg="red")
+            elif status == 'UNKNOWN':
+                status_with_stype = click.style(status, fg="magenta")
+            elif status == 'WARNING':
+                status_with_stype = click.style(status, fg="yellow")
+            elif status == 'PASS':
+                status_with_stype = click.style(status, fg="green")
+
             click.echo('metadata_file: %s, status: %s, current_time: %s, progress: %s/%s' % (
-                metafile, status, ntcnow_iso(), current, total
+                metafile, status_with_stype, ntcnow_iso(), current, total
             ), err=True)
 
             if status not in summary_report['summary']:
@@ -108,6 +119,7 @@ def validate(ctx, metadata_str, metadata_file, data_dir):
         click.echo('', err=True)
         summary_report['ended_at'] = ntcnow_iso()
 
+        # split report based on validation status
         for status in ('INVALID', 'UNKNOWN', 'WARNING', 'PASS'):
             report_filename = 'validation_report.%s.jsonl' % status
             log_filename = os.path.splitext(os.path.basename(log_file))[0]

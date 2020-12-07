@@ -65,7 +65,7 @@ class Checker(BaseChecker):
         extra_files = fls - fns
         if extra_files:
             message = "Found extra files specified in 'files' section of the metadata JSON, " \
-                "please remove unneeded files: %s" % ", ".join(extra_files)
+                "please remove unneeded files: %s from the 'files' section of the metadata JSON" % ", ".join(extra_files)
             self.message = message
             self.status = 'INVALID'
             self.logger.info(f'[{self.checker}] {message}')

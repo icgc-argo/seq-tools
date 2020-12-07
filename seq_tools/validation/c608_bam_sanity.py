@@ -68,8 +68,8 @@ class Checker(BaseChecker):
                 ', '.join(sorted(corrupted_bam_errs.keys()))
 
             self.status = 'INVALID'
-            self.message = "%s. More information can be found in under: %s/logs/" % \
-                           (message, os.path.basename(self.data_dir))
+            self.message = "%s. More information can be found in under: %s" % \
+                           (message, self.logger.handlers[0].baseFilename)
             self.logger.info("[%s] %s. Additional message: %s" % (self.checker, message, '; '.join(errs)))
 
         else:
