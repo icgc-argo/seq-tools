@@ -54,32 +54,10 @@ cat validation_report.PASS.jsonl | jq | less
 
 ## Use it to validate your own submission
 
-*TO BE UPDATED*
-
-Submission of sequencing data is organized in submission directories, each directory includes
-a JSON file named `sequencing_experiment.json` and all sequencing files generated from the experiment and you plan to submit.
-
-`sequencing_experiment.json` contains required metadata describing a sequencing experiment, read groups, and
-the sample for which the experiment was performed. Please check out more detailed instruction how to prepare this
-file at [here](https://docs.icgc-argo.org/docs/submission/submitting-molecular-data#understanding-the-song-metadata-fields).
-
-Sequencing files can be in BAM or FASTQ format.
-
-To validate a submission, simply run (replace <submission_dir> with your actual directory):
-```
-seq-tools validate <submission_dir> [submission_dir_2 ...]
-```
-
-Note that you can invoke a validation for multiple submission directories.
-
-Brief information including overall validation result will be displayed in the console, itemized report with
-more details is available in a JSON file named `report.json` under each submission directory. Please fix
-reported issues and run the validation again until result of every check is PASS.
+*TO BE COMPLETED*
 
 
 ## Testing
-
-*CI IS TO BE FIXED*
 
 Continuous integration testing is enabled using GitHub Actions. For validation check developers, you can manually run tests by:
 ```
