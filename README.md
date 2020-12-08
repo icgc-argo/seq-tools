@@ -34,22 +34,22 @@ cd tests/submissions
 seq-tools validate HCC1160T.valid/sequencing_experiment.json   # you should see summary of validation result
 
 # to view details of the above validation result
-cat validation_report.PASS.jsonl | jq | less
+cat validation_report.PASS.jsonl | jq . | less
 
 # use '-d' option if data files are located in a different directory than where the metadata file lives
 seq-tools validate -d ../seq-data/ metadata_file_only/HCC1143T.WGS.meta.json
 
 # to view details of the above validation result
-cat validation_report.INVALID.jsonl | jq | less
+cat validation_report.INVALID.jsonl | jq . | less
 
 # or validate all metadata JSONs using wildcard in one go, assuming all data files are under '../seq-data/'
 seq-tools validate -d ../seq-data/ */*.json   # as the summary indicates, two validation reports are generated
 
 # view reported issues for INVALID metadata files
-cat validation_report.INVALID.jsonl | jq | less
+cat validation_report.INVALID.jsonl | jq . | less
 
 # view details for PASS metadata files
-cat validation_report.PASS.jsonl | jq | less
+cat validation_report.PASS.jsonl | jq . | less
 ```
 
 ## Use it to validate your own submission
