@@ -15,7 +15,7 @@ def find_expected_report_jsonls(metadata_file):
     metapath = os.path.basename(os.path.dirname(metadata_file))
     metafile_pre = os.path.splitext(os.path.basename(metadata_file))[0]
     expected_report_pattern = os.path.join(
-        'expected_reports', metapath, '%s.validation_report.*.jsonl' % metafile_pre)
+        test_dir, 'expected_reports', metapath, '%s.validation_report.*.jsonl' % metafile_pre)
     return glob(expected_report_pattern)
 
 
