@@ -152,7 +152,7 @@ def perform_validation(ctx, metadata_file=None, data_dir=None, metadata_str=None
 
     if metadata_file:
         message = "Validation completed for '%s', status: %s. " \
-            "Please find details in 'validation_report.json'." % \
+            "Please find details in report JSONL file(s)." % \
             (metadata_file, ctx.obj['validation_report']['validation']['status'])
         logger.info(message)
     else:

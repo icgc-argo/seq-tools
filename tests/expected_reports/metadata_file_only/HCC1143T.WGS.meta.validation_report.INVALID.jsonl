@@ -1,0 +1,26 @@
+{
+  "tool": {
+    "name": "seq-tools",
+    "version": "1.0.0-rc.1"
+  },
+  "metadata_file": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/metadata_file_only/HCC1143T.WGS.meta.json",
+  "data_dir": "/Users/junjun/A.ARGO/git/seq-tools/tests/seq-data",
+  "started_at": "2020-12-08T02:20:17.204Z",
+  "ended_at": "2020-12-08T02:20:17.310Z",
+  "validation": {
+    "status": "INVALID",
+    "message": "Please see individual checks for details",
+    "checks": [
+      {
+        "checker": "c250_file_data_type",
+        "status": "INVALID",
+        "message": "All files in the 'files' section of the metadata JSON are required to have 'dataType' field being populated with 'Submitted Reads'. File(s) found not conforming to this requirement: 'test_rg_3.bam'."
+      },
+      {
+        "checker": "c650_sm_in_bam_matches_metadata",
+        "status": "INVALID",
+        "message": "SM in BAM header does not match submitterSampleId in metadata JSON: HCC1143 vs HCC1143T"
+      }
+    ]
+  }
+}
