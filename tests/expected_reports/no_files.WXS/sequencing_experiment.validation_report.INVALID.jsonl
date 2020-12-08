@@ -5,8 +5,6 @@
   },
   "metadata_file": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/no_files.WXS/sequencing_experiment.json",
   "data_dir": "/Users/junjun/A.ARGO/git/seq-tools/tests/seq-data",
-  "started_at": "2020-12-08T03:00:58.831Z",
-  "ended_at": "2020-12-08T03:00:58.975Z",
   "validation": {
     "status": "INVALID",
     "message": "Please see individual checks for details",
@@ -35,6 +33,11 @@
         "checker": "c210_no_path_in_filename",
         "status": "INVALID",
         "message": "'fileName' must NOT contain path in the 'files' section of the metadata, offending name(s): 'seq/test_rg_3.bam'"
+      },
+      {
+        "checker": "c230_files_info_data_category",
+        "status": "INVALID",
+        "message": "All files in the 'files' section of the metadata JSON are required to have 'info.data_category' field being populated with 'Sequencing Reads'. File(s) found not conforming to this requirement: 'seq/test_rg_3.bam, test_rg_3.bam'."
       },
       {
         "checker": "c250_file_data_type",

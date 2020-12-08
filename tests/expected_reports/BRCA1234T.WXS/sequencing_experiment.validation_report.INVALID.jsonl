@@ -5,8 +5,6 @@
   },
   "metadata_file": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/BRCA1234T.WXS/sequencing_experiment.json",
   "data_dir": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/BRCA1234T.WXS",
-  "started_at": "2020-12-08T02:02:43.030Z",
-  "ended_at": "2020-12-08T02:02:43.132Z",
   "validation": {
     "status": "INVALID",
     "message": "Please see individual checks for details",
@@ -25,6 +23,11 @@
         "checker": "c160_file_r1_r2_check",
         "status": "INVALID",
         "message": "Required field 'file_r1' is not found or populated in metadata JSON in read group: D0RE2_1a_1."
+      },
+      {
+        "checker": "c230_files_info_data_category",
+        "status": "INVALID",
+        "message": "All files in the 'files' section of the metadata JSON are required to have 'info.data_category' field being populated with 'Sequencing Reads'. File(s) found not conforming to this requirement: 'test1_rg_3.bam'."
       },
       {
         "checker": "c250_file_data_type",

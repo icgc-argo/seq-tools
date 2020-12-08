@@ -1,0 +1,44 @@
+{
+  "tool": {
+    "name": "seq-tools",
+    "version": "1.0.0-rc.1"
+  },
+  "metadata_file": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/mutilple_subs/HCC1150N.WGS.meta.json",
+  "data_dir": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/mutilple_subs",
+  "validation": {
+    "status": "INVALID",
+    "message": "Please see individual checks for details",
+    "checks": [
+      {
+        "checker": "c160_file_r1_r2_check",
+        "status": "INVALID",
+        "message": "Fields 'file_r1' and 'file_r2' should NOT be the same for paired end FASTQ sequencing reads in read group: D0RE2.1."
+      },
+      {
+        "checker": "c170_fq_uniqueness_in_rgs",
+        "status": "INVALID",
+        "message": "FASTQ file(s) duplicated in 'file_r1/file_r2' of the 'read_groups' section in the metadata: 'D0RE2.1_r1.fq.gz, D0RH0.2_r1.fq.gz'"
+      },
+      {
+        "checker": "c190_no_extra_files",
+        "status": "INVALID",
+        "message": "Found extra files specified in 'files' section of the metadata JSON, please remove unneeded files: D0RE2.1_r2.fq.gz, D0RH0.2_r2.fq.gz from the 'files' section of the metadata JSON"
+      },
+      {
+        "checker": "c230_files_info_data_category",
+        "status": "INVALID",
+        "message": "All files in the 'files' section of the metadata JSON are required to have 'info.data_category' field being populated with 'Sequencing Reads'. File(s) found not conforming to this requirement: 'C0HVY.2_r1.fq.gz, C0HVY.2_r2.fq.gz, D0RE2.1_r1.fq.gz, D0RE2.1_r2.fq.gz, D0RH0.2_r1.fq.gz, D0RH0.2_r2.fq.gz'."
+      },
+      {
+        "checker": "c250_file_data_type",
+        "status": "INVALID",
+        "message": "All files in the 'files' section of the metadata JSON are required to have 'dataType' field being populated with 'Submitted Reads'. File(s) found not conforming to this requirement: 'C0HVY.2_r1.fq.gz, C0HVY.2_r2.fq.gz, D0RE2.1_r1.fq.gz, D0RE2.1_r2.fq.gz, D0RH0.2_r1.fq.gz, D0RH0.2_r2.fq.gz'."
+      },
+      {
+        "checker": "c680_fileSize_fileMd5sum_match",
+        "status": "INVALID",
+        "message": "The fileSize or fileMd5sum calculated from the sequencing files does NOT match the info provided in metadata JSON. Details of the difference: [C0HVY.2_r1.fq.gz: fileSize: 2040 vs 5381, fileMd5sum: 64cf635dbc54f53cae2cb03ec8e8471b vs 6584ebb05edfbd6f59be6307556bd871]; [C0HVY.2_r2.fq.gz: fileSize: 2042 vs 5381, fileMd5sum: ceb7e66d031cb894fa9d1d3f8da65fc7 vs d649696f346eb75b95b68e8ecd45f44f]; [D0RE2.1_r1.fq.gz: fileSize: 2309 vs 6148, fileMd5sum: 44bea7aa32a1afb68eec24496b608545 vs 058510bbdab2dccc14a2d7402a21248d]; [D0RE2.1_r2.fq.gz: fileSize: 2365 vs 6148, fileMd5sum: d73b37eca9375258ab42905f7943b1b6 vs 5fb35647198666b6a06e8539074282fd]; [D0RH0.2_r1.fq.gz: fileSize: 1872 vs 4784, fileMd5sum: b90a3c9750db29406f31e9488d5b7e2b vs eb109b8774df03084024bc09a86721be]; [D0RH0.2_r2.fq.gz: fileSize: 1894 vs 4784, fileMd5sum: a407247b584daa078114ab05e6e489be vs ed209fda15a5928087104253a6bfb42d]"
+      }
+    ]
+  }
+}

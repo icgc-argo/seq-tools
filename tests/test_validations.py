@@ -43,6 +43,7 @@ def test_validate(submission):
     runner.invoke(main, cli_option)
 
     expected_report_jsonls = find_expected_report_jsonls(metadata_file)
+    assert len(expected_report_jsonls) > 0
 
     for expected_report in expected_report_jsonls:
         report = '.'.join(expected_report.split('.')[-3:])
@@ -62,8 +63,7 @@ def test_validate(submission):
         if 'status' in expected_obj['validation']:
             assert report_obj['validation']['status'] == expected_obj['validation']['status']
 
-        if len(expected_obj['validation']['checks']) == 0:
-            assert len(report_obj['validation']['checks']) == 0
+        assert len(report_obj['validation']['checks']) == len(expected_obj['validation']['checks'])
 
         for check in expected_obj['validation']['checks']:
             assert check in report_obj['validation']['checks']

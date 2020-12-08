@@ -5,8 +5,6 @@
   },
   "metadata_file": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/HCC1160T.valid/sequencing_experiment.json",
   "data_dir": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/HCC1160T.valid",
-  "started_at": "2020-12-08T02:07:18.109Z",
-  "ended_at": "2020-12-08T02:07:18.219Z",
   "validation": {
     "status": "PASS",
     "message": "Please see individual checks for details",

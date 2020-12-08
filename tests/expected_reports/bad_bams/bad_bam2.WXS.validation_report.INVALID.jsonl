@@ -5,8 +5,6 @@
   },
   "metadata_file": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/bad_bams/bad_bam2.WXS.json",
   "data_dir": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/bad_bams",
-  "started_at": "2020-12-08T02:13:26.878Z",
-  "ended_at": "2020-12-08T02:13:26.965Z",
   "validation": {
     "status": "INVALID",
     "message": "Please see individual checks for details",
@@ -15,6 +13,11 @@
         "checker": "c150_rg_count_match",
         "status": "INVALID",
         "message": "'read_group_count' not populated with an integer or value not greater than 0 in the metadata JSON"
+      },
+      {
+        "checker": "c230_files_info_data_category",
+        "status": "INVALID",
+        "message": "All files in the 'files' section of the metadata JSON are required to have 'info.data_category' field being populated with 'Sequencing Reads'. File(s) found not conforming to this requirement: 'test_rg_5.bam'."
       },
       {
         "checker": "c240_submitter_rg_id_collide_with_rg_id_in_bam",

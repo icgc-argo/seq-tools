@@ -5,12 +5,15 @@
   },
   "metadata_file": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/metadata_file_only/HCC1143T.WGS.meta.json",
   "data_dir": "/Users/junjun/A.ARGO/git/seq-tools/tests/seq-data",
-  "started_at": "2020-12-08T02:20:17.204Z",
-  "ended_at": "2020-12-08T02:20:17.310Z",
   "validation": {
     "status": "INVALID",
     "message": "Please see individual checks for details",
     "checks": [
+      {
+        "checker": "c230_files_info_data_category",
+        "status": "INVALID",
+        "message": "All files in the 'files' section of the metadata JSON are required to have 'info.data_category' field being populated with 'Sequencing Reads'. File(s) found not conforming to this requirement: 'test_rg_3.bam'."
+      },
       {
         "checker": "c250_file_data_type",
         "status": "INVALID",
