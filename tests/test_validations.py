@@ -38,7 +38,7 @@ def test_validate(submission):
     metadata_file, seq_files = submission
     cli_option = ['validate', metadata_file]
     if not seq_files:
-        cli_option += ['-d', 'seq-data/']
+        cli_option += ['-d', os.path.join(test_dir, 'seq-data')]
 
     runner.invoke(main, cli_option)
 
