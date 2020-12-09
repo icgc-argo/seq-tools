@@ -30,7 +30,9 @@ class Checker(BaseChecker):
             metadata=metadata,
             checker_name=__name__,
             depends_on=[  # dependent checks
-                'c190_no_extra_files'
+                'c190_no_extra_files',
+                'c210_no_path_in_filename',
+                'c260_filename_pattern'
             ]
         )
 
