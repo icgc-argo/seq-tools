@@ -141,7 +141,7 @@ def perform_validation(ctx, metadata_file=None, data_dir=None, metadata_str=None
         elif 'UNKNOWN' in check_status:
             ctx.obj['validation_report']['validation']['status'] = 'UNKNOWN'
         elif 'WARNING' in check_status:
-            ctx.obj['validation_report']['validation']['status'] = 'WARNING'
+            ctx.obj['validation_report']['validation']['status'] = 'PASS-with-WARNING'
         elif 'PASS' in check_status and len(check_status) == 1:  # only has 'PASS' status
             ctx.obj['validation_report']['validation']['status'] = 'PASS'
         else:  # should never happen

@@ -25,10 +25,21 @@ from base_checker import BaseChecker
 
 class Checker(BaseChecker):
     def __init__(self, ctx, metadata):
-        super().__init__(ctx, metadata, __name__)
+        super().__init__(
+            ctx=ctx,
+            metadata=metadata,
+            checker_name=__name__,
+            depends_on=[  # dependent checks
+                'c190_no_extra_files'
+            ]
+        )
 
     @BaseChecker._catch_exception
     def check(self):
+        # status already set at initiation
+        if self.status:
+            return
+
         files_in_subdir = self.files
 
         if files_in_subdir is None:

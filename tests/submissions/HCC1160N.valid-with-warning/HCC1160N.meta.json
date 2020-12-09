@@ -1,0 +1,86 @@
+{
+  "analysisType": {
+    "name": "sequencing_experiment"
+  },
+  "studyId": "TEST-PR",
+  "experiment": {
+    "submitter_sequencing_experiment_id": "TEST_EXP",
+    "sequencing_center": "BI",
+    "platform": "ILLUMINA",
+    "platform_model": "HiSeq 2000",
+    "experimental_strategy": "WGS",
+    "sequencing_date": "2014-12-12"
+  },
+  "read_group_count": 3,
+  "read_groups": [
+    {
+      "submitter_read_group_id": "D0RE2_1a_1",
+      "read_group_id_in_bam": "C0HVY.2",
+      "platform_unit": "74_8a",
+      "is_paired_end": true,
+      "file_r1": "test_rg_6n.bam",
+      "file_r2": "test_rg_6n.bam",
+      "read_length_r1": 150,
+      "read_length_r2": 150,
+      "insert_size": 298,
+      "sample_barcode": null,
+      "library_name": "Pond-147580"
+    },
+    {
+      "submitter_read_group_id": "D0RE2_1a",
+      "read_group_id_in_bam": "D0RE2_1'",
+      "platform_unit": "74_8b",
+      "is_paired_end": true,
+      "file_r1": "test_rg_6n.bam",
+      "file_r2": "test_rg_6n.bam",
+      "read_length_r1": 150,
+      "read_length_r2": 150,
+      "insert_size": 298,
+      "sample_barcode": null,
+      "library_name": "Pond-147580"
+    },
+    {
+      "submitter_read_group_id": "D0RH0_2b",
+      "read_group_id_in_bam": "D0RH0:2''",
+      "platform_unit": "74_8c",
+      "is_paired_end": true,
+      "file_r1": "test_rg_6n.bam",
+      "file_r2": "test_rg_6n.bam",
+      "read_length_r1": 150,
+      "read_length_r2": 150,
+      "insert_size": 298,
+      "sample_barcode": null,
+      "library_name": "Pond-147580"
+    }
+  ],
+  "samples": [
+    {
+      "submitterSampleId": "HCC1160N",
+      "matchedNormalSubmitterSampleId": null,
+      "sampleType": "Total DNA",
+      "specimen": {
+        "submitterSpecimenId": "HCC1160N",
+        "tumourNormalDesignation": "Normal",
+        "specimenTissueSource": "Blood derived",
+        "specimenType": "Normal"
+      },
+      "donor": {
+        "submitterDonorId": "HCC1160",
+        "gender": "Female"
+      }
+    }
+  ],
+  "files": [
+    {
+      "fileName": "test_rg_6n.bam",
+      "fileSize": 14982,
+      "fileMd5sum": "faca9c558fe3eecc3c320303b8c06d10",
+      "fileType": "BAM",
+      "fileAccess": "controlled",
+      "dataType": "Submitted Reads",
+      "info": {
+        "data_category": "Sequencing Reads"
+      }
+    }
+  ]
+}

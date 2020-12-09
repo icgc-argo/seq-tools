@@ -25,11 +25,6 @@
         "message": "File(s) specified in 'file_r1' or 'file_r2' missed in 'files' section of the metadata JSON: test_rg_4.bam"
       },
       {
-        "checker": "c190_no_extra_files",
-        "status": "INVALID",
-        "message": "Found extra files specified in 'files' section of the metadata JSON, please remove unneeded files: seq/test_rg_3.bam from the 'files' section of the metadata JSON"
-      },
-      {
         "checker": "c210_no_path_in_filename",
         "status": "INVALID",
         "message": "'fileName' must NOT contain path in the 'files' section of the metadata, offending name(s): 'seq/test_rg_3.bam'"
@@ -43,11 +38,6 @@
         "checker": "c250_file_data_type",
         "status": "INVALID",
         "message": "All files in the 'files' section of the metadata JSON are required to have 'dataType' field being populated with 'Submitted Reads'. File(s) found not conforming to this requirement: 'seq/test_rg_3.bam'."
-      },
-      {
-        "checker": "c605_all_files_accessible",
-        "status": "INVALID",
-        "message": "Files specified in metadata, but missed in data directory: 'seq/test_rg_3.bam'"
       }
     ]
   }

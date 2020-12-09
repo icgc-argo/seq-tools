@@ -48,11 +48,6 @@
         "checker": "c640_one_sm_in_bam_header",
         "status": "INVALID",
         "message": "SM in @RG headers of all BAM(s) must be populated with the same value. BAM(s) with no SM or multiple SMs, or different SMs from different BAMs are found: BAM test1_rg_3.bam: 'BRCA1234T', 'HCC1143'"
-      },
-      {
-        "checker": "c680_fileSize_fileMd5sum_match",
-        "status": "INVALID",
-        "message": "The fileSize or fileMd5sum calculated from the sequencing files does NOT match the info provided in metadata JSON. Details of the difference: [test1_rg_3.bam: fileSize: 16726 vs 14935, fileMd5sum: 9609b0153f6a7665255311ef5a47507e vs 3f160ccdb1eae97337b42018bf141f7c]"
       }
     ]
   }

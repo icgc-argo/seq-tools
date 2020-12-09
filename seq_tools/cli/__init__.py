@@ -100,7 +100,7 @@ def validate(ctx, metadata_str, metadata_file, data_dir):
                 status_with_stype = click.style(status, fg="red")
             elif status == 'UNKNOWN':
                 status_with_stype = click.style(status, fg="magenta")
-            elif status == 'WARNING':
+            elif status == 'PASS-with-WARNING':
                 status_with_stype = click.style(status, fg="yellow")
             elif status == 'PASS':
                 status_with_stype = click.style(status, fg="green")
@@ -120,7 +120,7 @@ def validate(ctx, metadata_str, metadata_file, data_dir):
         summary_report['ended_at'] = ntcnow_iso()
 
         # split report based on validation status
-        for status in ('INVALID', 'UNKNOWN', 'WARNING', 'PASS'):
+        for status in ('INVALID', 'UNKNOWN', 'PASS-with-WARNING', 'PASS'):
             report_filename = 'validation_report.%s.jsonl' % status
             log_filename = os.path.splitext(os.path.basename(log_file))[0]
             report_file = os.path.join('logs', '%s.%s' % (log_filename, report_filename))
@@ -131,7 +131,7 @@ def validate(ctx, metadata_str, metadata_file, data_dir):
                         # only keep checks whose status match the aggregated status for simpler report
                         selected_checks = []
                         for c in report['validation']['checks']:
-                            if c['status'] == status:
+                            if c['status'] in status:  # allow PASS and WARNING to be selected for PASS-with-WARNING
                                 selected_checks.append(c)
                         report['validation']['checks'] = selected_checks
 
