@@ -85,6 +85,11 @@
         "message": "Field 'dataType' is found populated with 'Submitted Reads'. Validation status: PASS"
       },
       {
+        "checker": "c260_filename_pattern",
+        "status": "PASS",
+        "message": "'fileName' matches expected pattern '^[A-Za-z0-9]{1}[A-Za-z0-9_\\.\\-]+$' in 'files' section. Validation status: PASS"
+      },
+      {
         "checker": "c605_all_files_accessible",
         "status": "PASS",
         "message": "All data files accessible check: PASS"
