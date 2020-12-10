@@ -65,12 +65,14 @@ def validate(ctx, metadata_str, metadata_file, data_dir):
     """
     if not (metadata_file or metadata_str):
         click.echo(
-            'Must specify one or more submission metadata files or metadata as a JSON string.'
+            'Must specify one or more submission metadata files or metadata as a JSON string.\n'
         )
-        ctx.abort()
+        click.echo(ctx.get_help())
+        ctx.exit()
     elif metadata_file and metadata_str:
-        click.echo('Can not specify both metadata file and metadata string')
-        ctx.abort()
+        click.echo('Can not specify both metadata file and metadata string.\n')
+        click.echo(ctx.get_help())
+        ctx.exit()
 
     initialize_log(ctx, os.getcwd())
     logger = ctx.obj['LOGGER']
