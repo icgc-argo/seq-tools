@@ -24,7 +24,7 @@ import sys
 import json
 from click import echo
 from seq_tools import __version__ as ver
-from ..utils import initialize_log, find_files, ntcnow_iso
+from ..utils import find_files, ntcnow_iso
 
 
 path = list(sys.path)
@@ -40,32 +40,37 @@ finally:
     sys.path[:] = path
 
 
-def perform_validation(ctx, subdir=None, metadata=None):
-    if not (subdir or metadata):
-        echo('Must specify submission directory or metadata as JSON string.', err=True)
+def perform_validation(ctx, metadata_file=None, data_dir=None, metadata_str=None):
+    if not (metadata_file or metadata_str):
+        echo('Must specify one or more submission metadata files or metadata as a JSON string.', err=True)
         ctx.abort()
-    elif subdir and metadata:
-        echo('Can not specify both submission dir and metadata', err=True)
+    elif metadata_file and metadata_str:
+        echo('Can not specify both metadata file and metadata string', err=True)
         ctx.abort()
 
-    metadata_file = 'sequencing_experiment.json'
+    if metadata_file:
+        metadata_file = os.path.realpath(metadata_file)
 
-    # initialize logger
-    ctx.obj['subdir'] = subdir
-    initialize_log(ctx, subdir)
+    if data_dir:
+        data_dir = os.path.realpath(data_dir)
+
+    if not data_dir and metadata_file:
+        data_dir = os.path.dirname(os.path.realpath(metadata_file))
+
+    # ctx.obj['data_dir'] = data_dir
     logger = ctx.obj['LOGGER']
 
     # initialize validate status
-    ctx.obj['submission_report'] = {
+    ctx.obj['validation_report'] = {
         'tool': {
             'name': 'seq-tools',
             'version': ver
         },
-        'submission_directory': os.path.realpath(subdir) if subdir else None,
-        'metadata': None,
-        'files': find_files(
-            subdir, r'^.+?\.(bam|fq\.gz|fastq\.gz|fq\.bz2|fastq\.bz2)$'
-        ) if subdir else [],
+        'metadata_file': os.path.realpath(metadata_file) if metadata_file else None,
+        'data_dir': data_dir if data_dir else None,
+        'data_files': find_files(
+            data_dir, r'^.+?\.(bam|fq\.gz|fastq\.gz|fq\.bz2|fastq\.bz2)$'
+        ) if data_dir else [],
         'started_at': ntcnow_iso(),
         'ended_at': None,
         'validation': {
@@ -76,104 +81,83 @@ def perform_validation(ctx, subdir=None, metadata=None):
     }
 
     # get SONG metadata
-    if subdir:
+    if metadata_file:
         try:
-            with open(os.path.join(
-                    subdir, metadata_file), 'r') as f:
+            with open(metadata_file, 'r') as f:
                 metadata = json.load(f)
-                ctx.obj['submission_report']['metadata'] = metadata_file
+                ctx.obj['validation_report']['metadata_file'] = metadata_file
 
             if not isinstance(metadata, dict):
                 message = "Metadata file '%s' is not a JSON object. " \
                     "Unable to continue with further checks." % metadata_file
                 logger.info(message)
-                ctx.obj['submission_report']['validation']['message'] = message
-                ctx.obj['submission_report']['validation']['status'] = "INVALID"
-        except FileNotFoundError:
-            message = "Metadata file '%s' not found under '%s'. " \
-                 "Unable to continue with further checks." % (metadata_file, os.path.join(subdir, ''))
-            logger.info(message)
-            ctx.obj['submission_report']['validation']['message'] = message
-            ctx.obj['submission_report']['validation']['status'] = "INVALID"
+                ctx.obj['validation_report']['validation']['message'] = message
+                ctx.obj['validation_report']['validation']['status'] = "INVALID"
         except Exception as ex:
-            message = "Failed to open '%s' under '%s'. " \
-                "Unable to continue with further checks. Error message: %s" % \
-                (metadata_file, os.path.join(subdir, ''), str(ex))
+            message = "Failed to open '%s'. " \
+                "Unable to continue with further checks. Please make sure it is a valid JSON file " \
+                "and readable. Error message: %s" % (metadata_file, str(ex))
             logger.info(message)
-            ctx.obj['submission_report']['validation']['message'] = message
-            ctx.obj['submission_report']['validation']['status'] = "INVALID"
+            ctx.obj['validation_report']['validation']['message'] = message
+            ctx.obj['validation_report']['validation']['status'] = "INVALID"
 
-    else:  # metadata supplied
-        ctx.obj['submission_report'].pop('files')  # files not applicable here
+    else:  # metadata string supplied
+        ctx.obj['validation_report'].pop('data_files')  # files not applicable here
         try:
-            metadata = json.loads(metadata)
+            metadata = json.loads(metadata_str)
 
             if not isinstance(metadata, dict):
                 message = "Provided metadata is not a JSON object. " \
                     "Unable to continue with further checks." % metadata_file
                 logger.info(message)
-                ctx.obj['submission_report']['validation']['message'] = message
-                ctx.obj['submission_report']['validation']['status'] = "INVALID"
+                ctx.obj['validation_report']['validation']['message'] = message
+                ctx.obj['validation_report']['validation']['status'] = "INVALID"
         except Exception as ex:
             message = "Unable to load metadata, please ensure it's a valid JSON " \
                 "string. Error: %s" % str(ex)
             logger.info(message)
-            ctx.obj['submission_report']['validation']['message'] = message
-            ctx.obj['submission_report']['validation']['status'] = "INVALID"
+            ctx.obj['validation_report']['validation']['message'] = message
+            ctx.obj['validation_report']['validation']['status'] = "INVALID"
 
-        ctx.obj['submission_report']['metadata'] = '<supplied as JSON string>'
+        ctx.obj['validation_report']['metadata'] = '<supplied as a JSON string>'
 
-    if ctx.obj['submission_report']['validation']['status'] != "INVALID":
+    if ctx.obj['validation_report']['validation']['status'] != "INVALID":
         for c in checkers:  # perform validation checks one by one
             checker_code = c.split('_')[0]
             # skip these checkers that involve sequencing file
             # when no submission dir specified
-            if not subdir and checker_code[0:2] in ('c6', 'c7', 'c8', 'c9'):
+            if not data_dir and checker_code[0:2] in ('c6', 'c7', 'c8', 'c9'):
                 continue
             checker = checkers[c].Checker(ctx, metadata)
             checker.check()
 
         # aggregate status from validation checks
         check_status = set()
-        for c in ctx.obj['submission_report']['validation']['checks']:
+        for c in ctx.obj['validation_report']['validation']['checks']:
             check_status.add(c['status'])
 
         if 'INVALID' in check_status:
-            ctx.obj['submission_report']['validation']['status'] = 'INVALID'
+            ctx.obj['validation_report']['validation']['status'] = 'INVALID'
         elif 'UNKNOWN' in check_status:
-            ctx.obj['submission_report']['validation']['status'] = 'UNKNOWN'
+            ctx.obj['validation_report']['validation']['status'] = 'UNKNOWN'
         elif 'WARNING' in check_status:
-            ctx.obj['submission_report']['validation']['status'] = 'WARNING'
+            ctx.obj['validation_report']['validation']['status'] = 'PASS-with-WARNING'
         elif 'PASS' in check_status and len(check_status) == 1:  # only has 'PASS' status
-            ctx.obj['submission_report']['validation']['status'] = 'PASS'
+            ctx.obj['validation_report']['validation']['status'] = 'PASS'
         else:  # should never happen
-            ctx.obj['submission_report']['validation']['status'] = None
+            ctx.obj['validation_report']['validation']['status'] = None
 
-    # complete the validation
-    ctx.obj['submission_report']['ended_at'] = ntcnow_iso()
-    if subdir:
-        log_filename = os.path.splitext(
-            os.path.basename(logger.handlers[0].baseFilename))[0]
-        report_filename = os.path.join(
-            subdir, 'logs', '%s.report.json' % log_filename)
-        with open(report_filename, 'w') as f:
-            f.write(json.dumps(ctx.obj['submission_report'], indent=2))
-            try:
-                os.remove(os.path.join(subdir, 'report.json'))
-            except OSError:
-                pass
-            os.symlink(
-                os.path.join('logs', '%s.report.json' % log_filename),
-                os.path.join(subdir, 'report.json'))
+    # record completing time
+    ctx.obj['validation_report']['ended_at'] = ntcnow_iso()
 
+    if metadata_file:
         message = "Validation completed for '%s', status: %s. " \
-            "Please find details in 'report.json' in the submission directory." % \
-            (os.path.realpath(subdir),
-                ctx.obj['submission_report']['validation']['status'])
+            "Please find details in report JSONL file(s)." % \
+            (metadata_file, ctx.obj['validation_report']['validation']['status'])
         logger.info(message)
     else:
         message = "Validation completed for the input metadata, status: %s. " \
             "Please find detailed report in STDOUT." % \
-            ctx.obj['submission_report']['validation']['status']
+            ctx.obj['validation_report']['validation']['status']
         logger.info(message)
-        echo(json.dumps(ctx.obj['submission_report']))
+        echo(json.dumps(ctx.obj['validation_report']))

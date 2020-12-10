@@ -15,12 +15,14 @@
     along with this program. If not, see <https://www.gnu.org/licenses/>.
 
     Authors:
+        Linda Xiang <linda.xiang@oicr.on.ca>
         Junjun Zhang <junjun.zhang@oicr.on.ca>
 """
 
 
-import os
+import re
 from base_checker import BaseChecker
+
 
 
 class Checker(BaseChecker):
@@ -31,10 +33,11 @@ class Checker(BaseChecker):
             checker_name=__name__,
             depends_on=[  # dependent checks
                 'c190_no_extra_files',
-                'c210_no_path_in_filename',
-                'c260_filename_pattern'
+                'c210_no_path_in_filename'
             ]
         )
+
+        self._patten = r'^[A-Za-z0-9]{1}[A-Za-z0-9_\.\-]*\.(bam|fq\.gz|fastq\.gz|fq\.bz2|fastq\.bz2)$'
 
     @BaseChecker._catch_exception
     def check(self):
@@ -42,46 +45,35 @@ class Checker(BaseChecker):
         if self.status:
             return
 
-        files_in_subdir = self.files
-
-        if files_in_subdir is None:
-            message = "No file information available in the data " \
-                "directory. This is likely a metadata only validation, " \
-                "should not have invoked this checker. Please ignore."
-            self.logger.info(f'[{self.checker}] {message}')
-            self.message = message
-            self.status = 'UNKNOWN'
-            return
-
-        files_missed_in_subdir = set()
-        files_unaccessbile_in_subdir = set()
-
-        files_in_metadata = self.metadata['files']
-        for f in files_in_metadata:
-            if f['fileName'] not in files_in_subdir:
-                files_missed_in_subdir.add(f['fileName'])
-            elif not os.access(
-                    os.path.join(self.data_dir, f['fileName']),
-                    os.R_OK):
-                files_unaccessbile_in_subdir.add(f['fileName'])
-
-        if files_missed_in_subdir:
-            message = "Files specified in metadata, but missed in data directory: '%s'" % \
-                ', '.join(sorted(files_missed_in_subdir))
+        if not self.metadata.get('files'):
+            message = "Missing 'files' section in the metadata JSON"
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
             return
 
-        if files_unaccessbile_in_subdir:
-            message = "Files specified in metadata, but unaccessilbe in data directory: '%s'" % \
-                ', '.join(sorted(files_unaccessbile_in_subdir))
+        filename_with_mismatch_pattern = set()
+        for fl in self.metadata.get('files'):
+            if 'fileName' not in fl or not fl['fileName']:
+                message = "Required field 'fileName' is not found or not populated in 'files' " \
+                    "section of the metadata JSON."
+                self.logger.info(f'[{self.checker}] {message}')
+                self.message = message
+                self.status = 'INVALID'
+                return
+
+            if not re.match(self._patten, fl['fileName']):
+                filename_with_mismatch_pattern.add(fl['fileName'])
+
+        if filename_with_mismatch_pattern:
+            message = "'fileName' must match expected pattern '%s' in the 'files' section of the metadata, " \
+                "offending name(s): '%s'" % (self._patten, ', '.join(sorted(filename_with_mismatch_pattern)))
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
-            return
-
-        self.status = 'PASS'
-        message = "All data files accessible check: PASS"
-        self.message = message
-        self.logger.info(f'[{self.checker}] {message}')
+        else:
+            self.status = 'PASS'
+            message = "'fileName' matches expected pattern '%s' in 'files' " \
+                "section. Validation status: PASS" % self._patten
+            self.message = message
+            self.logger.info(f'[{self.checker}] {message}')

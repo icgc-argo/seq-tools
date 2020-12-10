@@ -25,10 +25,21 @@ from base_checker import BaseChecker
 
 class Checker(BaseChecker):
     def __init__(self, ctx, metadata):
-        super().__init__(ctx, metadata, __name__)
+        super().__init__(
+            ctx=ctx,
+            metadata=metadata,
+            checker_name=__name__,
+            depends_on=[  # dependent checks
+                'c160_file_r1_r2_check'
+            ]
+        )
 
     @BaseChecker._catch_exception
     def check(self):
+        # status already set at initiation
+        if self.status:
+            return
+
         if not self.metadata.get('read_groups'):
             message = "Missing 'read_groups' section in the metadata JSON"
             self.logger.info(f'[{self.checker}] {message}')
@@ -65,7 +76,9 @@ class Checker(BaseChecker):
         extra_files = fls - fns
         if extra_files:
             message = "Found extra files specified in 'files' section of the metadata JSON, " \
-                "please remove unneeded files: %s" % ", ".join(extra_files)
+                "Please remove unneeded files: %s from the 'files' section of the metadata JSON. " \
+                "Or if the files are intended for submission, please add read group information " \
+                "related to these files in the 'read_groups' section." % ", ".join(sorted(extra_files))
             self.message = message
             self.status = 'INVALID'
             self.logger.info(f'[{self.checker}] {message}')

@@ -32,9 +32,9 @@ class BaseChecker(object):
         self._ctx = ctx
         self._metadata = metadata
         self._logger = ctx.obj['LOGGER']
-        self._submission_directory = ctx.obj['submission_report'].get('submission_directory')
-        self._files = ctx.obj['submission_report'].get('files')
-        self._checks = ctx.obj['submission_report']['validation']['checks']
+        self._data_dir = ctx.obj['validation_report'].get('data_dir')
+        self._files = ctx.obj['validation_report'].get('data_files')
+        self._checks = ctx.obj['validation_report']['validation']['checks']
         self._checks.append({
             'checker': checker_name,
             'status': None,
@@ -50,8 +50,8 @@ class BaseChecker(object):
         return self._ctx
 
     @property
-    def submission_directory(self):
-        return self._submission_directory
+    def data_dir(self):
+        return self._data_dir
 
     @property
     def metadata(self):
@@ -134,13 +134,13 @@ class BaseChecker(object):
                     "This is likely due to problem(s) identified by earlier check(s), " \
                     "please fix reported problem and then run the validation again."
 
-                if _self.submission_directory is None:  # metadata only validation
+                if _self.data_dir is None:  # metadata only validation
                     _self.message = "%s Use 'seq-tools -d' option to see more information on the exception in output to STDERR" \
                         % message
                 else:  # metadata and data file validation
                     _self.message = "%s More information of the exception can be found " \
-                        "in the latest log file under: %s" \
-                        % (message, os.path.join(os.path.basename(_self.submission_directory), 'logs', ''))
+                        "in the latest log file: %s" \
+                        % (message, _self.logger.handlers[0].baseFilename)
 
                 _self.logger.info("[%s] %s Additional message: %s" % (
                     _self.checker, message, repr(traceback.format_exc())))

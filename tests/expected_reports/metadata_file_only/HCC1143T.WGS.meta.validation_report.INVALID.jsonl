@@ -1,0 +1,34 @@
+{
+  "tool": {
+    "name": "seq-tools",
+    "version": "1.0.0-rc.1"
+  },
+  "metadata_file": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/metadata_file_only/HCC1143T.WGS.meta.json",
+  "data_dir": "/Users/junjun/A.ARGO/git/seq-tools/tests/seq-data",
+  "validation": {
+    "status": "INVALID",
+    "message": "Please see individual checks for details",
+    "checks": [
+      {
+        "checker": "c230_files_info_data_category",
+        "status": "INVALID",
+        "message": "All files in the 'files' section of the metadata JSON are required to have 'info.data_category' field being populated with 'Sequencing Reads'. File(s) found not conforming to this requirement: '.test_rg_3.bam'."
+      },
+      {
+        "checker": "c250_file_data_type",
+        "status": "INVALID",
+        "message": "All files in the 'files' section of the metadata JSON are required to have 'dataType' field being populated with 'Submitted Reads'. File(s) found not conforming to this requirement: '.test_rg_3.bam'."
+      },
+      {
+        "checker": "c260_filename_pattern",
+        "status": "INVALID",
+        "message": "'fileName' must match expected pattern '^[A-Za-z0-9]{1}[A-Za-z0-9_\\.\\-]*\\.(bam|fq\\.gz|fastq\\.gz|fq\\.bz2|fastq\\.bz2)$' in the 'files' section of the metadata, offending name(s): '.test_rg_3.bam'"
+      },
+      {
+        "checker": "c650_sm_in_bam_matches_metadata",
+        "status": "INVALID",
+        "message": "SM in BAM header does not match submitterSampleId in metadata JSON: HCC1143 vs HCC1143T"
+      }
+    ]
+  }
+}

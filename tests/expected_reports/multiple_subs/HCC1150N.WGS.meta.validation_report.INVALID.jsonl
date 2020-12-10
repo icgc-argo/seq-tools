@@ -1,0 +1,34 @@
+{
+  "tool": {
+    "name": "seq-tools",
+    "version": "1.0.0-rc.1"
+  },
+  "metadata_file": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/mutilple_subs/HCC1150N.WGS.meta.json",
+  "data_dir": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/mutilple_subs",
+  "validation": {
+    "status": "INVALID",
+    "message": "Please see individual checks for details",
+    "checks": [
+      {
+        "checker": "c160_file_r1_r2_check",
+        "status": "INVALID",
+        "message": "Fields 'file_r1' and 'file_r2' should NOT be the same for paired end FASTQ sequencing reads in read group: D0RE2.1."
+      },
+      {
+        "checker": "c170_fq_uniqueness_in_rgs",
+        "status": "INVALID",
+        "message": "FASTQ file(s) duplicated in 'file_r1/file_r2' of the 'read_groups' section in the metadata: 'D0RE2.1_r1.fq.gz, D0RH0.2_r1.fq.gz'"
+      },
+      {
+        "checker": "c230_files_info_data_category",
+        "status": "INVALID",
+        "message": "All files in the 'files' section of the metadata JSON are required to have 'info.data_category' field being populated with 'Sequencing Reads'. File(s) found not conforming to this requirement: 'C0HVY.2_r1.fq.gz, C0HVY.2_r2.fq.gz, D0RE2.1_r1.fq.gz, D0RE2.1_r2.fq.gz, D0RH0.2_r1.fq.gz, D0RH0.2_r2.fq.gz'."
+      },
+      {
+        "checker": "c250_file_data_type",
+        "status": "INVALID",
+        "message": "All files in the 'files' section of the metadata JSON are required to have 'dataType' field being populated with 'Submitted Reads'. File(s) found not conforming to this requirement: 'C0HVY.2_r1.fq.gz, C0HVY.2_r2.fq.gz, D0RE2.1_r1.fq.gz, D0RE2.1_r2.fq.gz, D0RH0.2_r1.fq.gz, D0RH0.2_r2.fq.gz'."
+      }
+    ]
+  }
+}

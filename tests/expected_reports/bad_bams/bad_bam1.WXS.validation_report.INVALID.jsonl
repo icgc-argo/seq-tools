@@ -1,0 +1,44 @@
+{
+  "tool": {
+    "name": "seq-tools",
+    "version": "1.0.0-rc.1"
+  },
+  "metadata_file": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/bad_bams/bad_bam1.WXS.json",
+  "data_dir": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/bad_bams",
+  "validation": {
+    "status": "INVALID",
+    "message": "Please see individual checks for details",
+    "checks": [
+      {
+        "checker": "c150_rg_count_match",
+        "status": "INVALID",
+        "message": "'read_group_count' not populated with an integer or value not greater than 0 in the metadata JSON"
+      },
+      {
+        "checker": "c230_files_info_data_category",
+        "status": "INVALID",
+        "message": "All files in the 'files' section of the metadata JSON are required to have 'info.data_category' field being populated with 'Sequencing Reads'. File(s) found not conforming to this requirement: 'test_rg_4.bam'."
+      },
+      {
+        "checker": "c250_file_data_type",
+        "status": "INVALID",
+        "message": "All files in the 'files' section of the metadata JSON are required to have 'dataType' field being populated with 'Submitted Reads'. File(s) found not conforming to this requirement: 'test_rg_7.bam'."
+      },
+      {
+        "checker": "c608_bam_sanity",
+        "status": "INVALID",
+        "message": "BAM file(s) samtools quickcheck failed: test_rg_7.bam. More information can be found in under: /Users/junjun/A.ARGO/git/seq-tools/tests/logs/2020_12_08T04_17_30_578980.log"
+      },
+      {
+        "checker": "c610_rg_id_in_bam",
+        "status": "INVALID",
+        "message": "Duplicated read group ID found: C0HVY.2 in BAM: test_rg_4.bam"
+      },
+      {
+        "checker": "c680_fileSize_fileMd5sum_match",
+        "status": "INVALID",
+        "message": "The fileSize or fileMd5sum calculated from the sequencing files does NOT match the info provided in metadata JSON. Details of the difference: [test_rg_4.bam: fileSize: 3107 vs 14935, fileMd5sum: 7d9be0eb6d8aaae58a6cc1cac23efcfd vs 3f160ccdb1eae97337b42018bf141f7c]; [test_rg_7.bam: fileSize: 310 vs 14935, fileMd5sum: 1ab39cfa84d0906603639d6a02f30f2b vs 3f160ccdb1eae97337b42018bf141f7c]"
+      }
+    ]
+  }
+}

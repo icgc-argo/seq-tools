@@ -122,7 +122,7 @@ def get_latest_releases():
     return latest_releases
 
 
-def check_for_update(ctx, ignore_update, check_prerelease):
+def check_for_update(ctx, ignore_update, check_prerelease=False):
     # check for latest releases
     latest_releases = get_latest_releases()
     stable_release = latest_releases.get('stable')

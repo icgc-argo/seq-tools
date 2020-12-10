@@ -86,7 +86,7 @@ class Checker(BaseChecker):
             if not f.endswith('.bam'):  # not a BAM, skip
                 continue
 
-            bam_file = os.path.join(self.submission_directory, f)
+            bam_file = os.path.join(self.data_dir, f)
 
             # retrieve the @RG from BAM header
             cmd = "samtools view -H %s" % bam_file
@@ -150,8 +150,8 @@ class Checker(BaseChecker):
 
             self.status = 'WARNING'
             message = "Information (excluding ID and SM which are validated elsewhere) in BAM @RG header does NOT match " \
-                "experiment/read group info in metadata JSON. NOTE that information is the metadata JSON document will be " \
-                "kept and used in ICGC ARGO uniform analysis while unmatched info in BAM header will be lost. Details of " \
+                "experiment/read group info in the metadata JSON. NOTE that information in the metadata JSON document will be " \
+                "kept and used in ICGC ARGO uniform analysis while unmatched info in BAM header will be discarded. Details of " \
                 "the difference: %s" % "; ".join(mismatches_strings)
 
             self.logger.info(f'[{self.checker}] {message}')

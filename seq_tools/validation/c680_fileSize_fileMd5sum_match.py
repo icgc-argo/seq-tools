@@ -51,7 +51,7 @@ class Checker(BaseChecker):
 
         mismatches = defaultdict(list)  # dict to keep all mismatches from all files
         for f in files_in_metadata:
-            seq_file = os.path.join(self.submission_directory, f['fileName'])
+            seq_file = os.path.join(self.data_dir, f['fileName'])
             real_size = calculate_size(seq_file)
             real_md5 = calculate_md5(seq_file)
             if not real_size == f['fileSize']:
@@ -67,7 +67,7 @@ class Checker(BaseChecker):
                 mismatches_strings.append("[%s: %s]" % (f, ", ".join(mismatches[f])))
 
             self.status = 'INVALID'
-            message = "The fileSize or fileMd5sum calculated from the submission sequencing files does NOT match " \
+            message = "The fileSize or fileMd5sum calculated from the sequencing files does NOT match " \
                 "the info provided in metadata JSON. Details of the difference: %s" % "; ".join(mismatches_strings)
 
             self.logger.info(f'[{self.checker}] {message}')
@@ -75,7 +75,7 @@ class Checker(BaseChecker):
 
         else:
             self.status = 'PASS'
-            message = "The fileSize and fileMd5sum calculated from the submission sequencing files both match " \
+            message = "The fileSize and fileMd5sum calculated from the sequencing files both match " \
                 "the info provided in metadata JSON: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

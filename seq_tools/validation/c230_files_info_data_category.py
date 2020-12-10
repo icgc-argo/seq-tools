@@ -19,8 +19,8 @@
         Linda Xiang <linda.xiang@oicr.on.ca>
 """
 
-from collections import defaultdict
 from base_checker import BaseChecker
+
 
 class Checker(BaseChecker):
     def __init__(self, ctx, metadata):
@@ -30,7 +30,7 @@ class Checker(BaseChecker):
             checker_name=__name__,
             depends_on=[
                 'c180_file_uniqueness'
-            ] # dependent checks
+            ]  # dependent checks
         )
 
     @BaseChecker._catch_exception
@@ -45,14 +45,14 @@ class Checker(BaseChecker):
                 file_without_data_category.append(fl['fileName'])
 
         if file_without_data_category:
+            self.status = 'INVALID'
             message = "All files in the 'files' section of the metadata JSON are required to " \
                 "have 'info.data_category' field being populated with 'Sequencing Reads'. " \
                 "File(s) found not conforming to this requirement: '%s'." \
                 % ', '.join(sorted(file_without_data_category))
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message
-            self.status = 'WARNING'
-             
+
         else:
             self.status = 'PASS'
             message = "Field 'info.data_category' is found populated with 'Sequencing Reads'. Validation status: PASS"
