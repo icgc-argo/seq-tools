@@ -87,7 +87,7 @@
       {
         "checker": "c260_filename_pattern",
         "status": "PASS",
-        "message": "'fileName' matches expected pattern '^[A-Za-z0-9]{1}[A-Za-z0-9_\\.\\-]+$' in 'files' section. Validation status: PASS"
+        "message": "'fileName' matches expected pattern '^[A-Za-z0-9]{1}[A-Za-z0-9_\\.\\-]*\\.(bam|fq\\.gz|fastq\\.gz|fq\\.bz2|fastq\\.bz2)$' in 'files' section. Validation status: PASS"
       },
       {
         "checker": "c605_all_files_accessible",

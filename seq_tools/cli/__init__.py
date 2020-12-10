@@ -83,7 +83,8 @@ def validate(ctx, metadata_str, metadata_file, data_dir):
             "started_at": ntcnow_iso(),
             "ended_at": None,
             "log_file": log_file,
-            "message": "Please check out details in validation report:"
+            "message": "Please check out details in validation report",
+            "reports": []
         }
 
         total = len(metadata_file)
@@ -144,7 +145,7 @@ def validate(ctx, metadata_str, metadata_file, data_dir):
 
             if os.stat(report_file).st_size > 0:
                 os.symlink(report_file, report_filename)
-                summary_report['message'] += " '%s'" % report_filename
+                summary_report['reports'].append(report_filename)
 
         # wait a bit to avoid mixing STDOUT with STDERR in terminal display
         time.sleep(.3)

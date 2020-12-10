@@ -67,3 +67,8 @@ def test_validate(submission):
 
         for check in expected_obj['validation']['checks']:
             assert check in report_obj['validation']['checks']
+
+        try:
+            os.remove(report)
+        except Exception:
+            pass

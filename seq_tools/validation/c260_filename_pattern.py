@@ -20,9 +20,9 @@
 """
 
 
-import os
 import re
 from base_checker import BaseChecker
+
 
 
 class Checker(BaseChecker):
@@ -36,6 +36,8 @@ class Checker(BaseChecker):
                 'c210_no_path_in_filename'
             ]
         )
+
+        self._patten = r'^[A-Za-z0-9]{1}[A-Za-z0-9_\.\-]*\.(bam|fq\.gz|fastq\.gz|fq\.bz2|fastq\.bz2)$'
 
     @BaseChecker._catch_exception
     def check(self):
@@ -60,18 +62,18 @@ class Checker(BaseChecker):
                 self.status = 'INVALID'
                 return
 
-            if not re.match(r'^[A-Za-z0-9]{1}[A-Za-z0-9_\.\-]+$', fl['fileName']):
+            if not re.match(self._patten, fl['fileName']):
                 filename_with_mismatch_pattern.add(fl['fileName'])
 
         if filename_with_mismatch_pattern:
-            message = "'fileName' must match expected pattern '^[A-Za-z0-9]{1}[A-Za-z0-9_\\.\\-]+$' in the 'files' " \
-                "section of the metadata, offending name(s): '%s'" % ', '.join(sorted(filename_with_mismatch_pattern))
+            message = "'fileName' must match expected pattern '%s' in the 'files' section of the metadata, " \
+                "offending name(s): '%s'" % (self._patten, ', '.join(sorted(filename_with_mismatch_pattern)))
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
         else:
             self.status = 'PASS'
-            message = "'fileName' matches expected pattern '^[A-Za-z0-9]{1}[A-Za-z0-9_\\.\\-]+$' in 'files' " \
-                "section. Validation status: PASS"
+            message = "'fileName' matches expected pattern '%s' in 'files' " \
+                "section. Validation status: PASS" % self._patten
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')
