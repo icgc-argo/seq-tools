@@ -58,6 +58,7 @@ cat validation_report.PASS-with-WARNING.jsonl | jq . | less
 cat validation_report.PASS.jsonl | jq . | less
 
 # if you can run docker, here is how you may use it
+docker pull quay.io/icgc-argo/seq-tools:1.0.0
 alias seq-tools-in-docker="docker run -t -v `pwd`:`pwd` -w `pwd` quay.io/icgc-argo/seq-tools:1.0.0 seq-tools"
 
 cd ..
