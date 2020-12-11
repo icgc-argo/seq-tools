@@ -43,19 +43,33 @@ seq-tools validate -d ../seq-data/ metadata_file_only/HCC1143T.WGS.meta.json
 cat validation_report.INVALID.jsonl | jq . | less
 
 # or validate all metadata JSONs using wildcard in one go, assuming all data files are under '../seq-data/'
-seq-tools validate -d ../seq-data/ */*.json   # as the summary indicates, two validation reports are generated
+seq-tools validate -d ../seq-data/ */*.json   # as the summary indicates, three validation reports are generated
 
 # view reported issues for INVALID metadata files
 cat validation_report.INVALID.jsonl | jq . | less
+
+# view details for PASS-with-WARNING metadata files
+cat validation_report.PASS-with-WARNING.jsonl | jq . | less
 
 # view details for PASS metadata files
 cat validation_report.PASS.jsonl | jq . | less
 ```
 
-## Use it to validate your own submission
+## Use it to validate your own submissions
 
-*TO BE COMPLETED*
+Similar to the example submissions under the `tests/submissions`, you have two options
+to organize your own submissions:
+1. either putting each metadata JSON file and its related data files in its own folder,
+such as `tests/submissions/HCC1160T.valid/sequencing_experiment.json` and `test_rg_6.bam` are under
+`HCC1160T.valid` folder with no other submissions in it;
 
+2. or putting different metadata files together into one folder but all related data files separately
+elsewhere, such as `tests/submissions/metadata_file_only` contains two metadata files:
+`HCC1143N.WGS.meta.json` and `HCC1143T.WGS.meta.json`, data files related to them are under `tests/seq-data`
+
+For the first option, you can launch validation by specifying the metadata file, for example: `seq-tools validate tests/submissions/HCC1160T.valid/sequencing_experiment.json`. Note in this case there is no need to provide
+`-d` parameter since the data file is located under the same folder as the metadata file.
+For the second option, it's necessary to use `-d` to specify the directory where data files are located, for example, `seq-tools validate -d tests/seq-data tests/submissions/metadata_file_only/*.json`
 
 ## Testing
 
