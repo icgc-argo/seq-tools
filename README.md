@@ -25,6 +25,9 @@ pip3 install .
 seq-tools -v
 ```
 
+If you can run docker and prefer to use it, then there is no need to install `seq-tools` beforehand.
+See one of the examples below how to using `seq-tools` in docker container.
+
 ## Try it out using testing data
 
 Try it with example submissions under `tests/submissions` (assume you already cloned the repository).
@@ -53,6 +56,12 @@ cat validation_report.PASS-with-WARNING.jsonl | jq . | less
 
 # view details for PASS metadata files
 cat validation_report.PASS.jsonl | jq . | less
+
+# if you can run docker, here is how you may use it
+alias seq-tools-in-docker="docker run -t -v `pwd`:`pwd` -w `pwd` quay.io/icgc-argo/seq-tools:1.0.0 seq-tools"
+
+cd ..
+seq-tools-in-docker validate -d seq-data/ submissions/*/*.json  # you should see the same results as running seq-tools without docker
 ```
 
 ## Use it to validate your own submissions
