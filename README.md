@@ -57,11 +57,10 @@ cat validation_report.PASS-with-WARNING.jsonl | jq . | less
 # view details for PASS metadata files
 cat validation_report.PASS.jsonl | jq . | less
 
-# if you can run docker, here is how you may use it
+# if you can run docker, here is how you may use it. Not suggested for users unfamiliar with Docker
+cd ..  # make sure you are under the `tests` directory
 docker pull quay.io/icgc-argo/seq-tools:1.0.1
 alias seq-tools-in-docker="docker run -t -v `pwd`:`pwd` -w `pwd` quay.io/icgc-argo/seq-tools:1.0.1 seq-tools"
-
-cd ..
 seq-tools-in-docker validate -d seq-data/ submissions/*/*.json  # you should see the same results as running seq-tools without docker
 ```
 
