@@ -27,10 +27,21 @@ import subprocess
 
 class Checker(BaseChecker):
     def __init__(self, ctx, metadata):
-        super().__init__(ctx, metadata, __name__)
+        super().__init__(
+            ctx=ctx,
+            metadata=metadata,
+            checker_name=__name__,
+            depends_on=[  # dependent checks
+                'c640_one_sm_in_bam_header'
+            ]
+        )
 
     @BaseChecker._catch_exception
     def check(self):
+        # status already set at initiation
+        if self.status:
+            return
+
         # get all RG ID from BAM(s)
         files_in_metadata = self.metadata['files']
 
@@ -89,6 +100,6 @@ class Checker(BaseChecker):
 
         else:
             self.status = 'PASS'
-            message = "One and only one SM in @RG BAM header check: PASS"
+            message = "SM in BAM header matches submitterSampleId in metadata JSON. Validation status: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

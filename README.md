@@ -26,7 +26,7 @@ seq-tools -v
 ```
 
 If you can run docker and prefer to use it, then there is no need to install `seq-tools` beforehand.
-See one of the examples below how to using `seq-tools` in docker container.
+See one of the examples below how to use `seq-tools` in docker container.
 
 ## Try it out using testing data
 
