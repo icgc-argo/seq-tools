@@ -122,7 +122,7 @@
       {
         "checker": "c650_sm_in_bam_matches_metadata",
         "status": "PASS",
-        "message": "One and only one SM in @RG BAM header check: PASS"
+        "message": "SM in BAM header matches submitterSampleId in metadata JSON. Validation status: PASS"
       },
       {
         "checker": "c660_metadata_in_bam_rg_header",

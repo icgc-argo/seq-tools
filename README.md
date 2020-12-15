@@ -26,7 +26,7 @@ seq-tools -v
 ```
 
 If you can run docker and prefer to use it, then there is no need to install `seq-tools` beforehand.
-See one of the examples below how to using `seq-tools` in docker container.
+See one of the examples below how to use `seq-tools` in docker container.
 
 ## Try it out using testing data
 
@@ -58,8 +58,8 @@ cat validation_report.PASS-with-WARNING.jsonl | jq . | less
 cat validation_report.PASS.jsonl | jq . | less
 
 # if you can run docker, here is how you may use it
-docker pull quay.io/icgc-argo/seq-tools:1.0.0
-alias seq-tools-in-docker="docker run -t -v `pwd`:`pwd` -w `pwd` quay.io/icgc-argo/seq-tools:1.0.0 seq-tools"
+docker pull quay.io/icgc-argo/seq-tools:1.0.1
+alias seq-tools-in-docker="docker run -t -v `pwd`:`pwd` -w `pwd` quay.io/icgc-argo/seq-tools:1.0.1 seq-tools"
 
 cd ..
 seq-tools-in-docker validate -d seq-data/ submissions/*/*.json  # you should see the same results as running seq-tools without docker
