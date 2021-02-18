@@ -91,6 +91,8 @@ def validate(ctx, metadata_str, metadata_file, data_dir, skip_md5sum_check):
         total = len(metadata_file)
         current = 0
         validation_reports = {}
+        click.echo('Start validating %s metadata file(s), current_time: %s. ' % (total, ntcnow_iso()) +
+                   'Please be patient, it may take sometime.')
         for metafile in metadata_file:
             current += 1
 
@@ -123,13 +125,13 @@ def validate(ctx, metadata_str, metadata_file, data_dir, skip_md5sum_check):
 
         # split report based on validation status
         for status in (
-                'INVALID',
-                'UNKNOWN',
-                'PASS-with-WARNING-and-SKIPPED-check',
-                'PASS-with-SKIPPED-check',
-                'PASS-with-WARNING',
-                'PASS'
-            ):
+                    'INVALID',
+                    'UNKNOWN',
+                    'PASS-with-WARNING-and-SKIPPED-check',
+                    'PASS-with-SKIPPED-check',
+                    'PASS-with-WARNING',
+                    'PASS'
+                ):
             report_filename = 'validation_report.%s.jsonl' % status
             log_filename = os.path.splitext(os.path.basename(log_file))[0]
             report_file = os.path.join('logs', '%s.%s' % (log_filename, report_filename))
