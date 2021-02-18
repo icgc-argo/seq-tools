@@ -30,7 +30,7 @@ class Checker(BaseChecker):
     This checker verify whether fileSize and fileMd5sum provided in metadata are correct or not. 
     """
 
-    def __init__(self, ctx, metadata):
+    def __init__(self, ctx, metadata, skip=False):
         super().__init__(
             ctx=ctx,
             metadata=metadata,
@@ -38,7 +38,8 @@ class Checker(BaseChecker):
             depends_on=[  # dependent checks
                 'c180_file_uniqueness',
                 'c605_all_files_accessible'
-            ]
+            ],
+            skip=skip
         )
 
     @BaseChecker._catch_exception

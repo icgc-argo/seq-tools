@@ -26,14 +26,15 @@ import subprocess
 
 
 class Checker(BaseChecker):
-    def __init__(self, ctx, metadata):
+    def __init__(self, ctx, metadata, skip=False):
         super().__init__(
             ctx=ctx,
             metadata=metadata,
             checker_name=__name__,
             depends_on=[  # dependent checks
                 'c640_one_sm_in_bam_header'
-            ]
+            ],
+            skip=skip
         )
 
     @BaseChecker._catch_exception

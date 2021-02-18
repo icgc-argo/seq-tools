@@ -24,14 +24,15 @@ from base_checker import BaseChecker
 
 
 class Checker(BaseChecker):
-    def __init__(self, ctx, metadata):
+    def __init__(self, ctx, metadata, skip=False):
         super().__init__(
             ctx=ctx,
             metadata=metadata,
             checker_name=__name__,
             depends_on=[  # dependent checks
                 'c160_file_r1_r2_check'
-            ]
+            ],
+            skip=skip
         )
 
     @BaseChecker._catch_exception

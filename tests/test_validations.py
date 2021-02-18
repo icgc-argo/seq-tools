@@ -1,6 +1,7 @@
 import os
 import json
 import re
+from pathlib import Path
 from glob import glob
 from click.testing import CliRunner
 from seq_tools.cli import main
@@ -39,6 +40,9 @@ def test_validate(submission):
     cli_option = ['validate', metadata_file]
     if not seq_files:
         cli_option += ['-d', os.path.join(test_dir, 'seq-data')]
+
+    if str(Path(metadata_file).parent).endswith('skip-md5'):
+        cli_option += ['--skip_md5sum_check']
 
     runner.invoke(main, cli_option)
 

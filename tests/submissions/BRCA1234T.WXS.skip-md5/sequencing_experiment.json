@@ -1,0 +1,99 @@
+{
+  "analysisType": {
+    "name": "sequencing_experiment"
+  },
+  "studyId": "TEST-PR",
+  "experiment": {
+    "submitter_sequencing_experiment_id": "TEST_EXP",
+    "sequencing_center": "EXT",
+    "platform": "ILLUMINA",
+    "platform_model": "HiSeq 2000",
+    "experimental_strategy": "WGS",
+    "sequencing_date": "2014-12-12"
+  },
+  "read_group_count": "1",
+  "read_groups": [
+    {
+      "submitter_read_group_id": "D0RE2_1a_1",
+      "read_group_id_in_bam": null,
+      "platform_unit": "74_8a",
+      "is_paired_end": true,
+      "file_r1": "",
+      "file_r2": "test1_rg_3.bam",
+      "read_length_r1": 150,
+      "read_length_r2": 150,
+      "insert_size": 298,
+      "sample_barcode": null,
+      "library_name": "Pond-147580"
+    },
+    {
+      "submitter_read_group_id": "D0RE2_1a",
+      "read_group_id_in_bam": "D0RE2_1'",
+      "platform_unit": "74_8b",
+      "is_paired_end": true,
+      "file_r1": "test1_rg_3.bam",
+      "file_r2": "test1_rg_3.bam",
+      "read_length_r1": 150,
+      "read_length_r2": 150,
+      "insert_size": 298,
+      "sample_barcode": null,
+      "library_name": "Pond-147580"
+    },
+    {
+      "submitter_read_group_id": "D0RH0_2b",
+      "read_group_id_in_bam": "D0RH0:2''",
+      "platform_unit": "74_8c",
+      "is_paired_end": true,
+      "file_r1": "test1_rg_3.bam",
+      "file_r2": "test1_rg_3.bam",
+      "read_length_r1": 150,
+      "read_length_r2": 150,
+      "insert_size": 298,
+      "sample_barcode": null,
+      "library_name": "Pond-147580"
+    }
+  ],
+  "samples": [
+    {
+      "submitterSampleId": "BRCA1234T",
+      "matchedNormalSubmitterSampleId": "BRCA1234N",
+      "sampleType": "Total DNA",
+      "specimen": {
+        "submitterSpecimenId": "BRCA1234T",
+        "tumourNormalDesignation": "Tumour",
+        "specimenTissueSource": "Blood derived",
+        "specimenType": "Tumour"
+      },
+      "donor": {
+        "submitterDonorId": "HCC1143",
+        "gender": "Female"
+      }
+    },
+    {
+      "submitterSampleId": "BRCA1234T",
+      "matchedNormalSubmitterSampleId": "BRCA1234N",
+      "sampleType": "Total DNA",
+      "specimen": {
+        "submitterSpecimenId": "BRCA1234T",
+        "tumourNormalDesignation": "Tumour",
+        "specimenTissueSource": "Blood derived",
+        "specimenType": "Tumour"
+      },
+      "donor": {
+        "submitterDonorId": "HCC1143",
+        "gender": "Female"
+      }
+    }
+  ],
+  "files": [
+    {
+      "fileName": "test1_rg_3.bam",
+      "fileSize": 14935,
+      "fileMd5sum": "3f160ccdb1eae97337b42018bf141f7c",
+      "fileType": "BAM",
+      "fileAccess": "controlled",
+      "dataType": "submitted_reads",
+      "info": {}
+    }
+  ]
+}

@@ -24,9 +24,8 @@ import re
 from base_checker import BaseChecker
 
 
-
 class Checker(BaseChecker):
-    def __init__(self, ctx, metadata):
+    def __init__(self, ctx, metadata, skip=False):
         super().__init__(
             ctx=ctx,
             metadata=metadata,
@@ -34,7 +33,8 @@ class Checker(BaseChecker):
             depends_on=[  # dependent checks
                 'c190_no_extra_files',
                 'c210_no_path_in_filename'
-            ]
+            ],
+            skip=skip
         )
 
         self._patten = r'^[A-Za-z0-9]{1}[A-Za-z0-9_\.\-]*\.(bam|fq\.gz|fastq\.gz|fq\.bz2|fastq\.bz2)$'
