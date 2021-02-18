@@ -1,0 +1,21 @@
+{
+  "tool": {
+    "name": "seq-tools",
+    "version": "1.1.0"
+  },
+  "metadata_file": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/HCC1160T.bad-PU/sequencing_experiment.json",
+  "data_dir": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/HCC1160T.bad-PU",
+  "started_at": "2021-02-18T20:15:31.076Z",
+  "ended_at": "2021-02-18T20:15:31.158Z",
+  "validation": {
+    "status": "INVALID",
+    "message": "Please see individual checks for details",
+    "checks": [
+      {
+        "checker": "c140_platform_unit_uniqueness",
+        "status": "INVALID",
+        "message": "Required field 'platform_unit' not found or not populated properly in metadata JSON"
+      }
+    ]
+  }
+}
