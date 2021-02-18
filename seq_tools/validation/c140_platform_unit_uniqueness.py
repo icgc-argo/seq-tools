@@ -42,8 +42,8 @@ class Checker(BaseChecker):
         pus = set()
         duplicated_pus = []
         for rg in self.metadata.get('read_groups'):
-            if 'platform_unit' not in rg:
-                message = "Required field 'platform_unit' not found in metadata JSON"
+            if 'platform_unit' not in rg or not rg['platform_unit']:
+                message = "Required field 'platform_unit' not found or not populated properly in metadata JSON"
                 self.logger.info(f'[{self.checker}] {message}')
                 self.message = message
                 self.status = 'INVALID'
