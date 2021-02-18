@@ -21,6 +21,12 @@ cd seq-tools
 pip3 install -r requirements.txt  # install Python dependencies
 pip3 install .
 
+# to install a specific version (eg, 1.1.0) without cloning the git repository
+pip install git+https://github.com/icgc-argo/seq-tools.git@1.1.0  # replace 1.1.0 to other released version as needed
+
+# to uninstall
+pip uninstall seq-tools
+
 # verify it by check the version
 seq-tools -v
 ```
