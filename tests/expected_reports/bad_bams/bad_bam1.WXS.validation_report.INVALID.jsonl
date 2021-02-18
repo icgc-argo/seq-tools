@@ -35,9 +35,14 @@
         "message": "Duplicated read group ID found: C0HVY.2 in BAM: test_rg_4.bam"
       },
       {
-        "checker": "c680_fileSize_fileMd5sum_match",
+        "checker": "c681_fileSize_match",
         "status": "INVALID",
-        "message": "The fileSize or fileMd5sum calculated from the sequencing files does NOT match the info provided in metadata JSON. Details of the difference: [test_rg_4.bam: fileSize: 3107 vs 14935, fileMd5sum: 7d9be0eb6d8aaae58a6cc1cac23efcfd vs 3f160ccdb1eae97337b42018bf141f7c]; [test_rg_7.bam: fileSize: 310 vs 14935, fileMd5sum: 1ab39cfa84d0906603639d6a02f30f2b vs 3f160ccdb1eae97337b42018bf141f7c]"
+        "message": "The fileSize calculated from the sequencing files does NOT match the info provided in metadata JSON. Details of the difference: [test_rg_4.bam: fileSize: 3107 vs 14935]; [test_rg_7.bam: fileSize: 310 vs 14935]"
+      },
+      {
+        "checker": "c683_fileMd5sum_match",
+        "status": "INVALID",
+        "message": "The fileMd5sum calculated from the sequencing files does NOT match the info provided in metadata JSON. Details of the difference: [test_rg_4.bam: fileMd5sum: 7d9be0eb6d8aaae58a6cc1cac23efcfd vs 3f160ccdb1eae97337b42018bf141f7c]; [test_rg_7.bam: fileMd5sum: 1ab39cfa84d0906603639d6a02f30f2b vs 3f160ccdb1eae97337b42018bf141f7c]"
       }
     ]
   }

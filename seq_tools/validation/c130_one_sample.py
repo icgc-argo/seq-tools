@@ -23,11 +23,15 @@ from base_checker import BaseChecker
 
 
 class Checker(BaseChecker):
-    def __init__(self, ctx, metadata):
-        super().__init__(ctx, metadata, __name__)
+    def __init__(self, ctx, metadata, skip=False):
+        super().__init__(ctx, metadata, __name__, skip=skip)
 
     @BaseChecker._catch_exception
     def check(self):
+        # status already set at initiation
+        if self.status:
+            return
+
         if not self.metadata.get('samples'):
             message = "Missing 'samples' section in the metadata JSON"
             self.message = message

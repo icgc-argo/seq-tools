@@ -19,18 +19,26 @@
         Linda Xiang <linda.xiang@oicr.on.ca>
 """
 
+import os
+from collections import defaultdict
 from base_checker import BaseChecker
+from seq_tools.utils import calculate_size
 
 
 class Checker(BaseChecker):
+    """
+    This checker verify whether fileSize and fileMd5sum provided in metadata are correct or not. 
+    """
+
     def __init__(self, ctx, metadata, skip=False):
         super().__init__(
             ctx=ctx,
             metadata=metadata,
             checker_name=__name__,
-            depends_on=[
-                'c180_file_uniqueness'
-            ],  # dependent checks
+            depends_on=[  # dependent checks
+                'c180_file_uniqueness',
+                'c605_all_files_accessible'
+            ],
             skip=skip
         )
 
@@ -40,22 +48,31 @@ class Checker(BaseChecker):
         if self.status:
             return
 
-        file_without_data_category = []
-        for fl in self.metadata.get('files'):
-            if not fl.get('info') or not fl['info'].get('data_category') or not fl['info']['data_category'] == 'Sequencing Reads':
-                file_without_data_category.append(fl['fileName'])
+        files_in_metadata = self.metadata['files']
 
-        if file_without_data_category:
+        mismatches = defaultdict(list)  # dict to keep all mismatches from all files
+        for f in files_in_metadata:
+            seq_file = os.path.join(self.data_dir, f['fileName'])
+            real_size = calculate_size(seq_file)
+            if not real_size == f['fileSize']:
+                mismatches[f['fileName']].append(
+                        "%s: %s vs %s" % ('fileSize', real_size, f['fileSize']))
+
+        if mismatches:
+            mismatches_strings = []
+            for f in sorted(mismatches):  # file, use sorted so that order is determinastic, good for comparision in tests
+                mismatches_strings.append("[%s: %s]" % (f, ", ".join(mismatches[f])))
+
             self.status = 'INVALID'
-            message = "All files in the 'files' section of the metadata JSON are required to " \
-                "have 'info.data_category' field being populated with 'Sequencing Reads'. " \
-                "File(s) found not conforming to this requirement: '%s'." \
-                % ', '.join(sorted(file_without_data_category))
+            message = "The fileSize calculated from the sequencing files does NOT match " \
+                "the info provided in metadata JSON. Details of the difference: %s" % "; ".join(mismatches_strings)
+
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message
 
         else:
             self.status = 'PASS'
-            message = "Field 'info.data_category' is found populated with 'Sequencing Reads'. Validation status: PASS"
+            message = "The fileSize calculated from the sequencing files matches " \
+                "the info provided in metadata JSON: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

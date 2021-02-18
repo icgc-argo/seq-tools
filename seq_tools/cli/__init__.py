@@ -55,9 +55,10 @@ def main(ctx, debug, ignore_update):
 @click.option('--metadata_str', '-s', help='submission metadata as a JSON string')
 @click.option('--data_dir', '-d', type=click.Path(exists=True),
               help='path containing submission data files')
+@click.option('--skip_md5sum_check', is_flag=True, help='skip md5sum check, save time for large files')
 @click.argument('metadata_file', nargs=-1, type=click.Path(exists=True))
 @click.pass_context
-def validate(ctx, metadata_str, metadata_file, data_dir):
+def validate(ctx, metadata_str, metadata_file, data_dir, skip_md5sum_check):
     """
     Perform validation on metadata file(s) or metadata string.
     """
@@ -93,7 +94,7 @@ def validate(ctx, metadata_str, metadata_file, data_dir):
         for metafile in metadata_file:
             current += 1
 
-            perform_validation(ctx, metadata_file=metafile, data_dir=data_dir)
+            perform_validation(ctx, metadata_file=metafile, data_dir=data_dir, skip_md5sum_check=skip_md5sum_check)
 
             status = ctx.obj['validation_report']['validation']['status']
             status_with_stype = status
@@ -121,7 +122,14 @@ def validate(ctx, metadata_str, metadata_file, data_dir):
         summary_report['ended_at'] = ntcnow_iso()
 
         # split report based on validation status
-        for status in ('INVALID', 'UNKNOWN', 'PASS-with-WARNING', 'PASS'):
+        for status in (
+                'INVALID',
+                'UNKNOWN',
+                'PASS-with-WARNING-and-SKIPPED-check',
+                'PASS-with-SKIPPED-check',
+                'PASS-with-WARNING',
+                'PASS'
+            ):
             report_filename = 'validation_report.%s.jsonl' % status
             log_filename = os.path.splitext(os.path.basename(log_file))[0]
             report_file = os.path.join('logs', '%s.%s' % (log_filename, report_filename))

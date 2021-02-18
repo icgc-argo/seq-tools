@@ -54,7 +54,7 @@ class Checker(BaseChecker):
     kept while information in original submitted BAM will be lost eventually
     """
 
-    def __init__(self, ctx, metadata):
+    def __init__(self, ctx, metadata, skip=False):
         super().__init__(
             ctx=ctx,
             metadata=metadata,
@@ -68,7 +68,8 @@ class Checker(BaseChecker):
                 'c605_all_files_accessible',
                 'c610_rg_id_in_bam',
                 'c620_submitter_read_group_id_match'
-            ]
+            ],
+            skip=skip
         )
 
     @BaseChecker._catch_exception

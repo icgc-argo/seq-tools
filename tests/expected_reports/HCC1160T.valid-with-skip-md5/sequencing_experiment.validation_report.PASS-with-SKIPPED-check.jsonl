@@ -6,7 +6,7 @@
   "metadata_file": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/HCC1160T.valid/sequencing_experiment.json",
   "data_dir": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/HCC1160T.valid",
   "validation": {
-    "status": "PASS",
+    "status": "PASS-with-SKIPPED-check",
     "message": "Please see individual checks for details",
     "checks": [
       {
@@ -136,8 +136,8 @@
       },
       {
         "checker": "c683_fileMd5sum_match",
-        "status": "PASS",
-        "message": "The fileMd5sum calculated from the sequencing files matches the info provided in metadata JSON: PASS"
+        "status": "SKIPPED",
+        "message": "This check was not performed as instructed by the command line option. Status: SKIPPED"
       }
     ]
   }

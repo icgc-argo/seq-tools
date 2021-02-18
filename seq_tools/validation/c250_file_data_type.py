@@ -21,15 +21,17 @@
 
 from base_checker import BaseChecker
 
+
 class Checker(BaseChecker):
-    def __init__(self, ctx, metadata):
+    def __init__(self, ctx, metadata, skip=False):
         super().__init__(
             ctx=ctx,
             metadata=metadata,
             checker_name=__name__,
             depends_on=[
                 'c180_file_uniqueness'
-            ] # dependent checks
+            ],  # dependent checks
+            skip=skip
         )
 
     @BaseChecker._catch_exception

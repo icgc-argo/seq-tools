@@ -24,7 +24,7 @@ from base_checker import BaseChecker
 
 
 class Checker(BaseChecker):
-    def __init__(self, ctx, metadata):
+    def __init__(self, ctx, metadata, skip=False):
         super().__init__(
             ctx=ctx,
             metadata=metadata,
@@ -33,7 +33,8 @@ class Checker(BaseChecker):
                 'c190_no_extra_files',
                 'c210_no_path_in_filename',
                 'c260_filename_pattern'
-            ]
+            ],
+            skip=skip
         )
 
     @BaseChecker._catch_exception

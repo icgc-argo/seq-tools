@@ -23,11 +23,15 @@ from base_checker import BaseChecker
 
 
 class Checker(BaseChecker):
-    def __init__(self, ctx, metadata):
-        super().__init__(ctx, metadata, __name__)
+    def __init__(self, ctx, metadata, skip=False):
+        super().__init__(ctx, metadata, __name__, skip=skip)
 
     @BaseChecker._catch_exception
     def check(self):
+        # status already set at initiation
+        if self.status:
+            return
+
         offending_ids = []
         for rg in self.metadata.get('read_groups', []):
             if rg.get('read_group_id_in_bam', None) is None:

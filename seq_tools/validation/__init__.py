@@ -40,7 +40,7 @@ finally:
     sys.path[:] = path
 
 
-def perform_validation(ctx, metadata_file=None, data_dir=None, metadata_str=None):
+def perform_validation(ctx, metadata_file=None, data_dir=None, metadata_str=None, skip_md5sum_check=False):
     if not (metadata_file or metadata_str):
         echo('Must specify one or more submission metadata files or metadata as a JSON string.', err=True)
         ctx.abort()
@@ -128,7 +128,12 @@ def perform_validation(ctx, metadata_file=None, data_dir=None, metadata_str=None
             # when no submission dir specified
             if not data_dir and checker_code[0:2] in ('c6', 'c7', 'c8', 'c9'):
                 continue
-            checker = checkers[c].Checker(ctx, metadata)
+            if skip_md5sum_check and checker_code == 'c683':
+                skip = True
+            else:
+                skip = False
+
+            checker = checkers[c].Checker(ctx, metadata, skip)
             checker.check()
 
         # aggregate status from validation checks
@@ -140,6 +145,11 @@ def perform_validation(ctx, metadata_file=None, data_dir=None, metadata_str=None
             ctx.obj['validation_report']['validation']['status'] = 'INVALID'
         elif 'UNKNOWN' in check_status:
             ctx.obj['validation_report']['validation']['status'] = 'UNKNOWN'
+        elif 'SKIPPED' in check_status:
+            if 'WARNING' in check_status:
+                ctx.obj['validation_report']['validation']['status'] = 'PASS-with-WARNING-and-SKIPPED-check'
+            elif 'PASS' in check_status:
+                ctx.obj['validation_report']['validation']['status'] = 'PASS-with-SKIPPED-check'
         elif 'WARNING' in check_status:
             ctx.obj['validation_report']['validation']['status'] = 'PASS-with-WARNING'
         elif 'PASS' in check_status and len(check_status) == 1:  # only has 'PASS' status

@@ -26,11 +26,15 @@ import subprocess
 
 
 class Checker(BaseChecker):
-    def __init__(self, ctx, metadata):
-        super().__init__(ctx, metadata, __name__)
+    def __init__(self, ctx, metadata, skip=False):
+        super().__init__(ctx, metadata, __name__, skip=skip)
 
     @BaseChecker._catch_exception
     def check(self):
+        # status already set at initiation
+        if self.status:
+            return
+
         # get all RG ID from BAM(s)
         files_in_metadata = self.metadata['files']
 

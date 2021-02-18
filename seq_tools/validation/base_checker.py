@@ -18,8 +18,6 @@
         Junjun Zhang <junjun.zhang@oicr.on.ca>
 """
 
-
-import os
 import functools
 import traceback
 from abc import ABCMeta, abstractmethod
@@ -28,7 +26,7 @@ from abc import ABCMeta, abstractmethod
 class BaseChecker(object):
     __metaclass__ = ABCMeta
 
-    def __init__(self, ctx, metadata, checker_name, depends_on: list = []):
+    def __init__(self, ctx, metadata, checker_name, depends_on: list = [], skip=False):
         self._ctx = ctx
         self._metadata = metadata
         self._logger = ctx.obj['LOGGER']
@@ -41,6 +39,11 @@ class BaseChecker(object):
             'message': None
         })
         self._depends_on = depends_on
+
+        if skip:
+            self.status = 'SKIPPED'
+            self.message = "This check was not performed as instructed by the command line option. Status: SKIPPED"
+            self.logger.info("[%s] %s" % (self.checker, self.message))
 
         if self._depends_on:
             self._verify_dependencies()
