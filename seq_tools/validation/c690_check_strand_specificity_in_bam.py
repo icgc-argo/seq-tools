@@ -23,7 +23,7 @@ import os
 from base_checker import BaseChecker
 import subprocess
 import re
-from ..utils import
+from seq_tools.utils import return_genomeBuild ,index_file
 
 
 class Checker(BaseChecker):
@@ -43,27 +43,29 @@ class Checker(BaseChecker):
             self.status = 'INVALID'
             return
     
-        if not self.metadata.get('experiment')[:
+        if not self.metadata.get('experiment'):
             message = "Missing 'experiment' section in the metadata JSON"
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
             return
         
-        if not self.metadata.get('experiment')['experimental_strategy']:
+        if "experimental_strategy" not in self.metadata.get('experiment'):
             message = "Missing 'experimental_strategy' within 'experiment' section in the metadata JSON"
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
             return
-        elif self.metadata.get('experiment')['experimental_strategy']!='RNA-Seq':
+
+        if self.metadata.get('experiment')['experimental_strategy']!='RNA-Seq':
             self.status = 'PASS'
             message = "No RNA-Seq experiments to check"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')
             return
-        elif not self.metadata.get('experiment')['library_strandedness']:
-            self.status = 'PASS'
+
+        if 'library_strandedness' not in self.metadata.get('experiment'):
+            self.status = 'WARNING'
             message = "Library strandedness not specified"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')
@@ -91,48 +93,54 @@ class Checker(BaseChecker):
                 genome_build=return_genomeBuild(bam_file)
                 
                 query_flags={
-                    "1+":"-F 2832 -f 64",
-                    "1-":"-F 2816 -f 80",
-                     "2+":"-F 2832 -f 128",
-                     "2-":"-F 2816 -f 144"
+                "1+":"-F 2832 -f 64",
+                "1-":"-F 2816 -f 80",
+                 "2+":"-F 2832 -f 128",
+                 "2-":"-F 2816 -f 144"
                 }
                 
                 orientation={}
-                for query in ["1++","1–","2+-","2-+","1+-","1-+","2++","2–"]:
-                    cmd="samtools view -m 30 -c "+bam_file+" "+query_flags[query[:1]]+" -L "+genome_build[query[-1]]
+                for query in ['1++','1--','2+-','2-+','1+-','1-+','2++','2--']:
+
+                    cmd="samtools view -m 30 -c "+bam_file+" "+query_flags[query[:2]]+" -L "+genome_build[query[-1]]
                     
                     count_cmd = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
                     orientation[query]=int(count_cmd.decode('utf-8').rstrip().rstrip().split('\n')[0])
                                                
+                orientation['total']=sum(orientation.values())                             
+                orientation['1+-,1-+,2++,2--']=sum([orientation[key] for key in ['1+-','1-+','2++','2--']])/orientation['total']
+                orientation['1++,1--,2+-,2-+']=sum([orientation[key] for key in ['1++','1--','2+-','2-+']])/orientation['total']
                                                
-                orientation['1+-1-+2++2–']=sum([orientation[key] for key in ["1+-","1-+","2++","2–"]])/sum(orientation.values)
-                orientation['1++,1–,2+-,2-+']=sum([orientation[key] for key in ["1++","1–","2+-","2-+"]])/sum(orientation.values)
-                                               
-                if orientation['1+-1-+2++2–']>0.6 and orientation['1+-1-+2++2–']>orientation['1++,1–,2+-,2-+']:
+                if (orientation['1+-,1-+,2++,2--']>0.6) and (orientation['1+-,1-+,2++,2--']>orientation['1++,1--,2+-,2-+']):
                     strand_orientation='FIRST_READ_ANTISENSE_STRAND'
-                elif orientation['1++,1–,2+-,2-+']>0.6 and orientation['1++,1–,2+-,2-+']>orientation[['1+-1-+2++2–']:
+                elif (orientation['1++,1--,2+-,2-+']>0.6) and (orientation['1++,1--,2+-,2-+']>orientation['1+-,1-+,2++,2--']):
                     strand_orientation='FIRST_READ_SENSE_STRAND'
                 else:
                     strand_orientation='UNSTRANDED'
                                                                                                      
                 if strand_orientation!=self.metadata.get('experiment')['library_strandedness']:
-                    message =  "Strand orientation for RNA-Seq file %s does not match metadata" % bam"
+                    message =  "Strand orientation for RNA-Seq file %s was %s not matching metadata %s"  % (bam,strand_orientation,self.metadata.get('experiment')['library_strandedness'])
                     self.logger.info(f'[{self.checker}] {message}')
                     self.message = message
                     self.status = 'INVALID'
-                else:
                     problematic_bams.append(bam)
+                else:
+                    message =  "Strand orientation for RNA-Seq file %s was %s matching metadata %s"  % (bam,strand_orientation,self.metadata.get('experiment')['library_strandedness'])
+                    self.logger.info(f'[{self.checker}] {message}')
+                    self.message = message
                                                                                                      
-        if len(problematic_bams)>1:
+        if len(problematic_bams)>0:
             self.status = 'INVALID'
             message = "The follow BAMs stand orientation does not match metadata : %s" % ",".join(problematic_bams)
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')
+            return
         else:
             self.status = 'PASS'
-            message = "All BAMs pass strand orientation check"
+            message = "All BAMs strand orientation check : PASS"
             self.message = message
-            self.logger.info(f'[{self.checker}] {message}')                                                                                                    
+            self.logger.info(f'[{self.checker}] {message}')
+            return
                                                
                     
                                                

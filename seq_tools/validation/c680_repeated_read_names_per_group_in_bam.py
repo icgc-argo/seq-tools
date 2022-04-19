@@ -83,15 +83,17 @@ class Checker(BaseChecker):
                     stderr=subprocess.STDOUT,
                     shell=True
                 )
-                output_reads_check = reads_check.decode('utf-8').rstrip().rstrip().split('\n')
+                output_reads_check =reads_check.decode('utf-8').rstrip().rstrip().split('\n')
 
-                if len(reads_check) != 0:
+                if len(output_reads_check) != 0:
                     self.status = 'INVALID'
-                    message = "The following read names conflict in BAM %s : %s" %(bam_file,",".join(output_reads_check))
-                    self.message = message
-                    self.logger.info(f'[{self.checker}] {message}')
                     
-                    for readname in output_reads_check:
+                    for readline in output_reads_check:
+                        readgroup=readline.split("\t")[-1]
+                        readname=readline.split("\t")[1]
+                        message = "The following read names conflict in BAM %s : %s in RG %s" %(bam_file,readname,readgroup)
+                        self.message = message
+                        self.logger.info(f'[{self.checker}] {message}')
                         offending_ids.append(readname)
                     
                     return

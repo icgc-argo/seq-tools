@@ -21,7 +21,8 @@
 
 import re
 from base_checker import BaseChecker
-
+import json
+import requests
 
 class Checker(BaseChecker):
     def __init__(self, ctx, metadata, skip=False):
@@ -44,7 +45,7 @@ class Checker(BaseChecker):
         resp=requests.get(url)
         
         if resp.status_code==200:
-            regex=json.loads(resp.txt)['schema']['properties']['read_groups']['items']['allOf'][0]['properties']['submitter_read_group_id']['pattern']
+            regex=resp.json()['schema']['properties']['read_groups']['items']['allOf'][0]['properties']['submitter_read_group_id']['pattern']
         else:
             regex='^[a-zA-Z0-9\\-_:\\.]+$'
 

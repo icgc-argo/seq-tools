@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
 
 """
     Copyright (c) 2020, Ontario Institute for Cancer Research (OICR).
-
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
     by the Free Software Foundation, either version 3 of the License, or
@@ -13,9 +11,10 @@
     GNU Affero General Public License for more details.
     You should have received a copy of the GNU Affero General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/>.
-
     Authors:
         Junjun Zhang <junjun.zhang@oicr.on.ca>
+        Linda Xiang <linda.xiang@oicr.on.ca>
+        Edmund Su <linda.xiang@oicr.on.ca>
 """
 
 
@@ -257,30 +256,29 @@ def calculate_md5(file_path):
     return md5.hexdigest()
 
 def return_genomeBuild(file_path):
-    base_directory = abspath(__file__)
-    cmd=[
-    "samtools view -H "+file_path,
-    ]
+    base_directory = os.path.dirname(os.path.abspath(__file__))
     
-    chr_process = subprocess.check_output(" ".join(cmd),stderr=subprocess.STDOUT,shell=True)
-    chr_result=[line for line in chr_result.decode('utf-8').rstrip().split("\n") if re.findall(r'SN:1\t|SN:chr1\t|SN:Chr1\t|SN:CHR1',line)]
+    cmd="samtools view -H "+file_path
+    
+    chr_process = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
+    chr_result=[line for line in chr_process.decode('utf-8').rstrip().split("\n") if re.findall(r'SN:1\t|SN:chr1\t|SN:Chr1\t|SN:CHR1',line)]
     chr_size=chr_result[0].replace("\t",":").split(":")[-1]
     chr_anno=chr_result[0].replace("\t",":").split(":")[2]
     
     if chr_size=='248956422':
         build={
-            "+":base_directory+"/../resources/hg38/postive/refseq.bed"
-            "-":base_directory+"/../resources/hg38/negative/refseq.bed"
+            "+":base_directory+"/resources/hg38/positive/refseq.bed",
+            "-":base_directory+"/resources/hg38/negative/refseq.bed"
               }
-    elif chr_size=='249250621' and chr_anno=='chr1':
+    elif chr_size=='249250621' and chr_anno.lower()=='chr1':
         build={
-            "+":base_directory+"/../resources/hg19_chr/postive/refseq.bed"
-            "-":base_directory+"/../resources/hg19_chr/negative/refseq.bed"
+            "+":base_directory+"/resources/hg19_chr/positive/refseq.bed",
+            "-":base_directory+"/resources/hg19_chr/negative/refseq.bed"
               }
     else:
         build={
-            "+":base_directory+"/../resources/hg19/postive/refseq.bed"
-            "-":base_directory+"/../resources/hg19/negative/refseq.bed"
+            "+":base_directory+"/resources/hg19/positive/refseq.bed",
+            "-":base_directory+"/resources/hg19/negative/refseq.bed"
               }
 
     return build
