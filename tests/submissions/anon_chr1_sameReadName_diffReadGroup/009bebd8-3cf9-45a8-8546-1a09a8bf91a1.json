@@ -45,8 +45,8 @@
             "fileAccess": "controlled",
             "fileType": "BAM",
             "dataType": "Submitted Reads",
-            "fileSize": 258089,
-            "fileMd5sum": "41d11ca8f7f7bf86d0cd10218cc37248",
+            "fileSize": 258083,
+            "fileMd5sum": "57ba6c8d8e9d9e2ad581551c612d14b2",
             "info": {
                 "origin": "ICGC-25K",
                 "data_category": "Sequencing Reads",

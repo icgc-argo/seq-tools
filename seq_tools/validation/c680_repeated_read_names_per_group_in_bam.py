@@ -83,12 +83,12 @@ class Checker(BaseChecker):
                     stderr=subprocess.STDOUT,
                     shell=True
                 )
-                output_reads_check =reads_check.decode('utf-8').rstrip().rstrip().split('\n')
+                output_reads_check =reads_check.decode('utf-8').split('\n')
 
-                if len(output_reads_check) != 0:
+                if len(output_reads_check) > 1:
                     self.status = 'INVALID'
                     
-                    for readline in output_reads_check:
+                    for readline in output_reads_check[:-1]:
                         readgroup=readline.split("\t")[-1]
                         readname=readline.split("\t")[1]
                         message = "The following read names conflict in BAM %s : %s in RG %s" %(bam_file,readname,readgroup)
