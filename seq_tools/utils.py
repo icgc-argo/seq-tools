@@ -255,3 +255,39 @@ def calculate_md5(file_path):
         for chunk in iter(lambda: f.read(1024 * 1024), b''):
             md5.update(chunk)
     return md5.hexdigest()
+
+def return_genomeBuild(file_path):
+    base_directory = os.path.dirname(os.path.abspath(__file__))
+    
+    cmd="samtools view -H "+file_path
+    
+    chr_process = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
+    chr_result=[line for line in chr_process.decode('utf-8').rstrip().split("\n") if re.findall(r'SN:1\t|SN:chr1\t|SN:Chr1\t|SN:CHR1',line)]
+    chr_size=chr_result[0].replace("\t",":").split(":")[-1]
+    chr_anno=chr_result[0].replace("\t",":").split(":")[2]
+    
+    if chr_size=='248956422':
+        build={
+            "+":base_directory+"/resources/hg38/positive/refseq.bed",
+            "-":base_directory+"/resources/hg38/negative/refseq.bed"
+              }
+    elif chr_size=='249250621' and chr_anno.lower()=='chr1':
+        build={
+            "+":base_directory+"/resources/hg19_chr/positive/refseq.bed",
+            "-":base_directory+"/resources/hg19_chr/negative/refseq.bed"
+              }
+    else:
+        build={
+            "+":base_directory+"/resources/hg19/positive/refseq.bed",
+            "-":base_directory+"/resources/hg19/negative/refseq.bed"
+              }
+
+    return build
+    
+
+def index_file(file_path):
+    if not os.path.exists(file_path+".bai"):
+        cmd="samtools index "+file_path
+        subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
+    return
+    
