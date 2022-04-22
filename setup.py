@@ -44,10 +44,12 @@ setup(
     license='GNU Affero General Public License v3.0',
     url='https://github.com/icgc-argo/seq-tools',
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
+    package_data={"":["resources/*/*/refseq.bed"]},
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Operating System :: OS Independent",
     ],
+    include_package_data=True,
     install_requires=install_reqs,
     python_requires='>=3',
     tests_require=tests_require,
