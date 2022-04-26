@@ -1,10 +1,12 @@
 {
   "tool": {
     "name": "seq-tools",
-    "version": "1.0.0-rc.1"
+    "version": "1.1.0"
   },
-  "metadata_file": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/BRCA1234T.WXS/sequencing_experiment.json",
-  "data_dir": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/BRCA1234T.WXS",
+  "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/BRCA1234T.WXS.skip-md5/sequencing_experiment.json",
+  "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/BRCA1234T.WXS.skip-md5",
+  "started_at": "2022-04-25T23:19:07.848Z",
+  "ended_at": "2022-04-25T23:19:07.915Z",
   "validation": {
     "status": "INVALID",
     "message": "Please see individual checks for details",
