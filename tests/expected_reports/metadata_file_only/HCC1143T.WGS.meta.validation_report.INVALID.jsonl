@@ -4,9 +4,9 @@
     "version": "1.1.0"
   },
   "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/metadata_file_only/HCC1143T.WGS.meta.json",
-  "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/metadata_file_only",
-  "started_at": "2022-04-25T23:19:12.067Z",
-  "ended_at": "2022-04-25T23:19:12.132Z",
+  "data_dir": "/home/ubuntu/downloads/seq-tools/tests/seq-data",
+  "started_at": "2022-04-26T16:23:50.405Z",
+  "ended_at": "2022-04-26T16:23:50.480Z",
   "validation": {
     "status": "INVALID",
     "message": "Please see individual checks for details",
@@ -25,6 +25,11 @@
         "checker": "c260_filename_pattern",
         "status": "INVALID",
         "message": "'fileName' must match expected pattern '^[A-Za-z0-9]{1}[A-Za-z0-9_\\.\\-]*\\.(bam|fq\\.gz|fastq\\.gz|fq\\.bz2|fastq\\.bz2)$' in the 'files' section of the metadata, offending name(s): '.test_rg_3.bam'"
+      },
+      {
+        "checker": "c650_sm_in_bam_matches_metadata",
+        "status": "INVALID",
+        "message": "SM in BAM header does not match submitterSampleId in metadata JSON: HCC1143 vs HCC1143T"
       }
     ]
   }
