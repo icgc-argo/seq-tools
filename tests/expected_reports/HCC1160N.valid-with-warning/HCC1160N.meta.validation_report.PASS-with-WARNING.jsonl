@@ -1,10 +1,12 @@
 {
   "tool": {
     "name": "seq-tools",
-    "version": "1.0.0-rc.2"
+    "version": "1.1.0"
   },
-  "metadata_file": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/HCC1160N.valid-with-warning/HCC1160N.meta.json",
-  "data_dir": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/HCC1160N.valid-with-warning",
+  "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/HCC1160N.valid-with-warning/HCC1160N.meta.json",
+  "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/HCC1160N.valid-with-warning",
+  "started_at": "2022-04-25T23:19:09.966Z",
+  "ended_at": "2022-04-25T23:19:10.060Z",
   "validation": {
     "status": "PASS-with-WARNING",
     "message": "Please see individual checks for details",
