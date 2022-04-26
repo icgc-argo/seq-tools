@@ -1,10 +1,12 @@
 {
   "tool": {
     "name": "seq-tools",
-    "version": "1.0.0-rc.1"
+    "version": "1.1.0"
   },
-  "metadata_file": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/no_files.WXS/sequencing_experiment.json",
-  "data_dir": "/Users/junjun/A.ARGO/git/seq-tools/tests/seq-data",
+  "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/no_files.WXS/sequencing_experiment.json",
+  "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/no_files.WXS",
+  "started_at": "2022-04-25T23:19:04.341Z",
+  "ended_at": "2022-04-25T23:19:04.408Z",
   "validation": {
     "status": "INVALID",
     "message": "Please see individual checks for details",

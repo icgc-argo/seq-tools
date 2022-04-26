@@ -91,7 +91,11 @@ class Checker(BaseChecker):
         if bams and len(all_sms) != 1:
             raise Exception("No SM or more than one SM found in BAM(s): '%s'. Please see earlier check status "
                             "for details." % ', '.join(all_sms))
-
+        elif bams and list(all_sms)[0]=="":
+            self.status = 'WARNING'
+            message = "SM is empty. Validation status: WARNING"
+            self.logger.info(f'[{self.checker}] {message}')
+            self.message = message           
         elif bams and list(all_sms)[0] != submitter_sample_id:
             self.status = 'INVALID'
             message = "SM in BAM header does not match submitterSampleId in metadata JSON: %s vs %s" % \

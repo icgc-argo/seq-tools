@@ -1,10 +1,12 @@
 {
   "tool": {
     "name": "seq-tools",
-    "version": "1.0.0-rc.1"
+    "version": "1.1.0"
   },
-  "metadata_file": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/bad_bams/bad_bam1.WXS.json",
-  "data_dir": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/bad_bams",
+  "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/bad_bams/bad_bam1.WXS.json",
+  "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/bad_bams",
+  "started_at": "2022-04-25T23:19:03.588Z",
+  "ended_at": "2022-04-25T23:19:03.706Z",
   "validation": {
     "status": "INVALID",
     "message": "Please see individual checks for details",
@@ -27,7 +29,7 @@
       {
         "checker": "c608_bam_sanity",
         "status": "INVALID",
-        "message": "BAM file(s) samtools quickcheck failed: test_rg_7.bam. More information can be found in under: /Users/junjun/A.ARGO/git/seq-tools/tests/logs/2020_12_08T04_17_30_578980.log"
+        "message": "BAM file(s) samtools quickcheck failed: test_rg_7.bam. More information can be found in under: /home/ubuntu/downloads/logs/2022_04_25T23_19_03_587859.log"
       },
       {
         "checker": "c610_rg_id_in_bam",

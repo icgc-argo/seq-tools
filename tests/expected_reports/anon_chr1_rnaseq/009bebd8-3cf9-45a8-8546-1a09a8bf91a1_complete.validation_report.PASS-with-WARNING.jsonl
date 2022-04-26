@@ -3,12 +3,12 @@
     "name": "seq-tools",
     "version": "1.1.0"
   },
-  "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/HCC1160T.valid-with-skip-md5/sequencing_experiment.json",
-  "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/HCC1160T.valid-with-skip-md5",
-  "started_at": "2022-04-25T23:19:12.764Z",
-  "ended_at": "2022-04-25T23:19:12.861Z",
+  "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/anon_chr1_rnaseq/009bebd8-3cf9-45a8-8546-1a09a8bf91a1_complete.json",
+  "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/anon_chr1_rnaseq",
+  "started_at": "2022-04-26T19:31:38.542Z",
+  "ended_at": "2022-04-26T19:31:38.729Z",
   "validation": {
-    "status": "PASS-with-SKIPPED-check",
+    "status": "PASS-with-WARNING",
     "message": "Please see individual checks for details",
     "checks": [
       {
@@ -123,13 +123,13 @@
       },
       {
         "checker": "c650_sm_in_bam_matches_metadata",
-        "status": "PASS",
-        "message": "SM in BAM header matches submitterSampleId in metadata JSON. Validation status: PASS"
+        "status": "WARNING",
+        "message": "SM is empty. Validation status: WARNING"
       },
       {
         "checker": "c660_metadata_in_bam_rg_header",
-        "status": "PASS",
-        "message": "Information (excluding ID and SM which are validated elsewhere) in BAM @RG header match experiment/read group info in metadata JSON: PASS"
+        "status": "WARNING",
+        "message": "Information (excluding ID and SM which are validated elsewhere) in BAM @RG header does NOT match experiment/read group info in the metadata JSON. NOTE that information in the metadata JSON document will be kept and used in ICGC ARGO uniform analysis while unmatched info in BAM header will be discarded. Details of the difference: [BAM PCAWG.8e0862eb-73e2-42c0-b809-9510a888b931.STAR.v1.bam @RG QCMG:22f321c6-ff3f-11e4-8e8b-f8a0800c69f0:130711_7001243_0176_BD2B86ACXX.lane_7.CTTGTA.1: (PU: QCMG:130711_7001243_0176_BD2B86ACXX.lane_7.CTTGTA.1 vs QCMG_22f321c6-ff3f-11e4-8e8b-f8a0800c69f0_130711_7001243_0176_BD2B86ACXX.lane_7.CTTGTA.1_8043985)]; [BAM PCAWG.8e0862eb-73e2-42c0-b809-9510a888b931.STAR.v1.bam @RG QCMG:866d65b8-ff3f-11e4-b413-bdbd66be296d:130711_7001243_0176_BD2B86ACXX.lane_8.CTTGTA.1: (PU: QCMG:130711_7001243_0176_BD2B86ACXX.lane_8.CTTGTA.1 vs QCMG_866d65b8-ff3f-11e4-b413-bdbd66be296d_130711_7001243_0176_BD2B86ACXX.lane_8.CTTGTA.1_8043985)]; [BAM PCAWG.8e0862eb-73e2-42c0-b809-9510a888b931.STAR.v1.bam @RG QCMG:91ce15f2-ff3e-11e4-9d73-85b485b025f8:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1: (PU: QCMG:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1 vs QCMG_91ce15f2-ff3e-11e4-9d73-85b485b025f8_130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1_8043985)]; [BAM PCAWG.8e0862eb-73e2-42c0-b809-9510a888b931.STAR.v1.bam @RG QCMG:dd3f83b8-ff3e-11e4-81af-910d0943bdb6:130711_7001243_0176_BD2B86ACXX.lane_6.CTTGTA.1: (PU: QCMG:130711_7001243_0176_BD2B86ACXX.lane_6.CTTGTA.1 vs QCMG_dd3f83b8-ff3e-11e4-81af-910d0943bdb6_130711_7001243_0176_BD2B86ACXX.lane_6.CTTGTA.1_8043985)]"
       },
       {
         "checker": "c681_fileSize_match",
@@ -138,8 +138,8 @@
       },
       {
         "checker": "c683_fileMd5sum_match",
-        "status": "SKIPPED",
-        "message": "This check was not performed as instructed by the command line option. Status: SKIPPED"
+        "status": "PASS",
+        "message": "The fileMd5sum calculated from the sequencing files matches the info provided in metadata JSON: PASS"
       }
     ]
   }

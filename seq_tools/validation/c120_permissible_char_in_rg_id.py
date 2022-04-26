@@ -21,7 +21,8 @@
 
 import re
 from base_checker import BaseChecker
-
+import json
+import requests
 
 class Checker(BaseChecker):
     def __init__(self, ctx, metadata, skip=False):
@@ -39,6 +40,14 @@ class Checker(BaseChecker):
             self.message = message
             self.status = 'INVALID'
             return
+        
+        url='https://raw.githubusercontent.com/icgc-argo/argo-metadata-schemas/master/schemas/sequencing_experiment.json'
+        resp=requests.get(url)
+        
+        if resp.status_code==200:
+            regex=resp.json()['schema']['properties']['read_groups']['items']['allOf'][0]['properties']['submitter_read_group_id']['pattern']
+        else:
+            regex='^[a-zA-Z0-9\\-_:\\.]+$'
 
         offending_ids = set()
         for rg in self.metadata.get('read_groups'):
@@ -49,14 +58,14 @@ class Checker(BaseChecker):
                 self.status = 'INVALID'
                 return
 
-            if not re.match(r'^[a-zA-Z0-9_\.\-]{2,}$', rg['submitter_read_group_id']):
+            if not re.match(regex, rg['submitter_read_group_id']):
                 offending_ids.add(rg['submitter_read_group_id'])
 
         if offending_ids:
             message =  "'submitter_read_group_id' in metadata contains invalid character or " \
                 "is shorter then 2 characters: '%s'. " \
                 "Permissible characters include: a-z, A-Z, 0-9, - (hyphen), " \
-                "_ (underscore) and . (dot)" % ', '.join(offending_ids)
+                "_ (underscore), : (colon), . (dot)" % ', '.join(offending_ids)
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
