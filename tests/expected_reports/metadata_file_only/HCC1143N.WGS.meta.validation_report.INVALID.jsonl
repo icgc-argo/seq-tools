@@ -1,10 +1,12 @@
 {
   "tool": {
     "name": "seq-tools",
-    "version": "1.0.0-rc.1"
+    "version": "1.1.0"
   },
-  "metadata_file": "/Users/junjun/A.ARGO/git/seq-tools/tests/submissions/metadata_file_only/HCC1143N.WGS.meta.json",
-  "data_dir": "/Users/junjun/A.ARGO/git/seq-tools/tests/seq-data",
+  "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/metadata_file_only/HCC1143N.WGS.meta.json",
+  "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/metadata_file_only",
+  "started_at": "2022-04-26T21:31:41.972Z",
+  "ended_at": "2022-04-26T21:31:41.999Z",
   "validation": {
     "status": "INVALID",
     "message": "Please see individual checks for details",
@@ -17,7 +19,7 @@
       {
         "checker": "c120_permissible_char_in_rg_id",
         "status": "INVALID",
-        "message": "'submitter_read_group_id' in metadata contains invalid character or is shorter then 2 characters: 'D0RH0/2'. Permissible characters include: a-z, A-Z, 0-9, - (hyphen), _ (underscore) and . (dot)"
+        "message": "'submitter_read_group_id' in metadata contains invalid character or is shorter then 2 characters: 'D0RH0/2'. Permissible characters include: a-z, A-Z, 0-9, - (hyphen), _ (underscore), : (colon), . (dot)"
       },
       {
         "checker": "c140_platform_unit_uniqueness",
@@ -53,6 +55,11 @@
         "checker": "c250_file_data_type",
         "status": "INVALID",
         "message": "All files in the 'files' section of the metadata JSON are required to have 'dataType' field being populated with 'Submitted Reads'. File(s) found not conforming to this requirement: 'C0HVY.2_r2.fq.bz2, D0RE2.1_r1.fq.bz2, D0RH0.2_r1.fq.bz2'."
+      },
+      {
+        "checker": "c670_rg_is_paired_in_bam",
+        "status": "INVALID",
+        "message": "'is_pair_end' not found in readgroup : D0RE2.1"
       }
     ]
   }
