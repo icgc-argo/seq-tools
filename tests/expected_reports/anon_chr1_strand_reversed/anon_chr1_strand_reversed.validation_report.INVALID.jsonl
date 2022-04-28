@@ -1,0 +1,21 @@
+{
+  "tool": {
+    "name": "seq-tools",
+    "version": "1.1.0"
+  },
+  "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/anon_chr1_strand_reversed/anon_chr1_strand_reversed.json",
+  "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/anon_chr1_strand_reversed",
+  "started_at": "2022-04-28T21:54:05.725Z",
+  "ended_at": "2022-04-28T21:54:13.977Z",
+  "validation": {
+    "status": "INVALID",
+    "message": "Please see individual checks for details",
+    "checks": [
+      {
+        "checker": "c690_check_strand_specificity_in_bam",
+        "status": "INVALID",
+        "message": "The follow BAMs stand orientation does not match metadata : anon_chr1_strand_reversed.bam"
+      }
+    ]
+  }
+}

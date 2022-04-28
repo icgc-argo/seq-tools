@@ -1,0 +1,21 @@
+{
+  "tool": {
+    "name": "seq-tools",
+    "version": "1.1.0"
+  },
+  "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/anon_chr1_rnaseq/anon_chr1_noStranded.json",
+  "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/anon_chr1_rnaseq",
+  "started_at": "2022-04-28T21:52:51.921Z",
+  "ended_at": "2022-04-28T21:52:59.598Z",
+  "validation": {
+    "status": "INVALID",
+    "message": "Please see individual checks for details",
+    "checks": [
+      {
+        "checker": "c690_check_strand_specificity_in_bam",
+        "status": "INVALID",
+        "message": "RNA-Seq Library strandedness not specified"
+      }
+    ]
+  }
+}

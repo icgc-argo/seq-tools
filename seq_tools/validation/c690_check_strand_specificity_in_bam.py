@@ -65,8 +65,8 @@ class Checker(BaseChecker):
             return
 
         if 'library_strandedness' not in self.metadata.get('experiment'):
-            self.status = 'WARNING'
-            message = "Library strandedness not specified"
+            self.status = 'INVALID'
+            message = "RNA-Seq Library strandedness not specified"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')
             return

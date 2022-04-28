@@ -4,9 +4,9 @@
     "version": "1.1.0"
   },
   "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/HCC1160N.valid-with-warning-and-skip-md5/HCC1160N.meta.json",
-  "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/HCC1160N.valid-with-warning-and-skip-md5",
-  "started_at": "2022-04-28T18:23:49.728Z",
-  "ended_at": "2022-04-28T18:23:50.075Z",
+  "data_dir": "/home/ubuntu/downloads/seq-tools/tests/seq-data",
+  "started_at": "2022-04-28T22:15:50.268Z",
+  "ended_at": "2022-04-28T22:15:50.765Z",
   "validation": {
     "status": "PASS-with-WARNING-and-SKIPPED-check",
     "message": "Please see individual checks for details",
@@ -150,6 +150,11 @@
         "checker": "c683_fileMd5sum_match",
         "status": "SKIPPED",
         "message": "This check was not performed as instructed by the command line option. Status: SKIPPED"
+      },
+      {
+        "checker": "c690_check_strand_specificity_in_bam",
+        "status": "PASS",
+        "message": "No RNA-Seq experiments to check"
       }
     ]
   }

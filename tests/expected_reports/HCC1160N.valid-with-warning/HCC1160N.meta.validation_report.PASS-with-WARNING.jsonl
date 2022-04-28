@@ -5,8 +5,8 @@
   },
   "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/HCC1160N.valid-with-warning/HCC1160N.meta.json",
   "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/HCC1160N.valid-with-warning",
-  "started_at": "2022-04-28T18:25:58.004Z",
-  "ended_at": "2022-04-28T18:25:58.356Z",
+  "started_at": "2022-04-28T22:06:53.404Z",
+  "ended_at": "2022-04-28T22:06:53.752Z",
   "validation": {
     "status": "PASS-with-WARNING",
     "message": "Please see individual checks for details",
@@ -150,6 +150,11 @@
         "checker": "c683_fileMd5sum_match",
         "status": "PASS",
         "message": "The fileMd5sum calculated from the sequencing files matches the info provided in metadata JSON: PASS"
+      },
+      {
+        "checker": "c690_check_strand_specificity_in_bam",
+        "status": "PASS",
+        "message": "No RNA-Seq experiments to check"
       }
     ]
   }

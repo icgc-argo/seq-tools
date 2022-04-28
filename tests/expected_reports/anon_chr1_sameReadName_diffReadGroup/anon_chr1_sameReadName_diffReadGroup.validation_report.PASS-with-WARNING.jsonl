@@ -5,8 +5,8 @@
   },
   "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/anon_chr1_sameReadName_diffReadGroup/anon_chr1_sameReadName_diffReadGroup.json",
   "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/anon_chr1_sameReadName_diffReadGroup",
-  "started_at": "2022-04-28T19:45:15.623Z",
-  "ended_at": "2022-04-28T19:45:23.305Z",
+  "started_at": "2022-04-28T20:44:28.450Z",
+  "ended_at": "2022-04-28T20:44:36.483Z",
   "validation": {
     "status": "PASS-with-WARNING",
     "message": "Please see individual checks for details",
@@ -150,6 +150,11 @@
         "checker": "c683_fileMd5sum_match",
         "status": "PASS",
         "message": "The fileMd5sum calculated from the sequencing files matches the info provided in metadata JSON: PASS"
+      },
+      {
+        "checker": "c690_check_strand_specificity_in_bam",
+        "status": "PASS",
+        "message": "All BAMs strand orientation check : PASS"
       }
     ]
   }
