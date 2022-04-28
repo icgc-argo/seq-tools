@@ -110,6 +110,6 @@ class Checker(BaseChecker):
             self.status = 'INVALID'
         else:
             self.status = 'PASS'
-            message = "Read group pair status in BAM check: PASS"
+            message = "Repeated Read names within Read groups in BAM not found: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')
