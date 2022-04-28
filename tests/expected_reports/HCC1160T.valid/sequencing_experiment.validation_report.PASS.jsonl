@@ -5,8 +5,8 @@
   },
   "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/HCC1160T.valid/sequencing_experiment.json",
   "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/HCC1160T.valid",
-  "started_at": "2022-04-25T23:19:10.689Z",
-  "ended_at": "2022-04-25T23:19:10.786Z",
+  "started_at": "2022-04-26T21:31:41.215Z",
+  "ended_at": "2022-04-26T21:31:41.341Z",
   "validation": {
     "status": "PASS",
     "message": "Please see individual checks for details",
@@ -130,6 +130,11 @@
         "checker": "c660_metadata_in_bam_rg_header",
         "status": "PASS",
         "message": "Information (excluding ID and SM which are validated elsewhere) in BAM @RG header match experiment/read group info in metadata JSON: PASS"
+      },
+      {
+        "checker": "c670_rg_is_paired_in_bam",
+        "status": "PASS",
+        "message": "Read group pair status in BAM check: PASS"
       },
       {
         "checker": "c681_fileSize_match",

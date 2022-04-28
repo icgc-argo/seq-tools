@@ -5,8 +5,8 @@
   },
   "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/bad_bams/bad_bam1.WXS.json",
   "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/bad_bams",
-  "started_at": "2022-04-25T23:19:03.588Z",
-  "ended_at": "2022-04-25T23:19:03.706Z",
+  "started_at": "2022-04-26T21:31:33.956Z",
+  "ended_at": "2022-04-26T21:31:34.080Z",
   "validation": {
     "status": "INVALID",
     "message": "Please see individual checks for details",
@@ -29,12 +29,17 @@
       {
         "checker": "c608_bam_sanity",
         "status": "INVALID",
-        "message": "BAM file(s) samtools quickcheck failed: test_rg_7.bam. More information can be found in under: /home/ubuntu/downloads/logs/2022_04_25T23_19_03_587859.log"
+        "message": "BAM file(s) samtools quickcheck failed: test_rg_7.bam. More information can be found in under: /home/ubuntu/downloads/logs/2022_04_26T21_31_33_955735.log"
       },
       {
         "checker": "c610_rg_id_in_bam",
         "status": "INVALID",
         "message": "Duplicated read group ID found: C0HVY.2 in BAM: test_rg_4.bam"
+      },
+      {
+        "checker": "c670_rg_is_paired_in_bam",
+        "status": "INVALID",
+        "message": "Read group paired status in BAM does not match metadata: D0RE2_1a_1"
       },
       {
         "checker": "c681_fileSize_match",

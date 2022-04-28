@@ -5,8 +5,8 @@
   },
   "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/BRCA1234T.WXS.skip-md5/sequencing_experiment.json",
   "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/BRCA1234T.WXS.skip-md5",
-  "started_at": "2022-04-25T23:19:07.848Z",
-  "ended_at": "2022-04-25T23:19:07.915Z",
+  "started_at": "2022-04-26T21:31:38.292Z",
+  "ended_at": "2022-04-26T21:31:38.368Z",
   "validation": {
     "status": "INVALID",
     "message": "Please see individual checks for details",
@@ -50,6 +50,11 @@
         "checker": "c640_one_sm_in_bam_header",
         "status": "INVALID",
         "message": "SM in @RG headers of all BAM(s) must be populated with the same value. BAM(s) with no SM or multiple SMs, or different SMs from different BAMs are found: BAM test1_rg_3.bam: 'BRCA1234T', 'HCC1143'"
+      },
+      {
+        "checker": "c670_rg_is_paired_in_bam",
+        "status": "INVALID",
+        "message": "Read group paired status in BAM does not match metadata: D0RE2_1a"
       }
     ]
   }
