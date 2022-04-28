@@ -57,7 +57,7 @@ class Checker(BaseChecker):
                 continue
             
             bam_file=os.path.join(self.data_dir,rg['file_r1'])
-            cmd=['samtools', 'view', '-f','128', bam_file,"|","egrep",rg['read_group_id_in_bam'],"-m","10","|", "wc","-l"]
+            cmd=['samtools', 'view', '-f','128', bam_file,"|","egrep",rg['read_group_id_in_bam'].replace("'","\\'"),"-m","10","|", "wc","-l"]
             paired_check = subprocess.check_output(
                 " ".join(cmd),
                 stderr=subprocess.STDOUT,
