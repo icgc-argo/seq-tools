@@ -2,7 +2,6 @@
 
 """
     Copyright (c) 2020, Ontario Institute for Cancer Research (OICR).
-
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
     by the Free Software Foundation, either version 3 of the License, or
@@ -13,16 +12,18 @@
     GNU Affero General Public License for more details.
     You should have received a copy of the GNU Affero General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/>.
-
     Authors:
         Junjun Zhang <junjun.zhang@oicr.on.ca>
+        Linda Xiang <linda.xiang@oicr.on.ca>
+        Edmund Su <linda.xiang@oicr.on.ca>
 """
 
 
-import re
+import os
 from base_checker import BaseChecker
-import json
-import requests
+import subprocess
+import re
+
 
 class Checker(BaseChecker):
     def __init__(self, ctx, metadata, skip=False):
@@ -40,37 +41,52 @@ class Checker(BaseChecker):
             self.message = message
             self.status = 'INVALID'
             return
-        
-        url='https://raw.githubusercontent.com/icgc-argo/argo-metadata-schemas/master/schemas/sequencing_experiment.json'
-        resp=requests.get(url)
-        
-        if resp.status_code==200:
-            regex=resp.json()['schema']['properties']['read_groups']['items']['allOf'][0]['properties']['submitter_read_group_id']['pattern']
-        else:
-            regex='^[a-zA-Z0-9\\-_:\\.]+$'
-
-        offending_ids = set()
+    
+            
+        offending_rgs = []
         for rg in self.metadata.get('read_groups'):
-            if 'submitter_read_group_id' not in rg:
-                message = "Required field 'submitter_read_group_id' not found in metadata JSON"
+        
+            if not rg['is_paired_end']:
+                message = "'is_pair_end' not found in readgroup : %s" % rg['submitter_read_group_id']
                 self.logger.info(f'[{self.checker}] {message}')
                 self.message = message
                 self.status = 'INVALID'
                 return
+            
+            if not rg['file_r1'].endswith('.bam'):
+                continue
+            
+            bam_file=os.path.join(self.data_dir,rg['file_r1'])
+            cmd=['samtools', 'view', '-f','128', bam_file,"|","egrep",rg['read_group_id_in_bam'].replace("'","\\'"),"-m","10","|", "wc","-l"]
+            paired_check = subprocess.check_output(
+                " ".join(cmd),
+                stderr=subprocess.STDOUT,
+                shell=True
+            )
+            paired_check_bool = True if "10" in paired_check.decode('utf-8').rstrip().rstrip().split('\n') else False
+            paired_metadata_bool = rg['is_paired_end']
+            
+            if paired_check_bool != paired_metadata_bool:
+                offending_rgs.append(rg['submitter_read_group_id'])
+                
+                self.status = 'INVALID'
+                message = "Read group paired status in BAM does not match metadata: %s" % rg['submitter_read_group_id']
+                self.message = message
+                self.logger.info(f'[{self.checker}] {message}')
+                return
 
-            if not re.match(regex, rg['submitter_read_group_id']):
-                offending_ids.add(rg['submitter_read_group_id'])
+        if offending_rgs:
+            msg = []
+            for k in offending_rgs:
+                msg.append("offending read groups in BAM %s: %s" % (k))
 
-        if offending_ids:
-            message =  "'submitter_read_group_id' in metadata contains invalid character or " \
-                "is shorter then 2 characters: '%s'. " \
-                "Permissible characters include: a-z, A-Z, 0-9, - (hyphen), " \
-                "_ (underscore), : (colon), . (dot)" % ', '.join(offending_ids)
+            message = "Paired status does not match in the following: %s" % ('; '.join(msg))
+
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
         else:
             self.status = 'PASS'
-            message = "Read group ID permissible character check status: PASS"
+            message = "Read group pair status in BAM check: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')

@@ -7,6 +7,6 @@ dependencies:
   - bioconda::samtools=1.10
   - pip
   - pip:
-    - -r file:requirements.txt
-    - -r file:requirements-test.txt
+    - -r requirements.txt
+    - -r requirements-test.txt
     - .
