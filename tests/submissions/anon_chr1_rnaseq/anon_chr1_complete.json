@@ -1,5 +1,5 @@
 {
-    "studyId": "APGI-AU",
+    "studyId": "TEST-PR",
     "analysisType": {
         "name": "sequencing_experiment"
     },
@@ -16,7 +16,7 @@
             },
             "donor": {
                 "gender": "Male",
-                "submitterDonorId": "ICGC_0146"
+                "submitterDonorId": "ANONYMOUS"
             },
             "submitterSampleId": "8043985",
             "matchedNormalSubmitterSampleId": "None",
@@ -41,7 +41,7 @@
     },
     "files": [
         {
-            "fileName": "PCAWG.8e0862eb-73e2-42c0-b809-9510a888b931.STAR.v1.bam",
+            "fileName": "anon_chr1_complete.bam",
             "fileAccess": "controlled",
             "fileType": "BAM",
             "dataType": "Submitted Reads",
@@ -59,8 +59,8 @@
             "insert_size": null,
             "sample_barcode": null,
             "is_paired_end": true,
-            "file_r2": "PCAWG.8e0862eb-73e2-42c0-b809-9510a888b931.STAR.v1.bam",
-            "file_r1": "PCAWG.8e0862eb-73e2-42c0-b809-9510a888b931.STAR.v1.bam",
+            "file_r2": "anon_chr1_complete.bam",
+            "file_r1": "anon_chr1_complete.bam",
             "read_length_r1": 101,
             "read_length_r2": 101,
             "library_name": "RNA-Seq:QCMG:QCMG:130711_7001243_0176_BD2B86ACXX.lane_8.CTTGTA:RNA-Seq:QCMG:Illumina TruSeq for Library_20130620_F",
@@ -72,8 +72,8 @@
             "insert_size": null,
             "sample_barcode": null,
             "is_paired_end": true,
-            "file_r2": "PCAWG.8e0862eb-73e2-42c0-b809-9510a888b931.STAR.v1.bam",
-            "file_r1": "PCAWG.8e0862eb-73e2-42c0-b809-9510a888b931.STAR.v1.bam",
+            "file_r2": "anon_chr1_complete.bam",
+            "file_r1": "anon_chr1_complete.bam",
             "read_length_r1": 101,
             "read_length_r2": 101,
             "library_name": "RNA-Seq:QCMG:QCMG:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA:RNA-Seq:QCMG:Illumina TruSeq for Library_20130620_F",
@@ -85,8 +85,8 @@
             "insert_size": null,
             "sample_barcode": null,
             "is_paired_end": true,
-            "file_r2": "PCAWG.8e0862eb-73e2-42c0-b809-9510a888b931.STAR.v1.bam",
-            "file_r1": "PCAWG.8e0862eb-73e2-42c0-b809-9510a888b931.STAR.v1.bam",
+            "file_r2": "anon_chr1_complete.bam",
+            "file_r1": "anon_chr1_complete.bam",
             "read_length_r1": 101,
             "read_length_r2": 101,
             "library_name": "RNA-Seq:QCMG:QCMG:130711_7001243_0176_BD2B86ACXX.lane_6.CTTGTA:RNA-Seq:QCMG:Illumina TruSeq for Library_20130620_F",
@@ -98,8 +98,8 @@
             "insert_size": null,
             "sample_barcode": null,
             "is_paired_end": true,
-            "file_r2": "PCAWG.8e0862eb-73e2-42c0-b809-9510a888b931.STAR.v1.bam",
-            "file_r1": "PCAWG.8e0862eb-73e2-42c0-b809-9510a888b931.STAR.v1.bam",
+            "file_r2": "anon_chr1_complete.bam",
+            "file_r1": "anon_chr1_complete.bam",
             "read_length_r1": 101,
             "read_length_r2": 101,
             "library_name": "RNA-Seq:QCMG:QCMG:130711_7001243_0176_BD2B86ACXX.lane_7.CTTGTA:RNA-Seq:QCMG:Illumina TruSeq for Library_20130620_F",
