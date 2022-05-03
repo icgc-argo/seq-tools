@@ -43,19 +43,26 @@ class Checker(BaseChecker):
             return
     
             
-        offending_rgs = []
+        offending_rgs ={}
         for rg in self.metadata.get('read_groups'):
         
-            if not rg['is_paired_end']:
+            if 'is_paired_end' not in rg:
                 message = "'is_pair_end' not found in readgroup : %s" % rg['submitter_read_group_id']
                 self.logger.info(f'[{self.checker}] {message}')
                 self.message = message
                 self.status = 'INVALID'
                 return
-            
+            elif rg['is_paired_end']==None:
+                message = "'is_pair_end' value in readgroup is null. Must be boolean: %s" % rg['submitter_read_group_id']
+                self.logger.info(f'[{self.checker}] {message}')
+                self.message = message
+                self.status = 'INVALID'
+                return
             if not rg['file_r1'].endswith('.bam'):
                 continue
-            
+            if rg['file_r1'] not in offending_rgs.keys():
+                offending_rgs[rg['file_r1']]=[]
+
             bam_file=os.path.join(self.data_dir,rg['file_r1'])
             cmd=['samtools', 'view', '-f','128', bam_file,"|","egrep",rg['read_group_id_in_bam'].replace("'","\\'"),"-m","10","|", "wc","-l"]
             paired_check = subprocess.check_output(
@@ -65,28 +72,28 @@ class Checker(BaseChecker):
             )
             paired_check_bool = True if "10" in paired_check.decode('utf-8').rstrip().rstrip().split('\n') else False
             paired_metadata_bool = rg['is_paired_end']
-            
             if paired_check_bool != paired_metadata_bool:
-                offending_rgs.append(rg['submitter_read_group_id'])
+                offending_rgs[rg['file_r1']].append(rg['submitter_read_group_id'])
                 
                 self.status = 'INVALID'
                 message = "Read group paired status in BAM does not match metadata: %s" % rg['submitter_read_group_id']
                 self.message = message
                 self.logger.info(f'[{self.checker}] {message}')
-                return
 
-        if offending_rgs:
-            msg = []
-            for k in offending_rgs:
-                msg.append("offending read groups in BAM %s: %s" % (k))
-
+        
+        msg = []
+        for rg in offending_rgs.keys():
+            if len(offending_rgs[rg])>0:
+                msg.append("Offending read groups in BAM %s: %s" % (rg,",".join(offending_rgs[rg])))
+        if msg:    
             message = "Paired status does not match in the following: %s" % ('; '.join(msg))
-
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
+            return
         else:
             self.status = 'PASS'
             message = "Read group pair status in BAM check: PASS"
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')
+            return

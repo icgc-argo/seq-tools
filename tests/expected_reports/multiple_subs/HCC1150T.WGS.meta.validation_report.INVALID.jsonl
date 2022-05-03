@@ -5,8 +5,8 @@
   },
   "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/multiple_subs/HCC1150T.WGS.meta.json",
   "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/multiple_subs",
-  "started_at": "2022-04-26T21:31:36.053Z",
-  "ended_at": "2022-04-26T21:31:36.117Z",
+  "started_at": "2022-05-03T18:01:01.165Z",
+  "ended_at": "2022-05-03T18:01:01.346Z",
   "validation": {
     "status": "INVALID",
     "message": "Please see individual checks for details",
@@ -29,7 +29,7 @@
       {
         "checker": "c670_rg_is_paired_in_bam",
         "status": "INVALID",
-        "message": "'is_pair_end' not found in readgroup : D0RE2_1a_1"
+        "message": "Paired status does not match in the following: Offending read groups in BAM test_rg_3.bam: D0RE2_1a,D0RH0_2b"
       }
     ]
   }
