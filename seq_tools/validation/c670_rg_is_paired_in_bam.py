@@ -47,13 +47,13 @@ class Checker(BaseChecker):
         for rg in self.metadata.get('read_groups'):
         
             if 'is_paired_end' not in rg:
-                message = "'is_pair_end' not found in readgroup : %s" % rg['submitter_read_group_id']
+                message = "Field 'is_pair_end' is not found for readgroup : %s" % rg['submitter_read_group_id']
                 self.logger.info(f'[{self.checker}] {message}')
                 self.message = message
                 self.status = 'INVALID'
                 return
             elif rg['is_paired_end']==None:
-                message = "'is_pair_end' value in readgroup is null. Must be boolean: %s" % rg['submitter_read_group_id']
+                message = "Field 'is_pair_end' for readgroup is null. Must be boolean: %s" % rg['submitter_read_group_id']
                 self.logger.info(f'[{self.checker}] {message}')
                 self.message = message
                 self.status = 'INVALID'
@@ -76,7 +76,7 @@ class Checker(BaseChecker):
                 offending_rgs[rg['file_r1']].append(rg['submitter_read_group_id'])
                 
                 self.status = 'INVALID'
-                message = "Read group paired status in BAM does not match metadata: %s" % rg['submitter_read_group_id']
+                message = "Read group paired status in BAM does not match field 'is_paired_end' in metadata JSON: %s" % rg['submitter_read_group_id']
                 self.message = message
                 self.logger.info(f'[{self.checker}] {message}')
 
@@ -86,7 +86,7 @@ class Checker(BaseChecker):
             if len(offending_rgs[rg])>0:
                 msg.append("Offending read groups in BAM %s: %s" % (rg,",".join(offending_rgs[rg])))
         if msg:    
-            message = "Paired status does not match in the following: %s" % ('; '.join(msg))
+            message = "Paired status in BAM does not match field 'is_paired_end' in metadata JSON for the following: %s" % ('; '.join(msg))
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'

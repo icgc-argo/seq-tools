@@ -1,0 +1,26 @@
+{
+  "tool": {
+    "name": "seq-tools",
+    "version": "1.1.0"
+  },
+  "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_rnaseq/anon_chr1_meta_ispaired_missing.json",
+  "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_rnaseq",
+  "started_at": "2022-07-20T19:18:21.098Z",
+  "ended_at": "2022-07-20T19:18:21.265Z",
+  "validation": {
+    "status": "INVALID",
+    "message": "Please see individual checks for details",
+    "checks": [
+      {
+        "checker": "c160_file_r1_r2_check",
+        "status": "INVALID",
+        "message": "Required field 'is_paired_end' is not found in metadata JSON in read group: QCMG_866d65b8-ff3f-11e4-b413-bdbd66be296d_130711_7001243_0176_BD2B86ACXX.lane_8.CTTGTA.1_8043985."
+      },
+      {
+        "checker": "c670_rg_is_paired_in_bam",
+        "status": "INVALID",
+        "message": "Field 'is_pair_end' is not found for readgroup : QCMG_866d65b8-ff3f-11e4-b413-bdbd66be296d_130711_7001243_0176_BD2B86ACXX.lane_8.CTTGTA.1_8043985"
+      }
+    ]
+  }
+}

@@ -124,7 +124,7 @@
       {
         "checker": "c650_sm_in_bam_matches_metadata",
         "status": "WARNING",
-        "message": "SM is empty. Validation status: WARNING. NOTE that submitterSampleId in metadata JSON will be used in the header of ARGO uniformly aligned sequences."
+        "message": "SM in BAM header is empty. Validation status: WARNING. NOTE that submitterSampleId in metadata JSON will be used in the header of ARGO uniformly aligned sequences."
       },
       {
         "checker": "c660_metadata_in_bam_rg_header",
