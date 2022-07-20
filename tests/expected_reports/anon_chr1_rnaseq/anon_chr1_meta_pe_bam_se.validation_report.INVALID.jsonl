@@ -1,0 +1,21 @@
+{
+  "tool": {
+    "name": "seq-tools",
+    "version": "1.1.0"
+  },
+  "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_rnaseq/anon_chr1_meta_pe_bam_se.json",
+  "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_rnaseq",
+  "started_at": "2022-07-20T19:52:43.124Z",
+  "ended_at": "2022-07-20T19:52:43.398Z",
+  "validation": {
+    "status": "INVALID",
+    "message": "Please see individual checks for details",
+    "checks": [
+      {
+        "checker": "c670_rg_is_paired_in_bam",
+        "status": "INVALID",
+        "message": "Paired status in BAM does not match field 'is_paired_end' in metadata JSON for the following: Offending read groups in BAM anon_chr1_se.bam: QCMG_866d65b8-ff3f-11e4-b413-bdbd66be296d_130711_7001243_0176_BD2B86ACXX.lane_8.CTTGTA.1_8043985,QCMG_91ce15f2-ff3e-11e4-9d73-85b485b025f8_130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1_8043985,QCMG_dd3f83b8-ff3e-11e4-81af-910d0943bdb6_130711_7001243_0176_BD2B86ACXX.lane_6.CTTGTA.1_8043985,QCMG_22f321c6-ff3f-11e4-8e8b-f8a0800c69f0_130711_7001243_0176_BD2B86ACXX.lane_7.CTTGTA.1_8043985"
+      }
+    ]
+  }
+}

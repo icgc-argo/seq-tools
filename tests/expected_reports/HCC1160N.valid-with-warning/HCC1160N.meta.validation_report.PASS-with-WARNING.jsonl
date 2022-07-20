@@ -5,8 +5,8 @@
   },
   "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/HCC1160N.valid-with-warning/HCC1160N.meta.json",
   "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/HCC1160N.valid-with-warning",
-  "started_at": "2022-04-25T23:19:09.966Z",
-  "ended_at": "2022-04-25T23:19:10.060Z",
+  "started_at": "2022-04-26T21:31:40.459Z",
+  "ended_at": "2022-04-26T21:31:40.585Z",
   "validation": {
     "status": "PASS-with-WARNING",
     "message": "Please see individual checks for details",
@@ -130,6 +130,11 @@
         "checker": "c660_metadata_in_bam_rg_header",
         "status": "WARNING",
         "message": "Information (excluding ID and SM which are validated elsewhere) in BAM @RG header does NOT match experiment/read group info in the metadata JSON. NOTE that information in the metadata JSON document will be kept and used in ICGC ARGO uniform analysis while unmatched info in BAM header will be discarded. Details of the difference: [BAM test_rg_6n.bam @RG C0HVY.2: (LB: Pond-147580-a vs Pond-147580)]; [BAM test_rg_6n.bam @RG D0RE2_1': (LB: Pond-147580-a vs Pond-147580)]; [BAM test_rg_6n.bam @RG D0RH0:2'': (LB: Pond-147580-a vs Pond-147580)]"
+      },
+      {
+        "checker": "c670_rg_is_paired_in_bam",
+        "status": "PASS",
+        "message": "Read group pair status in BAM check: PASS"
       },
       {
         "checker": "c681_fileSize_match",

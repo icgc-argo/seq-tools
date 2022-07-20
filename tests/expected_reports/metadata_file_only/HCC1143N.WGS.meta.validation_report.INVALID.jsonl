@@ -5,8 +5,8 @@
   },
   "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/metadata_file_only/HCC1143N.WGS.meta.json",
   "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/metadata_file_only",
-  "started_at": "2022-04-25T23:19:11.420Z",
-  "ended_at": "2022-04-25T23:19:11.444Z",
+  "started_at": "2022-05-03T17:32:46.535Z",
+  "ended_at": "2022-05-03T17:32:46.560Z",
   "validation": {
     "status": "INVALID",
     "message": "Please see individual checks for details",
@@ -55,6 +55,11 @@
         "checker": "c250_file_data_type",
         "status": "INVALID",
         "message": "All files in the 'files' section of the metadata JSON are required to have 'dataType' field being populated with 'Submitted Reads'. File(s) found not conforming to this requirement: 'C0HVY.2_r2.fq.bz2, D0RE2.1_r1.fq.bz2, D0RH0.2_r1.fq.bz2'."
+      },
+      {
+        "checker": "c670_rg_is_paired_in_bam",
+        "status": "INVALID",
+        "message": "Field 'is_pair_end' for readgroup is null. Must be boolean: D0RE2.1"
       }
     ]
   }

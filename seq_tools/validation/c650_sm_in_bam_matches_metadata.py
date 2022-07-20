@@ -93,7 +93,7 @@ class Checker(BaseChecker):
                             "for details." % ', '.join(all_sms))
         elif bams and list(all_sms)[0]=="":
             self.status = 'WARNING'
-            message = "SM is empty. Validation status: WARNING. NOTE that submitterSampleId in metadata JSON will be used in the header of ARGO uniformly aligned sequences."
+            message = "SM in BAM header is empty. Validation status: WARNING. NOTE that submitterSampleId in metadata JSON will be used in the header of ARGO uniformly aligned sequences."
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message           
         elif bams and list(all_sms)[0] != submitter_sample_id:
