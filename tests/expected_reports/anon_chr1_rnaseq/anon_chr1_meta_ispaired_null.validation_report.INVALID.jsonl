@@ -5,8 +5,8 @@
   },
   "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_rnaseq/anon_chr1_meta_ispaired_null.json",
   "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_rnaseq",
-  "started_at": "2022-07-20T19:20:33.121Z",
-  "ended_at": "2022-07-20T19:20:33.282Z",
+  "started_at": "2022-07-21T17:09:29.889Z",
+  "ended_at": "2022-07-21T17:09:30.138Z",
   "validation": {
     "status": "INVALID",
     "message": "Please see individual checks for details",
@@ -18,6 +18,11 @@
       },
       {
         "checker": "c670_rg_is_paired_in_bam",
+        "status": "INVALID",
+        "message": "Field 'is_pair_end' for readgroup is null. Must be boolean: QCMG_866d65b8-ff3f-11e4-b413-bdbd66be296d_130711_7001243_0176_BD2B86ACXX.lane_8.CTTGTA.1_8043985"
+      },
+      {
+        "checker": "c680_repeated_read_names_per_group_in_bam",
         "status": "INVALID",
         "message": "Field 'is_pair_end' for readgroup is null. Must be boolean: QCMG_866d65b8-ff3f-11e4-b413-bdbd66be296d_130711_7001243_0176_BD2B86ACXX.lane_8.CTTGTA.1_8043985"
       }
