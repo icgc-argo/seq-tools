@@ -5,8 +5,8 @@
   },
   "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_rnaseq/anon_chr1_meta_se_bam_pe.json",
   "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_rnaseq",
-  "started_at": "2022-07-21T17:34:26.336Z",
-  "ended_at": "2022-07-21T17:34:26.883Z",
+  "started_at": "2022-07-22T20:54:08.638Z",
+  "ended_at": "2022-07-22T20:54:09.127Z",
   "validation": {
     "status": "INVALID",
     "message": "Please see individual checks for details",
@@ -19,7 +19,7 @@
       {
         "checker": "c680_repeated_read_names_per_group_in_bam",
         "status": "INVALID",
-        "message": "Read name conflicts were detected. Too many to list only displaying five:read name 'HWI-ST1243:176:D2B86ACXX:5:1101:11161:91816' in BAM 'anon_chr1_complete.bam' in ReadGroup 'RG:Z:QCMG:91ce15f2-ff3e-11e4-9d73-85b485b025f8:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1',read name 'HWI-ST1243:176:D2B86ACXX:5:1101:19338:31540' in BAM 'anon_chr1_complete.bam' in ReadGroup 'RG:Z:QCMG:91ce15f2-ff3e-11e4-9d73-85b485b025f8:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1',read name 'HWI-ST1243:176:D2B86ACXX:5:1101:19691:17170' in BAM 'anon_chr1_complete.bam' in ReadGroup 'RG:Z:QCMG:91ce15f2-ff3e-11e4-9d73-85b485b025f8:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1',read name 'HWI-ST1243:176:D2B86ACXX:5:1101:20672:90384' in BAM 'anon_chr1_complete.bam' in ReadGroup 'RG:Z:QCMG:91ce15f2-ff3e-11e4-9d73-85b485b025f8:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1',read name 'HWI-ST1243:176:D2B86ACXX:5:1102:2059:75653' in BAM 'anon_chr1_complete.bam' in ReadGroup 'RG:Z:QCMG:91ce15f2-ff3e-11e4-9d73-85b485b025f8:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1'"
+        "message": "Too many conflicts to list .Displaying first five : Multiple instances of read name 'HWI-ST1243:176:D2B86ACXX:5:1101:11161:91816' in BAM 'anon_chr1_complete.bam' in ReadGroup 'RG:Z:QCMG:91ce15f2-ff3e-11e4-9d73-85b485b025f8:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1';Multiple instances of read name 'HWI-ST1243:176:D2B86ACXX:5:1101:19338:31540' in BAM 'anon_chr1_complete.bam' in ReadGroup 'RG:Z:QCMG:91ce15f2-ff3e-11e4-9d73-85b485b025f8:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1';Multiple instances of read name 'HWI-ST1243:176:D2B86ACXX:5:1101:19691:17170' in BAM 'anon_chr1_complete.bam' in ReadGroup 'RG:Z:QCMG:91ce15f2-ff3e-11e4-9d73-85b485b025f8:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1';Multiple instances of read name 'HWI-ST1243:176:D2B86ACXX:5:1101:20672:90384' in BAM 'anon_chr1_complete.bam' in ReadGroup 'RG:Z:QCMG:91ce15f2-ff3e-11e4-9d73-85b485b025f8:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1';Multiple instances of read name 'HWI-ST1243:176:D2B86ACXX:5:1102:2059:75653' in BAM 'anon_chr1_complete.bam' in ReadGroup 'RG:Z:QCMG:91ce15f2-ff3e-11e4-9d73-85b485b025f8:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1'"
       }
     ]
   }

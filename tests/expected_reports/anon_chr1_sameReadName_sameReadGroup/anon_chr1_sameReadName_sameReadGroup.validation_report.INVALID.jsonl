@@ -5,8 +5,8 @@
   },
   "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_sameReadName_sameReadGroup/anon_chr1_sameReadName_sameReadGroup.json",
   "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_sameReadName_sameReadGroup",
-  "started_at": "2022-07-21T17:29:07.699Z",
-  "ended_at": "2022-07-21T17:29:08.154Z",
+  "started_at": "2022-07-22T20:58:41.989Z",
+  "ended_at": "2022-07-22T20:58:42.453Z",
   "validation": {
     "status": "INVALID",
     "message": "Please see individual checks for details",
@@ -14,7 +14,7 @@
       {
         "checker": "c680_repeated_read_names_per_group_in_bam",
         "status": "INVALID",
-        "message": "Read name conflicts were detected:read name 'HWI-ST1243:176:D2B86ACXX:7:1302:18323:33382' in BAM 'anon_chr1_sameReadName_sameReadGroup.bam' in ReadGroup 'RG:Z:QCMG:22f321c6-ff3f-11e4-8e8b-f8a0800c69f0:130711_7001243_0176_BD2B86ACXX.lane_7.CTTGTA.1'"
+        "message": "Following readname anomalies were detected : Multiple instances of read name 'HWI-ST1243:176:D2B86ACXX:7:1302:18323:33382' in BAM 'anon_chr1_sameReadName_sameReadGroup.bam' in ReadGroup 'RG:Z:QCMG:22f321c6-ff3f-11e4-8e8b-f8a0800c69f0:130711_7001243_0176_BD2B86ACXX.lane_7.CTTGTA.1'"
       }
     ]
   }

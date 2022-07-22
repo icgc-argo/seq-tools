@@ -82,44 +82,58 @@ class Checker(BaseChecker):
                 path_bam_file=os.path.join(self.data_dir,bam_file)
                 readname_regex="^[!-?A-~]{1,254}"
                 readgroup_regex="RG[a-zA-Z0-9._:\ -]*.?"
-                remove_whitespace="sed 's/^[[:space:]]*//g;s/ /\\t/g'"
-                filter_entries="awk '$1>1'"
-            
+                remove_whitespace="sed 's/^[[:space:]]*//g;s/ /\t/g'"
+
                 cmd=[
                 "samtools view  -F 256 "+filter_flag+" "+path_bam_file,
+                "head -n5000000",
                 "egrep '"+readname_regex+"|"+readgroup_regex+"' -o",
                 "paste - - ",
                 "sort ",
                 "uniq -c ",
                 remove_whitespace+" ",
-                filter_entries,
-                "cut -f2 -d' '"
                 ]
             
             
-                reads_check = subprocess.check_output(
+                read_records = subprocess.check_output(
                     "|".join(cmd),
                     stderr=subprocess.STDOUT,
                     shell=True
                 )
-                output_reads_check =reads_check.decode('utf-8').split('\n')
 
-                if len(output_reads_check) > 1:
-                    self.status = 'INVALID'
-                    for readline in output_reads_check[:-1]:
-                        readgroup=readline.split("\t")[-1]
-                        readname=readline.split("\t")[1]
-                        message = "read name '%s' in BAM '%s' in ReadGroup '%s'" %(readname,bam_file,readgroup)
+                previous_readname=""
+                readgroups_w_same_readname=[""]
+                for readline in read_records.decode('utf-8').split('\n')[:-1]:
+                    readgroup=readline.split("\t")[-1]
+                    readname=readline.split("\t")[1]
+                    readcount=readline.split("\t")[0]
+
+                    if int(readcount)>1:
+                        self.status = 'INVALID'
+                        message = "Multiple instances of read name '%s' in BAM '%s' in ReadGroup '%s'" %(readname,bam_file,readgroup)
                         self.message = message
                         self.logger.info(f'[{self.checker}] {message}')
                         offending_ids.append(message)
+                    if readname==previous_readname:
+                        self.status = 'INVALID'
+                        readgroups_w_same_readname.append(readgroup)
+                    elif readname!=previous_readname and len(readgroups_w_same_readname)>1:
+                        message = "Read name '%s' in BAM '%s' detected in multiple ReadGroups :%s" % (readname,bam_file,",".join(["'"+rg+"'" for rg in readgroups_w_same_readname]))
+                        offending_ids.append(message)
+                        previous_readname=readname
+                        readgroups_w_same_readname.pop()
+                        readgroups_w_same_readname.append(readgroup)
+                    else:
+                        previous_readname=readname
+                        readgroups_w_same_readname.pop()
+                        readgroups_w_same_readname.append(readgroup)
 
         if offending_ids:
             if len(offending_ids)>=5:
-                offending_ids_cap=". Too many to list only displaying five"
+                offending_ids_cap="Too many conflicts to list .Displaying first five "
             else:
-                offending_ids_cap=""
-            message = "Read name conflicts were detected"+offending_ids_cap+":" + ",".join(offending_ids[:5])
+                offending_ids_cap="Following readname anomalies were detected "
+            message = offending_ids_cap+": " + ";".join(offending_ids[:5])
             self.logger.info(f'[{self.checker}] {message}')
             self.message = message
             self.status = 'INVALID'
