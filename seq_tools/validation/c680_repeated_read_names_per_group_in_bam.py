@@ -118,10 +118,10 @@ class Checker(BaseChecker):
                         self.status = 'INVALID'
                         readgroups_w_same_readname.append(readgroup)
                     elif readname!=previous_readname and len(readgroups_w_same_readname)>1:
-                        message = "Read name '%s' in BAM '%s' detected in multiple ReadGroups :%s" % (readname,bam_file,",".join(["'"+rg+"'" for rg in readgroups_w_same_readname]))
+                        message = "Read name '%s' in BAM '%s' detected in multiple ReadGroups :%s" % (previous_readname,bam_file,",".join(["'"+rg+"'" for rg in readgroups_w_same_readname]))
                         offending_ids.append(message)
                         previous_readname=readname
-                        readgroups_w_same_readname.pop()
+                        readgroups_w_same_readname.clear()
                         readgroups_w_same_readname.append(readgroup)
                     else:
                         previous_readname=readname
