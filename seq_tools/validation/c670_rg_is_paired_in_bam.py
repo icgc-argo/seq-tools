@@ -70,7 +70,7 @@ class Checker(BaseChecker):
                 stderr=subprocess.STDOUT,
                 shell=True
             )
-            paired_check_bool = True if "10" in paired_check.decode('utf-8').rstrip().rstrip().split('\n') else False
+            paired_check_bool = True if "10" in paired_check.decode('utf-8').strip() else False
             paired_metadata_bool = rg['is_paired_end']
             if paired_check_bool != paired_metadata_bool:
                 offending_rgs[rg['file_r1']].append(rg['submitter_read_group_id'])

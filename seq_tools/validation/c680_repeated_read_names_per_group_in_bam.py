@@ -103,7 +103,7 @@ class Checker(BaseChecker):
 
                 previous_readname=""
                 readgroups_w_same_readname=[""]
-                for readline in read_records.decode('utf-8').split('\n')[:-1]:
+                for readline in read_records.decode('utf-8').strip().split('\n')[:-1]:
                     readgroup=readline.split("\t")[-1]
                     readname=readline.split("\t")[1]
                     readcount=readline.split("\t")[0]
