@@ -99,16 +99,10 @@ class Checker(BaseChecker):
                     filter_flag=''
 
                 path_bam_file=os.path.join(self.data_dir,bam_file)
-                readname_regex="^[!-?A-~]{1,254}"
-                readgroup_regex="RG[a-zA-Z0-9._:\ -]*.?"
 
                 cmd=[
                 "samtools view  -F 256 "+filter_flag+"".join([" -r "+rg.replace("'","\\'") for rg in query_bams[bam_file]['rg']])+" "+path_bam_file,
-                "head -n500000",
-                "egrep '"+readname_regex+"|"+readgroup_regex+"' -o",
-                "paste - - ",
-                "sort ",
-                "uniq -c ",
+                "head -n500000"
                 ]
             
             
@@ -117,39 +111,37 @@ class Checker(BaseChecker):
                     stderr=subprocess.STDOUT,
                     shell=True
                 )
+
                 if len(read_records.decode('utf-8').split('\n'))<=1:
-                    message = "The following read groups yielded no reads to check in BAM '%s' : %s " %(bam_file,bam_file,query_bams[bam_file]['rg'])
+                    message = "The following read groups yielded no reads to check in BAM '%s' : %s " %(bam_file,query_bams[bam_file]['rg'])
                     self.logger.info(f'[{self.checker}] {message}')
                     self.message = message
                     self.status = 'INVALID'
-                    return     
+                    return   
 
-                previous_readname=None
-                readgroups_w_same_readname=[""]
-                for readline in read_records.decode('utf-8').split('\n')[:-1]:
-                    readgroup=readline.strip().replace(" ","\t").split("\t")[-1]
-                    readname=readline.strip().replace(" ","\t").split("\t")[1]
-                    readcount=readline.strip().replace(" ","\t").split("\t")[0]
 
-                    if int(readcount)>1:
+                read_dict={}
+                for ind,read in enumerate(read_records.decode("utf-8").strip().split("\n")[:-1]):
+                    readname=re.findall(r'^[!-?A-~]{1,254}',read)[0]
+                    readgroup=re.findall(r'RG[a-zA-Z0-9._:\ \-\'$]*.?',read)[0]
+                    if readname in read_dict:
+                        read_dict[readname]['count']+=1
+                        if not readgroup in read_dict[readname]['rg']:
+                            read_dict[readname]['rg'].append(readgroup)
+                    else:
+                        read_dict[readname]={"count":1,"rg":[readgroup]}
+
+                for read in read_dict.keys():
+                    if read_dict[read]['count']>1:
                         self.status = 'INVALID'
-                        message = "Multiple instances of read name '%s' in BAM '%s' in ReadGroup '%s'" %(readname,bam_file,readgroup)
+                        if len(read_dict[read]['rg'])>1:
+                            message = "Read name '%s' in BAM '%s' detected in multiple ReadGroups :%s" % (read,bam_file,",".join(["'"+rg+"'" for rg in read_dict[read]['rg']]))
+                        else:
+                            message = "Multiple instances of read name '%s' in BAM '%s' in ReadGroup '%s'" %(read,bam_file,read_dict[read]['rg'][0])
+
                         self.message = message
                         self.logger.info(f'[{self.checker}] {message}')
                         offending_ids.append(message)
-                    if readname==previous_readname:
-                        self.status = 'INVALID'
-                        readgroups_w_same_readname.append(readgroup)
-                    elif readname!=previous_readname and len(readgroups_w_same_readname)>1:
-                        message = "Read name '%s' in BAM '%s' detected in multiple ReadGroups :%s" % (previous_readname,bam_file,",".join(["'"+rg+"'" for rg in readgroups_w_same_readname]))
-                        offending_ids.append(message)
-                        previous_readname=readname
-                        readgroups_w_same_readname.clear()
-                        readgroups_w_same_readname.append(readgroup)
-                    else:
-                        previous_readname=readname
-                        readgroups_w_same_readname.pop()
-                        readgroups_w_same_readname.append(readgroup)
 
         if offending_ids:
             if len(offending_ids)>=5:
