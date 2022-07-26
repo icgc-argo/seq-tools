@@ -82,16 +82,14 @@ class Checker(BaseChecker):
                 path_bam_file=os.path.join(self.data_dir,bam_file)
                 readname_regex="^[!-?A-~]{1,254}"
                 readgroup_regex="RG[a-zA-Z0-9._:\ -]*.?"
-                remove_whitespace="sed 's/^[[:space:]]*//g;s/ /\t/g'"
 
                 cmd=[
                 "samtools view  -F 256 "+filter_flag+" "+path_bam_file,
-                "head -n5000000",
+                "head -n500000",
                 "egrep '"+readname_regex+"|"+readgroup_regex+"' -o",
                 "paste - - ",
                 "sort ",
                 "uniq -c ",
-                remove_whitespace+" ",
                 ]
             
             
@@ -101,12 +99,12 @@ class Checker(BaseChecker):
                     shell=True
                 )
 
-                previous_readname=""
+                previous_readname=None
                 readgroups_w_same_readname=[""]
-                for readline in read_records.decode('utf-8').strip().split('\n')[:-1]:
-                    readgroup=readline.split("\t")[-1]
-                    readname=readline.split("\t")[1]
-                    readcount=readline.split("\t")[0]
+                for readline in read_records.decode('utf-8').split('\n')[:-1]:
+                    readgroup=readline.strip().replace(" ","\t").split("\t")[-1]
+                    readname=readline.strip().replace(" ","\t").split("\t")[1]
+                    readcount=readline.strip().replace(" ","\t").split("\t")[0]
 
                     if int(readcount)>1:
                         self.status = 'INVALID'
