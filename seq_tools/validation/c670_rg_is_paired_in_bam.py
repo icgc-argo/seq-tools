@@ -27,7 +27,18 @@ import re
 
 class Checker(BaseChecker):
     def __init__(self, ctx, metadata, skip=False):
-        super().__init__(ctx, metadata, __name__, skip=skip)
+        super().__init__(
+            ctx,
+            metadata=metadata,
+            checker_name=__name__,
+            depends_on=[
+                "c608_bam_sanity",
+                "c610_rg_id_in_bam",
+                "c608_bam_sanity",
+                "c620_submitter_read_group_id_match",
+                "c630_rg_id_in_bam_match",
+            ],
+            skip=skip)
 
     @BaseChecker._catch_exception
     def check(self):

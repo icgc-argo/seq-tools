@@ -28,7 +28,19 @@ import re
 
 class Checker(BaseChecker):
     def __init__(self, ctx, metadata, skip=False):
-        super().__init__(ctx, metadata, __name__, skip=skip)
+        super().__init__(
+            ctx,
+            metadata=metadata,
+            checker_name=__name__,
+            depends_on=[
+                "c608_bam_sanity",
+                "c610_rg_id_in_bam",
+                "c608_bam_sanity",
+                "c620_submitter_read_group_id_match",
+                "c630_rg_id_in_bam_match",
+                "c670_rg_is_paired_in_bam"
+            ],
+            skip=skip)
 
     @BaseChecker._catch_exception
     def check(self):
@@ -46,6 +58,7 @@ class Checker(BaseChecker):
             
         offending_ids = []
         query_bams={}
+
         for rg in self.metadata.get("read_groups"):
             if rg['file_r1'].endswith('.bam') and rg['file_r1'] not in query_bams:
                 if 'is_paired_end' not in rg:
@@ -59,9 +72,15 @@ class Checker(BaseChecker):
                     self.logger.info(f'[{self.checker}] {message}')
                     self.message = message
                     self.status = 'INVALID'
-                    return
+                    return              
                 else:
-                    query_bams[rg['file_r1']]=rg['is_paired_end']              
+                    query_bams[rg['file_r1']]={}
+                    query_bams[rg['file_r1']]['is_paired_end']=rg['is_paired_end']
+                    query_bams[rg['file_r1']]['rg']=[]
+                    query_bams[rg['file_r1']]['rg'].append(rg['read_group_id_in_bam'])
+            elif rg['file_r1'] in query_bams:
+                query_bams[rg['file_r1']]['rg'].append(rg['read_group_id_in_bam'])
+                             
         
         if len(query_bams)==0:
             self.status = 'PASS'
@@ -72,7 +91,7 @@ class Checker(BaseChecker):
         else:
             for bam_file in query_bams.keys():
             
-                is_paired_end=query_bams[bam_file]
+                is_paired_end=query_bams[bam_file]['is_paired_end']
 
                 if is_paired_end:
                     filter_flag='-f 64'
@@ -84,7 +103,7 @@ class Checker(BaseChecker):
                 readgroup_regex="RG[a-zA-Z0-9._:\ -]*.?"
 
                 cmd=[
-                "samtools view  -F 256 "+filter_flag+" "+path_bam_file,
+                "samtools view  -F 256 "+filter_flag+"".join([" -r "+rg.replace("'","\\'") for rg in query_bams[bam_file]['rg']])+" "+path_bam_file,
                 "head -n500000",
                 "egrep '"+readname_regex+"|"+readgroup_regex+"' -o",
                 "paste - - ",
@@ -98,6 +117,12 @@ class Checker(BaseChecker):
                     stderr=subprocess.STDOUT,
                     shell=True
                 )
+                if len(read_records.decode('utf-8').split('\n'))<=1:
+                    message = "The following read groups yielded no reads to check in BAM '%s' : %s " %(bam_file,bam_file,query_bams[bam_file]['rg'])
+                    self.logger.info(f'[{self.checker}] {message}')
+                    self.message = message
+                    self.status = 'INVALID'
+                    return     
 
                 previous_readname=None
                 readgroups_w_same_readname=[""]
@@ -128,7 +153,7 @@ class Checker(BaseChecker):
 
         if offending_ids:
             if len(offending_ids)>=5:
-                offending_ids_cap="Too many conflicts to list .Displaying first five "
+                offending_ids_cap="Too many conflicts to list. Displaying first five "
             else:
                 offending_ids_cap="Following readname anomalies were detected "
             message = offending_ids_cap+": " + ";".join(offending_ids[:5])

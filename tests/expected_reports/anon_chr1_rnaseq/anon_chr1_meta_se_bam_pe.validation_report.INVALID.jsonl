@@ -5,8 +5,8 @@
   },
   "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_rnaseq/anon_chr1_meta_se_bam_pe.json",
   "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_rnaseq",
-  "started_at": "2022-07-22T20:54:08.638Z",
-  "ended_at": "2022-07-22T20:54:09.127Z",
+  "started_at": "2022-07-26T17:56:07.873Z",
+  "ended_at": "2022-07-26T17:56:08.170Z",
   "validation": {
     "status": "INVALID",
     "message": "Please see individual checks for details",
@@ -15,11 +15,6 @@
         "checker": "c670_rg_is_paired_in_bam",
         "status": "INVALID",
         "message": "Paired status in BAM does not match field 'is_paired_end' in metadata JSON for the following: Offending read groups in BAM anon_chr1_complete.bam: QCMG_866d65b8-ff3f-11e4-b413-bdbd66be296d_130711_7001243_0176_BD2B86ACXX.lane_8.CTTGTA.1_8043985,QCMG_91ce15f2-ff3e-11e4-9d73-85b485b025f8_130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1_8043985,QCMG_dd3f83b8-ff3e-11e4-81af-910d0943bdb6_130711_7001243_0176_BD2B86ACXX.lane_6.CTTGTA.1_8043985,QCMG_22f321c6-ff3f-11e4-8e8b-f8a0800c69f0_130711_7001243_0176_BD2B86ACXX.lane_7.CTTGTA.1_8043985"
-      },
-      {
-        "checker": "c680_repeated_read_names_per_group_in_bam",
-        "status": "INVALID",
-        "message": "Too many conflicts to list .Displaying first five : Multiple instances of read name 'HWI-ST1243:176:D2B86ACXX:5:1101:11161:91816' in BAM 'anon_chr1_complete.bam' in ReadGroup 'RG:Z:QCMG:91ce15f2-ff3e-11e4-9d73-85b485b025f8:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1';Multiple instances of read name 'HWI-ST1243:176:D2B86ACXX:5:1101:19338:31540' in BAM 'anon_chr1_complete.bam' in ReadGroup 'RG:Z:QCMG:91ce15f2-ff3e-11e4-9d73-85b485b025f8:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1';Multiple instances of read name 'HWI-ST1243:176:D2B86ACXX:5:1101:19691:17170' in BAM 'anon_chr1_complete.bam' in ReadGroup 'RG:Z:QCMG:91ce15f2-ff3e-11e4-9d73-85b485b025f8:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1';Multiple instances of read name 'HWI-ST1243:176:D2B86ACXX:5:1101:20672:90384' in BAM 'anon_chr1_complete.bam' in ReadGroup 'RG:Z:QCMG:91ce15f2-ff3e-11e4-9d73-85b485b025f8:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1';Multiple instances of read name 'HWI-ST1243:176:D2B86ACXX:5:1102:2059:75653' in BAM 'anon_chr1_complete.bam' in ReadGroup 'RG:Z:QCMG:91ce15f2-ff3e-11e4-9d73-85b485b025f8:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1'"
       }
     ]
   }

@@ -3,10 +3,10 @@
     "name": "seq-tools",
     "version": "1.1.0"
   },
-  "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/bad_bams/bad_bam1.WXS.json",
-  "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/bad_bams",
-  "started_at": "2022-05-03T17:32:36.202Z",
-  "ended_at": "2022-05-03T17:32:36.345Z",
+  "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/bad_bams/bad_bam1.WXS.json",
+  "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/bad_bams",
+  "started_at": "2022-07-26T17:57:24.833Z",
+  "ended_at": "2022-07-26T17:57:25.000Z",
   "validation": {
     "status": "INVALID",
     "message": "Please see individual checks for details",
@@ -29,17 +29,12 @@
       {
         "checker": "c608_bam_sanity",
         "status": "INVALID",
-        "message": "BAM file(s) samtools quickcheck failed: test_rg_7.bam. More information can be found in under: /home/ubuntu/downloads/logs/2022_05_03T17_32_36_201471.log"
+        "message": "BAM file(s) samtools quickcheck failed: test_rg_7.bam. More information can be found in under: /Users/esu/Desktop/GitHub/seq-tools/logs/2022_07_26T17_57_24_831831.log"
       },
       {
         "checker": "c610_rg_id_in_bam",
         "status": "INVALID",
         "message": "Duplicated read group ID found: C0HVY.2 in BAM: test_rg_4.bam"
-      },
-      {
-        "checker": "c670_rg_is_paired_in_bam",
-        "status": "INVALID",
-        "message": "Paired status in BAM does not match field 'is_paired_end' in metadata JSON for the following: Offending read groups in BAM test_rg_4.bam: D0RE2_1a_1,D0RE2_1a; Offending read groups in BAM test_rg_7.bam: C0HVY_2"
       },
       {
         "checker": "c681_fileSize_match",

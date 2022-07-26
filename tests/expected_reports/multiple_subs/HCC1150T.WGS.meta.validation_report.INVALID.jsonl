@@ -3,10 +3,10 @@
     "name": "seq-tools",
     "version": "1.1.0"
   },
-  "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/multiple_subs/HCC1150T.WGS.meta.json",
-  "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/multiple_subs",
-  "started_at": "2022-05-03T18:01:01.165Z",
-  "ended_at": "2022-05-03T18:01:01.346Z",
+  "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/multiple_subs/HCC1150T.WGS.meta.json",
+  "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/multiple_subs",
+  "started_at": "2022-07-26T18:00:44.371Z",
+  "ended_at": "2022-07-26T18:00:44.529Z",
   "validation": {
     "status": "INVALID",
     "message": "Please see individual checks for details",
@@ -25,11 +25,6 @@
         "checker": "c200_rg_id_in_bam_uniqueness",
         "status": "INVALID",
         "message": "'read_group_id_in_bam' must be unique within a BAM file if populated in read_groups section, however duplicate(s) found: BAM test_rg_3.bam: C0HVY.2"
-      },
-      {
-        "checker": "c670_rg_is_paired_in_bam",
-        "status": "INVALID",
-        "message": "Paired status in BAM does not match field 'is_paired_end' in metadata JSON for the following: Offending read groups in BAM test_rg_3.bam: D0RE2_1a,D0RH0_2b"
       }
     ]
   }
