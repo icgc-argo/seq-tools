@@ -1,0 +1,21 @@
+{
+  "tool": {
+    "name": "seq-tools",
+    "version": "1.1.0"
+  },
+  "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_sameReadName_diffReadGroup/anon_chr1_sameReadName_diffReadGroup.json",
+  "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_sameReadName_diffReadGroup",
+  "started_at": "2022-07-25T18:51:15.823Z",
+  "ended_at": "2022-07-25T18:51:16.147Z",
+  "validation": {
+    "status": "INVALID",
+    "message": "Please see individual checks for details",
+    "checks": [
+      {
+        "checker": "c680_repeated_read_names_per_group_in_bam",
+        "status": "INVALID",
+        "message": "Following readname anomalies were detected : Read name 'HWI-ST1243:176:D2B86ACXX:7:1302:18323:33382' in BAM 'anon_chr1_sameReadName_diffReadGroup.bam' detected in multiple ReadGroups :'RG:Z:QCMG:22f321c6-ff3f-11e4-8e8b-f8a0800c69f0:130711_7001243_0176_BD2B86ACXX.lane_7.CTTGTA.1','RG:Z:QCMG:91ce15f2-ff3e-11e4-9d73-85b485b025f8:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1'"
+      }
+    ]
+  }
+}

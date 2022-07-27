@@ -3,10 +3,10 @@
     "name": "seq-tools",
     "version": "1.1.0"
   },
-  "metadata_file": "/home/ubuntu/downloads/seq-tools/tests/submissions/HCC1160N.valid-with-warning/HCC1160N.meta.json",
-  "data_dir": "/home/ubuntu/downloads/seq-tools/tests/submissions/HCC1160N.valid-with-warning",
-  "started_at": "2022-04-26T21:31:40.459Z",
-  "ended_at": "2022-04-26T21:31:40.585Z",
+  "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/HCC1160N.valid-with-warning/HCC1160N.meta.json",
+  "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/HCC1160N.valid-with-warning",
+  "started_at": "2022-07-21T16:25:45.055Z",
+  "ended_at": "2022-07-21T16:25:45.397Z",
   "validation": {
     "status": "PASS-with-WARNING",
     "message": "Please see individual checks for details",
@@ -135,6 +135,11 @@
         "checker": "c670_rg_is_paired_in_bam",
         "status": "PASS",
         "message": "Read group pair status in BAM check: PASS"
+      },
+      {
+        "checker": "c680_repeated_read_names_per_group_in_bam",
+        "status": "PASS",
+        "message": "Repeated Read names within Read groups in BAM not found: PASS"
       },
       {
         "checker": "c681_fileSize_match",

@@ -27,7 +27,18 @@ import re
 
 class Checker(BaseChecker):
     def __init__(self, ctx, metadata, skip=False):
-        super().__init__(ctx, metadata, __name__, skip=skip)
+        super().__init__(
+            ctx,
+            metadata=metadata,
+            checker_name=__name__,
+            depends_on=[
+                "c608_bam_sanity",
+                "c610_rg_id_in_bam",
+                "c608_bam_sanity",
+                "c620_submitter_read_group_id_match",
+                "c630_rg_id_in_bam_match",
+            ],
+            skip=skip)
 
     @BaseChecker._catch_exception
     def check(self):
@@ -70,7 +81,7 @@ class Checker(BaseChecker):
                 stderr=subprocess.STDOUT,
                 shell=True
             )
-            paired_check_bool = True if "10" in paired_check.decode('utf-8').rstrip().rstrip().split('\n') else False
+            paired_check_bool = True if "10" in paired_check.decode('utf-8').strip() else False
             paired_metadata_bool = rg['is_paired_end']
             if paired_check_bool != paired_metadata_bool:
                 offending_rgs[rg['file_r1']].append(rg['submitter_read_group_id'])
