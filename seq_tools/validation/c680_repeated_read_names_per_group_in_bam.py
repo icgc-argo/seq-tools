@@ -33,9 +33,9 @@ class Checker(BaseChecker):
             metadata=metadata,
             checker_name=__name__,
             depends_on=[
+                "c605_all_files_accessible",
                 "c608_bam_sanity",
                 "c610_rg_id_in_bam",
-                "c608_bam_sanity",
                 "c620_submitter_read_group_id_match",
                 "c630_rg_id_in_bam_match",
                 "c670_rg_is_paired_in_bam"
@@ -54,32 +54,19 @@ class Checker(BaseChecker):
             self.message = message
             self.status = 'INVALID'
             return
-    
             
         offending_ids = []
         query_bams={}
 
         for rg in self.metadata.get("read_groups"):
-            if rg['file_r1'].endswith('.bam') and rg['file_r1'] not in query_bams:
-                if 'is_paired_end' not in rg:
-                    message = "Field 'is_pair_end' is not found for readgroup : %s" % rg['submitter_read_group_id']
-                    self.logger.info(f'[{self.checker}] {message}')
-                    self.message = message
-                    self.status = 'INVALID'
-                    return
-                elif rg['is_paired_end']==None:
-                    message = "Field 'is_pair_end' for readgroup is null. Must be boolean: %s" % rg['submitter_read_group_id']
-                    self.logger.info(f'[{self.checker}] {message}')
-                    self.message = message
-                    self.status = 'INVALID'
-                    return              
-                else:
+            if rg['file_r1'].endswith('.bam'):
+                if rg['file_r1'] not in query_bams:
                     query_bams[rg['file_r1']]={}
                     query_bams[rg['file_r1']]['is_paired_end']=rg['is_paired_end']
                     query_bams[rg['file_r1']]['rg']=[]
                     query_bams[rg['file_r1']]['rg'].append(rg['read_group_id_in_bam'])
-            elif rg['file_r1'] in query_bams:
-                query_bams[rg['file_r1']]['rg'].append(rg['read_group_id_in_bam'])
+                else:
+                    query_bams[rg['file_r1']]['rg'].append(rg['read_group_id_in_bam'])
                              
         
         if len(query_bams)==0:

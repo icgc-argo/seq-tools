@@ -16,6 +16,8 @@
 
     Authors:
         Junjun Zhang <junjun.zhang@oicr.on.ca>
+        Linda Xiang <linda.xiang@oicr.on.ca>
+        Edmund Su <linda.xiang@oicr.on.ca>
 """
 
 
