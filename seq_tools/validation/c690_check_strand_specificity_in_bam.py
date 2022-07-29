@@ -75,6 +75,13 @@ class Checker(BaseChecker):
                 [rg['file_r1'] for rg in self.metadata.get('read_groups') if rg['file_r1'].endswith('.bam')]
             )
         )
+        query_bams={}
+        for rg in self.metadata.get("read_groups"):
+            if rg['file_r1'].endswith('.bam'):
+                if rg['file_r1'] not in query_bams:
+                    query_bams[rg['file_r1']]={}
+                    query_bams[rg['file_r1']]['is_paired_end']=rg['is_paired_end']
+
 
         if len(query_bams)==0:
             self.status = 'PASS'
@@ -84,37 +91,60 @@ class Checker(BaseChecker):
             return
         else:
             problematic_bams=[]
-            for bam in query_bams:
+            for bam in query_bams.keys():
                 bam_file=os.path.join(self.data_dir,bam)
                 index_file(bam_file)                               
-                
                 genome_build=return_genomeBuild(bam_file)
                 
-                query_flags={
-                "1+":"-F 2832 -f 64",
-                "1-":"-F 2816 -f 80",
-                 "2+":"-F 2832 -f 128",
-                 "2-":"-F 2816 -f 144"
-                }
-                
-                orientation={}
-                for query in ['1++','1--','2+-','2-+','1+-','1-+','2++','2--']:
 
-                    cmd="samtools view -m 30 -c "+bam_file+" "+query_flags[query[:2]]+" -L "+genome_build[query[-1]]
-                    
-                    count_cmd = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
-                    orientation[query]=int(count_cmd.decode('utf-8').strip().split('\n')[0])
-                                               
-                orientation['total']=sum(orientation.values())                             
-                orientation['1+-,1-+,2++,2--']=sum([orientation[key] for key in ['1+-','1-+','2++','2--']])/orientation['total']
-                orientation['1++,1--,2+-,2-+']=sum([orientation[key] for key in ['1++','1--','2+-','2-+']])/orientation['total']
-                                               
-                if (orientation['1+-,1-+,2++,2--']>0.6) and (orientation['1+-,1-+,2++,2--']>orientation['1++,1--,2+-,2-+']):
-                    strand_orientation='FIRST_READ_ANTISENSE_STRAND'
-                elif (orientation['1++,1--,2+-,2-+']>0.6) and (orientation['1++,1--,2+-,2-+']>orientation['1+-,1-+,2++,2--']):
-                    strand_orientation='FIRST_READ_SENSE_STRAND'
+                if query_bams[bam]['is_paired_end']:
+                    query_flags={
+                    "1+":"-F 2832 -f 64",
+                    "1-":"-F 2816 -f 80",
+                    "2+":"-F 2832 -f 128",
+                    "2-":"-F 2816 -f 144"
+                    }                
+                    orientation={}
+                    for query in ['1++','1--','2+-','2-+','1+-','1-+','2++','2--']:
+
+                        cmd="samtools view -m 30 -c "+bam_file+" "+query_flags[query[:2]]+" -L "+genome_build[query[-1]]
+                        
+                        count_cmd = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
+                        orientation[query]=int(count_cmd.decode('utf-8').strip().split('\n')[0])
+                                                
+                    orientation['total']=sum(orientation.values())                             
+                    orientation['1+-,1-+,2++,2--']=sum([orientation[key] for key in ['1+-','1-+','2++','2--']])/orientation['total']
+                    orientation['1++,1--,2+-,2-+']=sum([orientation[key] for key in ['1++','1--','2+-','2-+']])/orientation['total']
+                                                
+                    if (orientation['1+-,1-+,2++,2--']>0.6) and (orientation['1+-,1-+,2++,2--']>orientation['1++,1--,2+-,2-+']):
+                        strand_orientation='FIRST_READ_ANTISENSE_STRAND'
+                    elif (orientation['1++,1--,2+-,2-+']>0.6) and (orientation['1++,1--,2+-,2-+']>orientation['1+-,1-+,2++,2--']):
+                        strand_orientation='FIRST_READ_SENSE_STRAND'
+                    else:
+                        strand_orientation='UNSTRANDED'
                 else:
-                    strand_orientation='UNSTRANDED'
+                    query_flags={
+                    "1+":"-F 2832",
+                    "1-":"-F 2816 -f 80",
+                    }                
+                    orientation={}
+                    for query in ['1++','1--','1+-','1-+']:
+
+                        cmd="samtools view -m 30 -c "+bam_file+" "+query_flags[query[:2]]+" -L "+genome_build[query[-1]]
+                        
+                        count_cmd = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
+                        orientation[query]=int(count_cmd.decode('utf-8').strip().split('\n')[0])
+                                                
+                    orientation['total']=sum(orientation.values())                             
+                    orientation['1+-,1-+']=sum([orientation[key] for key in ['1+-','1-+']])/orientation['total']
+                    orientation['1++,1--']=sum([orientation[key] for key in ['1++','1--']])/orientation['total']
+                                                
+                    if (orientation['1+-,1-+']>0.6) and (orientation['1+-,1-+']>orientation['1++,1--']):
+                        strand_orientation='FIRST_READ_ANTISENSE_STRAND'
+                    elif (orientation['1++,1--']>0.6) and (orientation['1++,1--']>orientation['1+-,1-+']):
+                        strand_orientation='FIRST_READ_SENSE_STRAND'
+                    else:
+                        strand_orientation='UNSTRANDED'               
                                                                                                      
                 if strand_orientation!=self.metadata.get('experiment')['library_strandedness']:
                     message =  "Strand orientation for RNA-Seq file %s detected as %s. Not matching metadata %s : INVALID"  % (bam,strand_orientation,self.metadata.get('experiment')['library_strandedness'])
