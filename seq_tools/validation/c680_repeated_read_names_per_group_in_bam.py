@@ -88,7 +88,7 @@ class Checker(BaseChecker):
                 path_bam_file=os.path.join(self.data_dir,bam_file)
 
                 cmd=[
-                "samtools view  -F 256 "+filter_flag+"".join([" -r "+rg.replace("'","\\'") for rg in query_bams[bam_file]['rg']])+" "+path_bam_file,
+                "samtools view  -F 2304 "+filter_flag+"".join([" -r "+rg.replace("'","\\'") for rg in query_bams[bam_file]['rg']])+" "+path_bam_file,
                 "head -n500000"
                 ]
             
