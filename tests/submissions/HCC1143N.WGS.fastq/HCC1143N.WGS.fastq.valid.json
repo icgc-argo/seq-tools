@@ -1,0 +1,138 @@
+{
+  "analysisType": {
+    "name": "sequencing_experiment"
+  },
+  "studyId": "TEST-PR",
+  "experiment": {
+    "submitter_sequencing_experiment_id": "TEST_EXP1",
+    "sequencing_center": "EXT",
+    "platform": "ILLUMINA",
+    "platform_model": "HiSeq 2000",
+    "experimental_strategy": "WGS",
+    "sequencing_date": "2014-12-12"
+  },
+  "read_group_count": 3,
+  "read_groups": [
+    {
+      "submitter_read_group_id": "C0HVY.2",
+      "platform_unit": "74_8a",
+      "is_paired_end": true,
+      "file_r1": "C0HVY.2_r1.fq.bz2",
+      "file_r2": "C0HVY.2_r2.fq.bz2",
+      "read_length_r1": 150,
+      "read_length_r2": 150,
+      "insert_size": 298,
+      "sample_barcode": null,
+      "library_name": "Pond-147580"
+    },
+    {
+      "submitter_read_group_id": "D0RE2.1",
+      "platform_unit": "74_8b",
+      "is_paired_end": true,
+      "file_r1": "D0RE2.1_r1.fq.bz2",
+      "file_r2": "D0RE2.1_r2.fq.bz2",
+      "read_length_r1": 150,
+      "read_length_r2": 150,
+      "insert_size": 298,
+      "sample_barcode": null,
+      "library_name": "Pond-147580"
+    },
+    {
+      "submitter_read_group_id": "D0RH0.2",
+      "platform_unit": "74_8c",
+      "is_paired_end": true,
+      "file_r1": "D0RH0.2_r1.fq.bz2",
+      "file_r2": "D0RH0.2_r2.fq.bz2",
+      "read_length_r1": 150,
+      "read_length_r2": 150,
+      "insert_size": 298,
+      "sample_barcode": null,
+      "library_name": "Pond-147580"
+    }
+  ],
+  "samples": [
+    {
+      "submitterSampleId": "HCC1143N",
+      "matchedNormalSubmitterSampleId": null,
+      "sampleType": "Total DNA",
+      "specimen": {
+        "submitterSpecimenId": "HCC1143N",
+        "tumourNormalDesignation": "Normal",
+        "specimenTissueSource": "Blood derived",
+        "specimenType": "Normal"
+      },
+      "donor": {
+        "submitterDonorId": "HCC1143",
+        "gender": "Female"
+      }
+    }
+  ],
+  "files": [
+    {
+      "fileName": "C0HVY.2_r1.fq.bz2",
+      "fileSize": 2001,
+      "fileMd5sum": "ad7f4f429506a8def523f068c60d2305",
+      "fileType": "FASTQ",
+      "fileAccess": "controlled",
+      "dataType": "Submitted Reads",
+      "info": {
+        "data_category": "Sequencing Reads"
+      }
+    },
+    {
+      "fileName": "C0HVY.2_r2.fq.bz2",
+      "fileSize": 2034,
+      "fileMd5sum": "9a3f32c80aff08e56965a6fd6dbb4d1f",
+      "fileType": "FASTQ",
+      "fileAccess": "controlled",
+      "dataType": "Submitted Reads",
+      "info": {
+        "data_category": "Sequencing Reads"
+      }
+    },
+    {
+      "fileName": "D0RE2.1_r1.fq.bz2",
+      "fileSize": 2256,
+      "fileMd5sum": "b4b42e97477bb2fe6d76ea98cb6db711",
+      "fileType": "FASTQ",
+      "fileAccess": "controlled",
+      "dataType": "Submitted Reads",
+      "info": {
+        "data_category": "Sequencing Reads"
+      }
+    },
+    {
+      "fileName": "D0RE2.1_r2.fq.bz2",
+      "fileSize": 2313,
+      "fileMd5sum": "fae07fe5efc436c1f4c917a9703c6446",
+      "fileType": "FASTQ",
+      "fileAccess": "controlled",
+      "dataType": "Submitted Reads",
+      "info": {
+        "data_category": "Sequencing Reads"
+      }
+    },
+    {
+      "fileName": "D0RH0.2_r1.fq.bz2",
+      "fileSize": 1857,
+      "fileMd5sum": "ce113af3b61bf3d291840324271f92f3",
+      "fileType": "FASTQ",
+      "dataType": "Submitted Reads",
+      "fileAccess": "controlled",
+      "info": {
+        "data_category": "Sequencing Reads"
+      }
+    },
+    {
+      "fileName": "D0RH0.2_r2.fq.bz2",
+      "fileSize": 1892,
+      "fileMd5sum": "83d37edabb6b01d7da509294fa8ffc47",
+      "fileType": "FASTQ",
+      "fileAccess": "controlled",
+      "dataType": "Submitted Reads",
+      "info": {
+        "data_category": "Sequencing Reads"
+      }
+    }
+  ]
+}

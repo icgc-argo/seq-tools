@@ -102,6 +102,11 @@
         "message": "BAM sanity check by samtools quickcheck. Validation result: PASS"
       },
       {
+        "checker": "c609_fastq_sanity",
+        "status": "PASS",
+        "message": "No FASTQ Files to check"
+      },
+      {
         "checker": "c610_rg_id_in_bam",
         "status": "PASS",
         "message": "Read group ID in BAM header check: PASS"
