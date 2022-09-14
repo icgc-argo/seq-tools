@@ -5,8 +5,8 @@
   },
   "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_rnaseq/anon_chr1_complete.json",
   "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_rnaseq",
-  "started_at": "2022-07-27T21:49:24.883Z",
-  "ended_at": "2022-07-27T21:49:25.421Z",
+  "started_at": "2022-07-21T16:34:26.473Z",
+  "ended_at": "2022-07-21T16:34:26.808Z",
   "validation": {
     "status": "PASS-with-WARNING",
     "message": "Please see individual checks for details",
@@ -150,11 +150,6 @@
         "checker": "c683_fileMd5sum_match",
         "status": "PASS",
         "message": "The fileMd5sum calculated from the sequencing files matches the info provided in metadata JSON: PASS"
-      },
-      {
-        "checker": "c690_check_strand_specificity_in_bam",
-        "status": "PASS",
-        "message": "All BAMs strand orientation check : PASS"
       }
     ]
   }
