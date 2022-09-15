@@ -44,7 +44,7 @@ setup(
     license='GNU Affero General Public License v3.0',
     url='https://github.com/icgc-argo/seq-tools',
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
-    package_data={"":["resources/*/*/refseq.bed"]},
+    package_data={"":["resources/*/*/refseq.bed","resources/star_chr21_index/*"]},
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Operating System :: OS Independent",
