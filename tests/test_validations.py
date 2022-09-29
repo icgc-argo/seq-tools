@@ -43,6 +43,8 @@ def test_validate(submission):
 
     if str(Path(metadata_file).parent).endswith('skip-md5'):
         cli_option += ['--skip_md5sum_check']
+    if str(Path(metadata_file).parent).endswith('skip-strand'):
+        cli_option += ['--skip_strandedness_check']
 
     runner.invoke(main, cli_option)
 

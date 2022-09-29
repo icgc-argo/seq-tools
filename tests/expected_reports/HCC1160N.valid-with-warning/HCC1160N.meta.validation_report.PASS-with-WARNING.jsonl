@@ -1,12 +1,12 @@
 {
   "tool": {
     "name": "seq-tools",
-    "version": "1.1.0"
+    "version": "1.2.2"
   },
   "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/HCC1160N.valid-with-warning/HCC1160N.meta.json",
   "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/HCC1160N.valid-with-warning",
-  "started_at": "2022-07-21T16:25:45.055Z",
-  "ended_at": "2022-07-21T16:25:45.397Z",
+  "started_at": "2022-09-29T19:26:36.507Z",
+  "ended_at": "2022-09-29T19:26:36.720Z",
   "validation": {
     "status": "PASS-with-WARNING",
     "message": "Please see individual checks for details",
@@ -155,6 +155,11 @@
         "checker": "c683_fileMd5sum_match",
         "status": "PASS",
         "message": "The fileMd5sum calculated from the sequencing files matches the info provided in metadata JSON: PASS"
+      },
+      {
+        "checker": "c691_check_strand_specificity_in_fastq",
+        "status": "PASS",
+        "message": "No RNA-Seq experiments to check : SKIPPING"
       }
     ]
   }

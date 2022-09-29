@@ -180,7 +180,7 @@ def base_estimate(seq_file, logger, checker) -> int:
 
         read_lengths_r1 = [len(r.split('\t')[9]) for r in reads.rstrip().split('\n') if not r.startswith('@')]
         average_len_r1 = int(sum(read_lengths_r1) / len(read_lengths_r1))
-        logger.info("[%s] Average lenght of reads from first end: %s, from first %s reads in BAM: %s." %
+        logger.info("[%s] Average length of reads from first end: %s, from first %s reads in BAM: %s." %
                     (checker, average_len_r1, len(read_lengths_r1), seq_file))
 
         average_read_length = average_len_r1
@@ -194,7 +194,7 @@ def base_estimate(seq_file, logger, checker) -> int:
 
         if len(read_lengths_r2):  # paired end sequencing
             average_len_r2 = int(sum(read_lengths_r2) / len(read_lengths_r2))
-            logger.info("[%s] Average lenght of reads from second end: %s, from first %s reads in BAM: %s." %
+            logger.info("[%s] Average length of reads from second end: %s, from first %s reads in BAM: %s." %
                         (checker, average_len_r2, len(read_lengths_r2), seq_file))
 
             average_read_length = (average_len_r1 + average_len_r2) / 2
@@ -228,12 +228,12 @@ def base_estimate(seq_file, logger, checker) -> int:
 
         average_len = int(sum(read_lengths) / len(read_lengths))
         if len(read_lengths) < reads_to_sample:  # we've got all the reads
-            logger.info("[%s] Average lenght of reads: %s, from %s reads in FASTQ: %s." %
+            logger.info("[%s] Average length of reads: %s, from %s reads in FASTQ: %s." %
                         (checker, average_len, len(read_lengths), seq_file))
             return sum(read_lengths)
 
         else:
-            logger.info("[%s] Average lenght of reads: %s, from first %s reads in FASTQ: %s." %
+            logger.info("[%s] Average length of reads: %s, from first %s reads in FASTQ: %s." %
                         (checker, average_len, len(read_lengths), seq_file))
 
             file_size = os.path.getsize(seq_file)

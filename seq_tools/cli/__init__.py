@@ -56,9 +56,10 @@ def main(ctx, debug, ignore_update):
 @click.option('--data_dir', '-d', type=click.Path(exists=True),
               help='path containing submission data files')
 @click.option('--skip_md5sum_check', is_flag=True, help='skip md5sum check, save time for large files')
+@click.option('--skip_strandedness_check', is_flag=True, help='skip strandedness check, save time for large files')
 @click.argument('metadata_file', nargs=-1, type=click.Path(exists=True))
 @click.pass_context
-def validate(ctx, metadata_str, metadata_file, data_dir, skip_md5sum_check):
+def validate(ctx, metadata_str, metadata_file, data_dir, skip_md5sum_check,skip_strandedness_check):
     """
     Perform validation on metadata file(s) or metadata string.
     """
@@ -96,7 +97,7 @@ def validate(ctx, metadata_str, metadata_file, data_dir, skip_md5sum_check):
         for metafile in metadata_file:
             current += 1
 
-            perform_validation(ctx, metadata_file=metafile, data_dir=data_dir, skip_md5sum_check=skip_md5sum_check)
+            perform_validation(ctx, metadata_file=metafile, data_dir=data_dir, skip_md5sum_check=skip_md5sum_check,skip_strandedness_check=skip_strandedness_check)
 
             status = ctx.obj['validation_report']['validation']['status']
             status_with_stype = status

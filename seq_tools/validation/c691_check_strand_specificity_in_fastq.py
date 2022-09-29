@@ -34,7 +34,7 @@ class Checker(BaseChecker):
             checker_name=__name__,
             depends_on=[
                 "c605_all_files_accessible",
-                "c608_bam_sanity",
+                "c609_fastq_sanity",
                 "c610_rg_id_in_bam",
                 "c620_submitter_read_group_id_match",
                 "c630_rg_id_in_bam_match",
@@ -70,66 +70,75 @@ class Checker(BaseChecker):
 
         query_fastq={}
         for rg in self.metadata.get("read_groups"):
-            if rg['file_r1'] not in query_fastq.keys():
+            if rg['file_r1'] not in query_fastq.keys() and (rg['file_r1'].endswith("fastq.gz") or rg['file_r1'].endswith("fq.gz") or rg['file_r1'].endswith("fastq.bz2") or rg['file_r1'].endswith("fq.bz2")):
                 query_fastq[rg['file_r1']]={}
                 query_fastq[rg['file_r1']]['file_r1']=os.path.join(self.data_dir,rg['file_r1'])
                 query_fastq[rg['file_r1']]['is_paired_end']=rg['is_paired_end']
                 query_fastq[rg['file_r1']]['library_strandedness']=self.metadata.get('experiment')['library_strandedness']
                 if rg.get("file_r2"):
                     query_fastq[rg['file_r1']]['file_r2']=os.path.join(self.data_dir,rg['file_r2'])
+
+        if len(query_fastq.keys())==0:
+            self.status = 'PASS'
+            message = "No FASTQs associated to RNA-Seq experiments to check : SKIPPING"
+            self.message = message
+            self.logger.info(f'[{self.checker}] {message}')
+            return
         
-        problematic_bams=[]
+        problematic_fastqs=[]
+        make_index()
         for rg in query_fastq.keys():
             read_count=fastq_test_length(query_fastq[rg]['file_r1'])
 
-            if read_count>5000000:
-                bam=align_fastq(query_fastq[rg]['file_r1'],query_fastq[rg]['file_r2'],"tmp.bam") \
+            if read_count<1000000:
+                bam=align_fastq(query_fastq[rg]['file_r1'],query_fastq[rg]['file_r2'],"tmp") \
                     if query_fastq[rg]['is_paired_end'] else \
                     align_fastq(query_fastq[rg]['file_r1'],None,"tmp")
             else:
                 aligned_read_count_tracker=[0]
                 list_of_subset_bams=[]
-                while sum(aligned_read_count_tracker)<1000000:
+                while sum(aligned_read_count_tracker)<20000:
                     subset_fastq1,subset_fastq2=split_fastq(query_fastq[rg]['file_r1'],query_fastq[rg]['file_r2'],len(aligned_read_count_tracker))
                     subset_bam=align_fastq(subset_fastq1,subset_fastq2,"tmp_"+str(len(aligned_read_count_tracker)))
                     aligned_read_count_tracker.append(aligned_read_count(subset_bam))
                     list_of_subset_bams.append(subset_bam)
                 bam=merged_bam(list_of_subset_bams)
 
-
+            print(query_fastq[rg]['is_paired_end'])
             strand_orientation=determine_strandedness(bam,query_fastq[rg]['is_paired_end'])
 
             clean_up()
 
+            fastq="["+query_fastq[rg]['file_r1']+","+query_fastq[rg]['file_r2']+"]" if query_fastq[rg]['is_paired_end'] else "["+query_fastq[rg]['file_r1']+"]"
             if strand_orientation!=query_fastq[rg]['library_strandedness']:
-                message =  "Strand orientation for RNA-Seq file %s detected as %s. Not matching metadata %s : INVALID"  % (bam,strand_orientation,self.metadata.get('experiment')['library_strandedness'])
+                message =  "Strand orientation for RNA-Seq file %s detected as %s. Not matching metadata %s : INVALID"  % (fastq,strand_orientation,self.metadata.get('experiment')['library_strandedness'])
                 self.logger.info(f'[{self.checker}] {message}')
                 self.message = message
                 self.status = 'INVALID'
-                problematic_bams.append(bam)
+                problematic_fastqs.append(fastq)
             else:
-                message =  "Strand orientation for RNA-Seq file %s detected as %s. Matching metadata %s : PASS"  % (bam,strand_orientation,self.metadata.get('experiment')['library_strandedness'])
+                message =  "Strand orientation for RNA-Seq file %s detected as %s. Matching metadata %s : PASS"  % (fastq,strand_orientation,self.metadata.get('experiment')['library_strandedness'])
                 self.logger.info(f'[{self.checker}] {message}')
                 self.message = message
                                                                                                         
-            if len(problematic_bams)>0:
-                self.status = 'INVALID'
-                message = "The following RNA-seq BAMs' stand orientation does not match metadata : %s" % ",".join(problematic_bams)
-                self.message = message
-                self.logger.info(f'[{self.checker}] {message}')
-                return
-            else:
-                self.status = 'PASS'
-                message = "All BAMs strand orientation check : PASS"
-                self.message = message
-                self.logger.info(f'[{self.checker}] {message}')
-                return
+        if len(problematic_fastqs)>0:
+            self.status = 'INVALID'
+            message = "The following RNA-seq FASTQs' stand orientation does not match metadata : %s" % ",".join(problematic_fastqs)                
+            self.message = message
+            self.logger.info(f'[{self.checker}] {message}')
+            return
+        else:
+            self.status = 'PASS'
+            message = "All FASTQs strand orientation check : PASS"
+            self.message = message
+            self.logger.info(f'[{self.checker}] {message}')
+            return
 
 def determine_strandedness(bam_file,is_paired_end):
     base_directory = os.path.dirname(os.path.abspath(__file__))
     genome_build={
-            "+":base_directory+"/resources/hg38/positive/refseq.bed",
-            "-":base_directory+"/resources/hg38/negative/refseq.bed"
+            "+":base_directory+"/../resources/hg38/positive/refseq.bed",
+            "-":base_directory+"/../resources/hg38/negative/refseq.bed"
               }
     if is_paired_end:
         query_flags={
@@ -148,8 +157,8 @@ def determine_strandedness(bam_file,is_paired_end):
             orientation[query]=int(count_cmd.decode('utf-8').strip().split('\n')[0])
                                     
         orientation['total']=sum(orientation.values())                             
-        orientation['1+-,1-+,2++,2--']=sum([orientation[key] for key in ['1+-','1-+','2++','2--']])/orientation['total']
-        orientation['1++,1--,2+-,2-+']=sum([orientation[key] for key in ['1++','1--','2+-','2-+']])/orientation['total']
+        orientation['1+-,1-+,2++,2--']=float(sum([orientation[key] for key in ['1+-','1-+','2++','2--']]))/float(orientation['total'])
+        orientation['1++,1--,2+-,2-+']=float(sum([orientation[key] for key in ['1++','1--','2+-','2-+']]))/float(orientation['total'])
                                     
         if (orientation['1+-,1-+,2++,2--']>0.6) and (orientation['1+-,1-+,2++,2--']>orientation['1++,1--,2+-,2-+']):
             strand_orientation='FIRST_READ_ANTISENSE_STRAND'
@@ -157,6 +166,7 @@ def determine_strandedness(bam_file,is_paired_end):
             strand_orientation='FIRST_READ_SENSE_STRAND'
         else:
             strand_orientation='UNSTRANDED'
+
     else:
         query_flags={
         "1+":"-F 2832",
@@ -180,11 +190,13 @@ def determine_strandedness(bam_file,is_paired_end):
             strand_orientation='FIRST_READ_SENSE_STRAND'
         else:
             strand_orientation='UNSTRANDED'
+
+    print(orientation,strand_orientation)
     return strand_orientation
 
 def fastq_test_length(fastq):
     if fastq.endswith("fastq.gz") or fastq.endswith("fq.gz"):
-        cmd="zcat "+fastq+" | wc -l"
+        cmd="cat "+fastq+" | zcat | wc -l"
     else:
         cmd="bzcat "+fastq+" | wc -l"
 
@@ -195,9 +207,8 @@ def fastq_test_length(fastq):
     return file_size
 
 def align_fastq(read1,read2,bam_name):
-    base_directory = os.path.dirname(os.path.abspath(__file__))
     if read2:
-        cmd="STAR --genomeDir "+base_directory+"/../resources/star_chr21_index/ " +\
+        cmd="STAR --genomeDir tmp_index/ " +\
             "--runThreadN 1 "\
             "--readFilesIn  "+read1+" "+read2+" "\
             "--outFileNamePrefix "+bam_name+". "\
@@ -206,7 +217,7 @@ def align_fastq(read1,read2,bam_name):
             "--outSAMattributes Standard "\
             "--readFilesCommand zcat"
     else:
-        cmd="STAR --genomeDir "+base_directory+"/../resources/star_chr21_index/ " +\
+        cmd="STAR --genomeDir tmp_index/ " +\
             "--runThreadN 1 "\
             "--readFilesIn  "+read1+" "\
             "--outFileNamePrefix "+bam_name+". "\
@@ -216,21 +227,21 @@ def align_fastq(read1,read2,bam_name):
             "--readFilesCommand zcat"
 
     subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
-    return bam_name+".Aligned.SortedByCoordinate.bam"
+    return bam_name+".Aligned.sortedByCoord.out.bam"
 
 def split_fastq(read1,read2,num):
     if read1.endswith("fastq.gz"):
-        cmd="zcat "+read1+"| head -n "+str(4000000*num)+"| tail -n 4000000 | gzip > tmp_"+str(num)+"_read1.fastq.gz"
+        cmd="cat "+read1+"| zcat | head -n "+str(40000*num)+"| tail -n 40000 | gzip > tmp_"+str(num)+"_read1.fastq.gz"
     else:
-        cmd="bzcat "+read1+"| head -n "+str(4000000*num)+"| tail -n 4000000 | gzip > tmp_"+str(num)+"_read1.fastq.gz"
+        cmd="bzcat "+read1+"| head -n "+str(40000*num)+"| tail -n 40000 | gzip > tmp_"+str(num)+"_read1.fastq.gz"
 
     print(cmd)
     run_cmd=subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
 
     if read2 and read2.endswith("fastq.gz"):
-        cmd="zcat "+read2+"| head -n "+str(4000000*num)+"| tail -n 4000000 | gzip > tmp_"+str(num)+"_read2.fastq.gz"
+        cmd="cat "+read2+"| zcat | head -n "+str(40000*num)+"| tail -n 40000 | gzip > tmp_"+str(num)+"_read2.fastq.gz"
     elif read2 and read2.endswith("bz2"):
-        cmd="bzcat "+read2+"| head -n "+str(4000000*num)+"| tail -n 4000000 | gzip > tmp_"+str(num)+"_read2.fastq.gz"
+        cmd="bzcat "+read2+"| head -n "+str(40000*num)+"| tail -n 40000 | gzip > tmp_"+str(num)+"_read2.fastq.gz"
     
     run_cmd=subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
 
@@ -245,10 +256,25 @@ def aligned_read_count(subset_bam):
     return int(count_cmd.decode('utf-8').strip().split('\n')[0])
 
 def merged_bam(list_of_subset_bams):
-    cmd="samtools merge -o tmp.merged.bam "+" ".join(list_of_subset_bams)
+    cmd="samtools merge -f tmp.merged.bam "+" ".join(list_of_subset_bams)
     run_cmd = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
     return "tmp.merged.bam"
 
 def clean_up():
-    cmd="rm tmp*"
+    cmd="rm -r tmp*"
     run_cmd = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
+
+def make_index():
+    base_directory = os.path.dirname(os.path.abspath(__file__))
+    for cmd in [
+            "mkdir -p tmp_index",
+            "cat "+base_directory+"/../resources/star_chr21_index/compressed/GRCh38.chr21.fasta.gz | zcat > tmp_index/GRCh38.chr21.fasta",
+            "cat "+base_directory+"/../resources/star_chr21_index/compressed/gencode.v41.annotation.chr21.gtf.gz | zcat > tmp_index/gencode.v41.annotation.chr21.gtf",
+            "STAR --runMode genomeGenerate "\
+            "--genomeDir tmp_index "\
+            "--genomeFastaFiles tmp_index/GRCh38.chr21.fasta "\
+            "--sjdbGTFfile tmp_index/gencode.v41.annotation.chr21.gtf "\
+            "--sjdbOverhang 99 "
+            "--genomeSAindexNbases 11"
+            ]:
+                subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
