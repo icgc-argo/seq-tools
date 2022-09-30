@@ -104,7 +104,6 @@ class Checker(BaseChecker):
                     list_of_subset_bams.append(subset_bam)
                 bam=merged_bam(list_of_subset_bams)
 
-            print(query_fastq[rg]['is_paired_end'])
             strand_orientation=determine_strandedness(bam,query_fastq[rg]['is_paired_end'])
 
             clean_up()
@@ -191,7 +190,6 @@ def determine_strandedness(bam_file,is_paired_end):
         else:
             strand_orientation='UNSTRANDED'
 
-    print(orientation,strand_orientation)
     return strand_orientation
 
 def fastq_test_length(fastq):
@@ -235,7 +233,6 @@ def split_fastq(read1,read2,num):
     else:
         cmd="bzcat "+read1+"| head -n "+str(40000*num)+"| tail -n 40000 | gzip > tmp_"+str(num)+"_read1.fastq.gz"
 
-    print(cmd)
     run_cmd=subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
 
     if read2 and read2.endswith("fastq.gz"):
@@ -268,8 +265,8 @@ def make_index():
     base_directory = os.path.dirname(os.path.abspath(__file__))
     for cmd in [
             "mkdir -p tmp_index",
-            "cat "+base_directory+"/../resources/star_chr21_index/compressed/GRCh38.chr21.fasta.gz | zcat > tmp_index/GRCh38.chr21.fasta",
-            "cat "+base_directory+"/../resources/star_chr21_index/compressed/gencode.v41.annotation.chr21.gtf.gz | zcat > tmp_index/gencode.v41.annotation.chr21.gtf",
+            "cat "+base_directory+"/../resources/star_chr21_index/GRCh38.chr21.fasta.gz | zcat > tmp_index/GRCh38.chr21.fasta",
+            "cat "+base_directory+"/../resources/star_chr21_index/gencode.v41.annotation.chr21.gtf.gz | zcat > tmp_index/gencode.v41.annotation.chr21.gtf",
             "STAR --runMode genomeGenerate "\
             "--genomeDir tmp_index "\
             "--genomeFastaFiles tmp_index/GRCh38.chr21.fasta "\
