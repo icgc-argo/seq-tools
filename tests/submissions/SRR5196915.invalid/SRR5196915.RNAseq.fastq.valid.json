@@ -1,0 +1,70 @@
+{
+    "analysisType": {
+      "name": "sequencing_experiment"
+    },
+    "studyId": "TEST-PR",
+    "experiment": {
+      "submitter_sequencing_experiment_id": "TEST_EXP1",
+      "sequencing_center": "EXT",
+      "platform": "ILLUMINA",
+      "platform_model": "HiSeq 2000",
+      "experimental_strategy": "RNA-Seq",
+      "sequencing_date": "2014-12-12",
+      "library_strandedness": "FIRST_READ_ANTISENSE_STRAND"
+    },
+    "read_group_count": 1,
+    "read_groups": [
+      {
+        "submitter_read_group_id": "C0HVY.2",
+        "platform_unit": "74_8a",
+        "is_paired_end": true,
+        "file_r1": "SRR5196915.chr21.R1.fastq.gz",
+	      "file_r2": "SRR5196915.chr21.R2.fastq.gz",
+        "read_length_r1": 34,
+      	"read_length_r2": 34,
+        "insert_size": null,
+        "sample_barcode": null,
+        "library_name": "Pond-147580"
+      }
+    ],
+    "samples": [
+      {
+        "submitterSampleId": "HCC1143N",
+        "matchedNormalSubmitterSampleId": null,
+        "sampleType": "Total RNA",
+        "specimen": {
+          "submitterSpecimenId": "HCC1143N",
+          "tumourNormalDesignation": "Normal",
+          "specimenTissueSource": "Blood derived",
+          "specimenType": "Normal"
+        },
+        "donor": {
+          "submitterDonorId": "HCC1143",
+          "gender": "Female"
+        }
+      }
+    ],
+    "files": [
+      {
+        "fileName": "SRR5196915.chr21.R1.fastq.gz",
+        "fileSize": 41395007,
+        "fileMd5sum": "2aa8df7c7144b4240fa8198f194fabbe",
+        "fileType": "FASTQ",
+        "fileAccess": "controlled",
+        "dataType": "Submitted Reads",
+        "info": {
+          "data_category": "Sequencing Reads"
+        }
+      },
+      { 
+         "fileName": "SRR5196915.chr21.R2.fastq.gz",
+         "fileSize": 43354497,
+         "fileMd5sum": "71121e111941fba4275de30dce709d55",
+         "fileType": "FASTQ",
+         "fileAccess": "controlled",
+         "dataType": "Submitted Reads",
+         "info": {
+         "data_category": "Sequencing Reads"}
+      }
+    ]
+  }
