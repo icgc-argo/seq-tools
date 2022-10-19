@@ -1,12 +1,12 @@
 {
   "tool": {
     "name": "seq-tools",
-    "version": "1.1.0"
+    "version": "1.2.2"
   },
   "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/HCC1160N.valid-with-warning-and-skip-md5/HCC1160N.meta.json",
   "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/HCC1160N.valid-with-warning-and-skip-md5",
-  "started_at": "2022-07-21T16:47:09.866Z",
-  "ended_at": "2022-07-21T16:47:10.202Z",
+  "started_at": "2022-10-13T19:40:46.954Z",
+  "ended_at": "2022-10-13T19:40:47.157Z",
   "validation": {
     "status": "PASS-with-WARNING-and-SKIPPED-check",
     "message": "Please see individual checks for details",
@@ -155,6 +155,11 @@
         "checker": "c683_fileMd5sum_match",
         "status": "SKIPPED",
         "message": "This check was not performed as instructed by the command line option. Status: SKIPPED"
+      },
+      {
+        "checker": "c685_nested_cram_fileMd5sum_and_fileSize_match",
+        "status": "PASS",
+        "message": "No nested cram info to check: PASS"
       }
     ]
   }
