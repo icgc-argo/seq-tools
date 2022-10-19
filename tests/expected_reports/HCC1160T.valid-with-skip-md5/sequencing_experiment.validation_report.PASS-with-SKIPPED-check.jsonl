@@ -1,12 +1,12 @@
 {
   "tool": {
     "name": "seq-tools",
-    "version": "1.2.2"
+    "version": "1.1.0"
   },
   "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/HCC1160T.valid-with-skip-md5/sequencing_experiment.json",
   "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/HCC1160T.valid-with-skip-md5",
-  "started_at": "2022-10-13T19:37:26.403Z",
-  "ended_at": "2022-10-13T19:37:26.690Z",
+  "started_at": "2022-07-21T16:29:14.467Z",
+  "ended_at": "2022-07-21T16:29:14.750Z",
   "validation": {
     "status": "PASS-with-SKIPPED-check",
     "message": "Please see individual checks for details",
@@ -155,11 +155,6 @@
         "checker": "c683_fileMd5sum_match",
         "status": "SKIPPED",
         "message": "This check was not performed as instructed by the command line option. Status: SKIPPED"
-      },
-      {
-        "checker": "c685_nested_cram_fileMd5sum_and_fileSize_match",
-        "status": "PASS",
-        "message": "No nested cram info to check: PASS"
       }
     ]
   }
