@@ -116,9 +116,9 @@ class Checker(BaseChecker):
 def fastq_test_length(fastq,path):
     file_path=os.path.join(path,fastq)
     if fastq.endswith("fastq.gz") or fastq.endswith("fq.gz"):
-        cmd="zcat "+file_path+" | wc -l"
+        cmd="cat"+file_path+"| zcat  | wc -l"
     else:
-        cmd="bzcat "+file_path+" | wc -l"
+        cmd="cat "+file_path+"| bzcat | wc -l"
 
     count_cmd = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
 
@@ -131,9 +131,9 @@ def fastq_test_length(fastq,path):
 def fastq_test_regex(fastq,path):
     file_path=os.path.join(path,fastq)
     if fastq.endswith("fastq.gz") or fastq.endswith("fq.gz"):
-        cmd="zcat "+file_path+" | head -n400000"
+        cmd="cat"+file_path+"| zcat | head -n400000"
     else:
-        cmd="bzcat "+file_path+" | head -n400000"
+        cmd="cat "+file_path+"| bzcat | head -n400000"
 
     reads_cmd = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
     line_count=0
@@ -147,9 +147,9 @@ def fastq_test_regex(fastq,path):
             return False,"Line #%s within FASTQ file %s not following FASTQ format, missing '+' at start of the line" % (line_tracker+1,fastq)
         elif line_count%4==3 \
             and \
-            re.findall(r'[^'+''.join([chr(phred+64) for phred in range(0,41)])+']',line) \
+            re.findall('%r'%'[^'+r''.join([chr(phred+64) for phred in range(0,41)])+']',line) \
             and \
-            re.findall(r'[^'+''.join([chr(phred+33) for phred in range(0,42)])+']',line):
+            re.findall('%r'%'[^'+r''.join([chr(phred+33) for phred in range(0,42)])+']',line) :
             return False,"Unknown Phred character found in Line #%s within FASTQ file %s" % (line_tracker+1,fastq)
         elif line_count==3:
             line_count=0
