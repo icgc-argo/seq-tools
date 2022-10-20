@@ -115,7 +115,7 @@ class Checker(BaseChecker):
 def fastq_test_length(fastq,path):
     file_path=os.path.join(path,fastq)
     if fastq.endswith("fastq.gz") or fastq.endswith("fq.gz"):
-        cmd="cat"+file_path+"| zcat  | wc -l"
+        cmd="cat "+file_path+"| zcat  | wc -l"
     else:
         cmd="cat "+file_path+"| bzcat | wc -l"
 
@@ -130,7 +130,7 @@ def fastq_test_length(fastq,path):
 def fastq_test_regex(fastq,path):
     file_path=os.path.join(path,fastq)
     if fastq.endswith("fastq.gz") or fastq.endswith("fq.gz"):
-        cmd="cat"+file_path+"| zcat | head -n400000"
+        cmd="cat "+file_path+"| zcat | head -n400000"
     else:
         cmd="cat "+file_path+"| bzcat | head -n400000"
 

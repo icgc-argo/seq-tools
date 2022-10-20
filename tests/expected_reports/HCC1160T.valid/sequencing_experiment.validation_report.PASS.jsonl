@@ -155,11 +155,6 @@
         "checker": "c683_fileMd5sum_match",
         "status": "PASS",
         "message": "The fileMd5sum calculated from the sequencing files matches the info provided in metadata JSON: PASS"
-      },
-      {
-        "checker": "c685_nested_cram_fileMd5sum_and_fileSize_match",
-        "status": "PASS",
-        "message": "No nested cram info to check: PASS"
       }
     ]
   }

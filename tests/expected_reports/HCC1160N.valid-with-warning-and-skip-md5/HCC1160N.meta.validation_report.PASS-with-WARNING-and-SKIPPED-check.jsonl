@@ -155,11 +155,6 @@
         "checker": "c683_fileMd5sum_match",
         "status": "SKIPPED",
         "message": "This check was not performed as instructed by the command line option. Status: SKIPPED"
-      },
-      {
-        "checker": "c685_nested_cram_fileMd5sum_and_fileSize_match",
-        "status": "PASS",
-        "message": "No nested cram info to check: PASS"
       }
     ]
   }
