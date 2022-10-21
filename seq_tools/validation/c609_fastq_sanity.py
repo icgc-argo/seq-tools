@@ -2,7 +2,6 @@
 
 """
     Copyright (c) 2020, Ontario Institute for Cancer Research (OICR).
-
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU Affero General Public License as published
     by the Free Software Foundation, either version 3 of the License, or
@@ -13,10 +12,10 @@
     GNU Affero General Public License for more details.
     You should have received a copy of the GNU Affero General Public License
     along with this program. If not, see <https://www.gnu.org/licenses/>.
-
     Authors:
         Junjun Zhang <junjun.zhang@oicr.on.ca>
         Linda Xiang <linda.xiang@oicr.on.ca>
+        Edmund Su <edmund.su@oicr.on.ca>
 """
 
 
@@ -116,7 +115,7 @@ class Checker(BaseChecker):
 def fastq_test_length(fastq,path):
     file_path=os.path.join(path,fastq)
     if fastq.endswith("fastq.gz") or fastq.endswith("fq.gz"):
-        cmd="cat"+file_path+"| zcat  | wc -l"
+        cmd="cat "+file_path+"| zcat  | wc -l"
     else:
         cmd="cat "+file_path+"| bzcat | wc -l"
 
@@ -131,7 +130,7 @@ def fastq_test_length(fastq,path):
 def fastq_test_regex(fastq,path):
     file_path=os.path.join(path,fastq)
     if fastq.endswith("fastq.gz") or fastq.endswith("fq.gz"):
-        cmd="cat"+file_path+"| zcat | head -n400000"
+        cmd="cat "+file_path+"| zcat | head -n400000"
     else:
         cmd="cat "+file_path+"| bzcat | head -n400000"
 

@@ -48,7 +48,11 @@ class Checker(BaseChecker):
         if self.status:
             return
 
-        files_in_metadata = self.metadata['files']
+        files_in_metadata = self.metadata['files'].copy()
+
+        for f in files_in_metadata:
+            if f.get("info") and f["info"].get("original_cram_info"):
+                files_in_metadata.append(f['info']["original_cram_info"])
 
         mismatches = defaultdict(list)  # dict to keep all mismatches from all files
         for f in files_in_metadata:

@@ -1,0 +1,26 @@
+{
+  "tool": {
+    "name": "seq-tools",
+    "version": "1.2.3"
+  },
+  "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_cram/anon_chr1_cram.invalid.json",
+  "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_cram",
+  "started_at": "2022-10-20T14:06:46.446Z",
+  "ended_at": "2022-10-20T14:06:47.006Z",
+  "validation": {
+    "status": "INVALID",
+    "message": "Please see individual checks for details",
+    "checks": [
+      {
+        "checker": "c681_fileSize_match",
+        "status": "INVALID",
+        "message": "The fileSize calculated from the sequencing files does NOT match the info provided in metadata JSON. Details of the difference: [anon_chr1_completeB.cram: fileSize: 132507 vs 132509]"
+      },
+      {
+        "checker": "c683_fileMd5sum_match",
+        "status": "INVALID",
+        "message": "The fileMd5sum calculated from the sequencing files does NOT match the info provided in metadata JSON. Details of the difference: [anon_chr1_completeA.cram: fileMd5sum: 0d1776d44d8da87758d6b159aa8e6bc5 vs 9d1776d44d8da87758d6b159aa8e6bc5]"
+      }
+    ]
+  }
+}
