@@ -57,7 +57,7 @@ class Checker(BaseChecker):
         files_missed_in_subdir = set()
         files_unaccessbile_in_subdir = set()
 
-        files_in_metadata = self.metadata['files']
+        files_in_metadata = self.metadata['files'].copy()
         for f in files_in_metadata:
             if f['fileName'] not in files_in_subdir:
                 files_missed_in_subdir.add(f['fileName'])

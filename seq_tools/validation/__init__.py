@@ -69,7 +69,7 @@ def perform_validation(ctx, metadata_file=None, data_dir=None, metadata_str=None
         'metadata_file': os.path.realpath(metadata_file) if metadata_file else None,
         'data_dir': data_dir if data_dir else None,
         'data_files': find_files(
-            data_dir, r'^.+?\.(bam|fq\.gz|fastq\.gz|fq\.bz2|fastq\.bz2)$'
+            data_dir, r'^.+?\.(cram|bam|fq\.gz|fastq\.gz|fq\.bz2|fastq\.bz2)$'
         ) if data_dir else [],
         'started_at': ntcnow_iso(),
         'ended_at': None,

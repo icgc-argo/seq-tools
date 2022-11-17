@@ -25,6 +25,7 @@ import os
 from base_checker import BaseChecker
 import subprocess
 import re
+import json
 
 class Checker(BaseChecker):
     def __init__(self, ctx, metadata, skip=False):
@@ -90,21 +91,17 @@ class Checker(BaseChecker):
         for rg in query_fastq.keys():
             read_count=fastq_test_length(query_fastq[rg]['file_r1'])
 
-            if read_count<1000000:
-                bam=align_fastq(query_fastq[rg]['file_r1'],query_fastq[rg]['file_r2'],"tmp") \
-                    if query_fastq[rg]['is_paired_end'] else \
-                    align_fastq(query_fastq[rg]['file_r1'],None,"tmp")
+            if read_count>1000000:
+                subset_fastq1,subset_fastq2=split_fastq(query_fastq[rg]['file_r1'],query_fastq[rg]['file_r2'],read_count)
             else:
-                aligned_read_count_tracker=[0]
-                list_of_subset_bams=[]
-                while sum(aligned_read_count_tracker)<20000:
-                    subset_fastq1,subset_fastq2=split_fastq(query_fastq[rg]['file_r1'],query_fastq[rg]['file_r2'],len(aligned_read_count_tracker))
-                    subset_bam=align_fastq(subset_fastq1,subset_fastq2,"tmp_"+str(len(aligned_read_count_tracker)))
-                    aligned_read_count_tracker.append(aligned_read_count(subset_bam))
-                    list_of_subset_bams.append(subset_bam)
-                bam=merged_bam(list_of_subset_bams)
+                subset_fastq1=query_fastq[rg]['file_r1']
+                subset_fastq2=query_fastq[rg]['file_r2']
 
-            strand_orientation=determine_strandedness(bam,query_fastq[rg]['is_paired_end'])
+            salmon_output=align_fastq(subset_fastq1,subset_fastq2) \
+                    if query_fastq[rg]['is_paired_end'] else \
+                    align_fastq(subset_fastq1,None)
+
+            strand_orientation=determine_strandedness(salmon_output,query_fastq[rg]['is_paired_end'])
 
             clean_up()
 
@@ -133,70 +130,27 @@ class Checker(BaseChecker):
             self.logger.info(f'[{self.checker}] {message}')
             return
 
-def determine_strandedness(bam_file,is_paired_end):
-    base_directory = os.path.dirname(os.path.abspath(__file__))
-    genome_build={
-            "+":base_directory+"/../resources/hg38/positive/refseq.bed",
-            "-":base_directory+"/../resources/hg38/negative/refseq.bed"
-              }
-    if is_paired_end:
-        query_flags={
-        "1+":"-F 2832 -f 64",
-        "1-":"-F 2816 -f 80",
-        "2+":"-F 2832 -f 128",
-        "2-":"-F 2816 -f 144"
-        }
-           
-        orientation={}
-        for query in ['1++','1--','2+-','2-+','1+-','1-+','2++','2--']:
+def determine_strandedness(salmon_json,is_paired_end):
+    with open(salmon_json, 'r') as f:
+        data=f.read()
+        salmon_dict = json.loads(data)
 
-            cmd="samtools view -m 30 -c "+bam_file+" "+query_flags[query[:2]]+" -L "+genome_build[query[-1]]
-            
-            count_cmd = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
-            orientation[query]=int(count_cmd.decode('utf-8').strip().split('\n')[0])
-                                    
-        orientation['total']=sum(orientation.values())                             
-        orientation['1+-,1-+,2++,2--']=float(sum([orientation[key] for key in ['1+-','1-+','2++','2--']]))/float(orientation['total'])
-        orientation['1++,1--,2+-,2-+']=float(sum([orientation[key] for key in ['1++','1--','2+-','2-+']]))/float(orientation['total'])
-                                    
-        if (orientation['1+-,1-+,2++,2--']>0.6) and (orientation['1+-,1-+,2++,2--']>orientation['1++,1--,2+-,2-+']):
-            strand_orientation='FIRST_READ_ANTISENSE_STRAND'
-        elif (orientation['1++,1--,2+-,2-+']>0.6) and (orientation['1++,1--,2+-,2-+']>orientation['1+-,1-+,2++,2--']):
-            strand_orientation='FIRST_READ_SENSE_STRAND'
-        else:
-            strand_orientation='UNSTRANDED'
-
-    else:
-        query_flags={
-        "1+":"-F 2832",
-        "1-":"-F 2816 -f 80",
-        }                
-        orientation={}
-        for query in ['1++','1--','1+-','1-+']:
-
-            cmd="samtools view -m 30 -c "+bam_file+" "+query_flags[query[:2]]+" -L "+genome_build[query[-1]]
-            
-            count_cmd = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
-            orientation[query]=int(count_cmd.decode('utf-8').strip().split('\n')[0])
-                                    
-        orientation['total']=sum(orientation.values())                             
-        orientation['1+-,1-+']=sum([orientation[key] for key in ['1+-','1-+']])/orientation['total']
-        orientation['1++,1--']=sum([orientation[key] for key in ['1++','1--']])/orientation['total']
-                                    
-        if (orientation['1+-,1-+']>0.6) and (orientation['1+-,1-+']>orientation['1++,1--']):
-            strand_orientation='FIRST_READ_ANTISENSE_STRAND'
-        elif (orientation['1++,1--']>0.6) and (orientation['1++,1--']>orientation['1+-,1-+']):
-            strand_orientation='FIRST_READ_SENSE_STRAND'
-        else:
-            strand_orientation='UNSTRANDED'
-
-    return strand_orientation
+    convert_terms={
+        "IU":"UNSTRANDED",
+        "U":"UNSTRANDED",
+        "ISR":"FIRST_READ_SENSE_STRAND",
+        "SR":"FIRST_READ_SENSE_STRAND",
+        "ISF":"FIRST_READ_ANTISENSE_STRAND",
+        "SF":"FIRST_READ_ANTISENSE_STRAND",
+    }
+    print(convert_terms[salmon_dict['library_types'][0]])
+    return convert_terms[salmon_dict['library_types'][0]]
 
 def fastq_test_length(fastq):
     if fastq.endswith("fastq.gz") or fastq.endswith("fq.gz"):
         cmd="cat "+fastq+" | zcat | wc -l"
     else:
-        cmd="bzcat "+fastq+" | wc -l"
+        cmd="cat "+fastq+" | bzcat | wc -l"
 
     count_cmd = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
 
@@ -204,74 +158,55 @@ def fastq_test_length(fastq):
     
     return file_size
 
-def align_fastq(read1,read2,bam_name):
+def align_fastq(read1,read2):
     if read2:
-        cmd="STAR --genomeDir tmp_index/ " +\
-            "--runThreadN 1 "\
-            "--readFilesIn  "+read1+" "+read2+" "\
-            "--outFileNamePrefix "+bam_name+". "\
-            "--outSAMtype BAM SortedByCoordinate "\
-            "--outSAMunmapped Within "\
-            "--outSAMattributes Standard "\
-            "--readFilesCommand zcat"
+        cmd="salmon quant "\
+            "-i tmp/transcript_index "\
+            "-l A "\
+            "-1 "+read1+" "\
+            "-2 "+read2+" "\
+            "--validateMappings "\
+            "-o transcript_quant"
     else:
-        cmd="STAR --genomeDir tmp_index/ " +\
-            "--runThreadN 1 "\
-            "--readFilesIn  "+read1+" "\
-            "--outFileNamePrefix "+bam_name+". "\
-            "--outSAMtype BAM SortedByCoordinate "\
-            "--outSAMunmapped Within "\
-            "--outSAMattributes Standard "\
-            "--readFilesCommand zcat"
+        cmd="salmon quant "\
+            "-i tmp/transcript_index "\
+            "-l A "\
+            "-1 "+read1+" "\
+            "--validateMappings "\
+            "-o transcript_quant"
 
     subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
-    return bam_name+".Aligned.sortedByCoord.out.bam"
+    return "transcript_quant/aux_info/meta_info.json"
 
 def split_fastq(read1,read2,num):
-    if read1.endswith("fastq.gz"):
-        cmd="cat "+read1+"| zcat | head -n "+str(40000*num)+"| tail -n 40000 | gzip > tmp_"+str(num)+"_read1.fastq.gz"
-    else:
-        cmd="bzcat "+read1+"| head -n "+str(40000*num)+"| tail -n 40000 | gzip > tmp_"+str(num)+"_read1.fastq.gz"
+    if read1.endswith("gz"):
+        cmd="cat "+read1+"| zcat | head -n "+str(0.25*num)+" | gzip > tmp/tmp_"+str(num)+"_read1.fastq.gz"
+    elif read2 and read2.endswith("bz2"):
+        cmd="cat "+read1+"| bzcat | head -n "+str(0.25*num)+" | gzip > tmp/tmp_"+str(num)+"_read1.fastq.gz"
 
     run_cmd=subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
 
-    if read2 and read2.endswith("fastq.gz"):
-        cmd="cat "+read2+"| zcat | head -n "+str(40000*num)+"| tail -n 40000 | gzip > tmp_"+str(num)+"_read2.fastq.gz"
+    if read2 and read2.endswith("gz"):
+        cmd="cat "+read2+"| zcat | head -n "+str(0.25*num)+" | gzip > tmp/tmp_"+str(num)+"_read2.fastq.gz"
     elif read2 and read2.endswith("bz2"):
-        cmd="bzcat "+read2+"| head -n "+str(40000*num)+"| tail -n 40000 | gzip > tmp_"+str(num)+"_read2.fastq.gz"
+        cmd="cat "+read2+"| bzcat | head -n "+str(0.25*num)+" | gzip > tmp/tmp_"+str(num)+"_read2.fastq.gz"
     
     run_cmd=subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
 
     if read2:
-        return "tmp_"+str(num)+"_read1.fastq.gz","tmp_"+str(num)+"_read2.fastq.gz"
+        return "tmp_read1.fastq.gz","tmp_read2.fastq.gz"
     else:
-        return "tmp_"+str(num)+"_read1.fastq.gz",None
-
-def aligned_read_count(subset_bam):
-    cmd="samtools view -F 2816 -m 30 -c "+subset_bam
-    count_cmd = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
-    return int(count_cmd.decode('utf-8').strip().split('\n')[0])
-
-def merged_bam(list_of_subset_bams):
-    cmd="samtools merge -f tmp.merged.bam "+" ".join(list_of_subset_bams)
-    run_cmd = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
-    return "tmp.merged.bam"
+        return "tmp_read1.fastq.gz",None
 
 def clean_up():
-    cmd="rm -r tmp*"
+    cmd="rm -r tmp;rm -r tmp_index;rm -r transcript_quant"
     run_cmd = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
 
 def make_index():
     base_directory = os.path.dirname(os.path.abspath(__file__))
     for cmd in [
-            "mkdir -p tmp_index",
-            "cat "+base_directory+"/../resources/star_chr21_index/GRCh38.chr21.fasta.gz | zcat > tmp_index/GRCh38.chr21.fasta",
-            "cat "+base_directory+"/../resources/star_chr21_index/gencode.v41.annotation.chr21.gtf.gz | zcat > tmp_index/gencode.v41.annotation.chr21.gtf",
-            "STAR --runMode genomeGenerate "\
-            "--genomeDir tmp_index "\
-            "--genomeFastaFiles tmp_index/GRCh38.chr21.fasta "\
-            "--sjdbGTFfile tmp_index/gencode.v41.annotation.chr21.gtf "\
-            "--sjdbOverhang 99 "
-            "--genomeSAindexNbases 11"
+            "mkdir -p tmp",
+            "curl https://ftp.ensembl.org/pub/release-87/fasta/homo_sapiens/cdna/Homo_sapiens.GRCh38.cdna.all.fa.gz -o tmp/Homo_sapiens.GRCh38.cdna.all.fa.gz",
+            "salmon index -t tmp/Homo_sapiens.GRCh38.cdna.all.fa.gz -i tmp/transcript_index"
             ]:
                 subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
