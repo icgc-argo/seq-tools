@@ -41,8 +41,10 @@ def test_validate(submission):
     if not seq_files:
         cli_option += ['-d', os.path.join(test_dir, 'seq-data')]
 
-    if str(Path(metadata_file).parent).endswith('skip-md5'):
+    if 'skip-md5' in str(Path(metadata_file).parent):
         cli_option += ['--skip_md5sum_check']
+    if 'skip-strand' in str(Path(metadata_file).parent):
+        cli_option += ['--skip_strandedness_check']
 
     runner.invoke(main, cli_option)
 

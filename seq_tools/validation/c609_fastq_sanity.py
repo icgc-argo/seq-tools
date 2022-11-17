@@ -134,6 +134,7 @@ def fastq_test_regex(fastq,path):
     else:
         cmd="cat "+file_path+"| bzcat | head -n400000"
 
+
     reads_cmd = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
     line_count=0
     for line_tracker,line in enumerate(reads_cmd.decode('utf-8').strip().split("\n")):

@@ -155,6 +155,11 @@
         "checker": "c683_fileMd5sum_match",
         "status": "SKIPPED",
         "message": "This check was not performed as instructed by the command line option. Status: SKIPPED"
+      },
+      {
+        "checker": "c691_check_strand_specificity_in_fastq",
+        "status": "PASS",
+        "message": "No RNA-Seq experiments to check : SKIPPING"
       }
     ]
   }

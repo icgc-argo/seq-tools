@@ -58,7 +58,7 @@ class Checker(BaseChecker):
         files_unaccessbile_in_subdir = set()
 
         files_in_metadata = self.metadata['files'].copy()
-        
+  
         for f in files_in_metadata:
             if f.get("info") and f["info"].get("original_cram_info"):
                 files_in_metadata.append(f['info']["original_cram_info"])

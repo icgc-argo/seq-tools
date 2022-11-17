@@ -1,0 +1,21 @@
+{
+  "tool": {
+    "name": "seq-tools",
+    "version": "1.2.2"
+  },
+  "metadata_file": "/home/ubuntu/downloads/seq-tools/seq-tools/tests/submissions/SRR5196915.invalid/SRR5196915.json",
+  "data_dir": "/home/ubuntu/downloads/seq-tools/seq-tools/tests/submissions/SRR5196915.invalid",
+  "started_at": "2022-09-30T21:03:13.138Z",
+  "ended_at": "2022-09-30T21:23:25.432Z",
+  "validation": {
+    "status": "INVALID",
+    "message": "Please see individual checks for details",
+    "checks": [
+      {
+        "checker": "c691_check_strand_specificity_in_fastq",
+        "status": "INVALID",
+        "message": "The following RNA-seq FASTQs' stand orientation does not match metadata : [/home/ubuntu/downloads/seq-tools/seq-tools/tests/submissions/SRR5196915.invalid/SRR5196915.chr21.R1.fastq.gz,/home/ubuntu/downloads/seq-tools/seq-tools/tests/submissions/SRR5196915.invalid/SRR5196915.chr21.R2.fastq.gz]"
+      }
+    ]
+  }
+}

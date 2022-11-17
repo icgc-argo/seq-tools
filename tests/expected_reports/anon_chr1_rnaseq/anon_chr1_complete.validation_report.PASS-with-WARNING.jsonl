@@ -155,6 +155,11 @@
         "checker": "c683_fileMd5sum_match",
         "status": "PASS",
         "message": "The fileMd5sum calculated from the sequencing files matches the info provided in metadata JSON: PASS"
+      },
+      {
+        "checker": "c691_check_strand_specificity_in_fastq",
+        "status": "PASS",
+        "message": "No FASTQs associated to RNA-Seq experiments to check : SKIPPING"
       }
     ]
   }
