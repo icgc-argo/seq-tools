@@ -8,9 +8,8 @@
     "sequencing_center": "QCMG",
     "platform": "ILLUMINA",
     "platform_model": "Illumina HiSeq 2000",
-    "experimental_strategy": "RNA-Seq",
-    "sequencing_date": null,
-    "library_strandedness": "FIRST_READ_ANTISENSE_STRAND"
+    "experimental_strategy": "WGS",
+    "sequencing_date": null
   },
   "read_group_count": 5,
   "read_groups": [
