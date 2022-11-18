@@ -5,8 +5,8 @@
   },
   "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_cram/anon_chr1_cram.invalid.json",
   "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_cram",
-  "started_at": "2022-10-20T14:06:46.446Z",
-  "ended_at": "2022-10-20T14:06:47.006Z",
+  "started_at": "2022-11-18T20:26:04.752Z",
+  "ended_at": "2022-11-18T20:26:05.224Z",
   "validation": {
     "status": "INVALID",
     "message": "Please see individual checks for details",

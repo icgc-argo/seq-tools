@@ -6,6 +6,7 @@ from glob import glob
 from click.testing import CliRunner
 from seq_tools.cli import main
 from seq_tools.utils import find_files
+import subprocess
 
 test_dir = os.path.abspath(os.path.dirname(os.path.abspath(__file__)))
 
@@ -27,12 +28,20 @@ def pytest_generate_tests(metafunc):
         for metadatq_file in sorted(glob(os.path.join(test_dir, 'submissions', '*', '*.json'))):
             seq_files = find_files(
                             os.path.dirname(metadatq_file),
-                            r'^.+?\.(bam|fq\.gz|fastq\.gz|fq\.bz2|fastq\.bz2)$'
+                            r'^.+?\.(cram|bam|fq\.gz|fastq\.gz|fq\.bz2|fastq\.bz2)$'
                         )
             submissions.append([metadatq_file, seq_files])
 
         metafunc.parametrize('submission', submissions, ids=[s[0] for s in submissions])
 
+def check_salmon():
+    cmd="which salmon"
+
+    try:
+        run_cmd = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)                      
+    except subprocess.CalledProcessError as grepexc:                                                                                                   
+        return False
+    return True
 
 def test_validate(submission):
     runner = CliRunner()
@@ -41,8 +50,19 @@ def test_validate(submission):
     if not seq_files:
         cli_option += ['-d', os.path.join(test_dir, 'seq-data')]
 
-    if str(Path(metadata_file).parent).endswith('skip-md5'):
+    if 'skip-md5' in str(Path(metadata_file).parent):
         cli_option += ['--skip_md5sum_check']
+    if 'skip-strand' in str(Path(metadata_file).parent):
+        cli_option += ['--skip_strandedness_check']
+
+    salmon=check_salmon()
+    print(salmon)
+    print(str(Path(metadata_file).parent))
+    print(cli_option)
+    if "SRR5196915" in str(Path(metadata_file).parent) and not salmon:
+        return
+    if "anon_chr1_rnaseq" in str(Path(metadata_file).parent) and not salmon:
+        return    
 
     runner.invoke(main, cli_option)
 
