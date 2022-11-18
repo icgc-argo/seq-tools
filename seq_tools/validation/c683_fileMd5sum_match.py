@@ -54,7 +54,6 @@ class Checker(BaseChecker):
             if f.get("info") and f["info"].get("original_cram_info"):
                 files_in_metadata.append(f['info']["original_cram_info"])
 
-
         mismatches = defaultdict(list)  # dict to keep all mismatches from all files
         for f in files_in_metadata:
             seq_file = os.path.join(self.data_dir, f['fileName'])

@@ -1,14 +1,14 @@
 {
   "tool": {
     "name": "seq-tools",
-    "version": "1.2.2"
+    "version": "1.2.3"
   },
-  "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/HCC1160N.valid-with-warning-and-skip-md5/HCC1160N.meta.json",
-  "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/HCC1160N.valid-with-warning-and-skip-md5",
-  "started_at": "2022-10-13T19:40:46.954Z",
-  "ended_at": "2022-10-13T19:40:47.157Z",
+  "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_cram/anon_chr1_cram.valid.json",
+  "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_cram",
+  "started_at": "2022-11-18T20:26:48.167Z",
+  "ended_at": "2022-11-18T20:26:48.605Z",
   "validation": {
-    "status": "PASS-with-WARNING-and-SKIPPED-check",
+    "status": "PASS-with-WARNING",
     "message": "Please see individual checks for details",
     "checks": [
       {
@@ -104,7 +104,7 @@
       {
         "checker": "c609_fastq_sanity",
         "status": "PASS",
-        "message": "No FASTQ Files to check"
+        "message": "FASTQ files pass sanity check. Validation result: PASS"
       },
       {
         "checker": "c610_rg_id_in_bam",
@@ -128,13 +128,13 @@
       },
       {
         "checker": "c650_sm_in_bam_matches_metadata",
-        "status": "PASS",
-        "message": "SM in BAM header matches submitterSampleId in metadata JSON. Validation status: PASS"
+        "status": "WARNING",
+        "message": "SM in BAM header is empty. Validation status: WARNING. NOTE that submitterSampleId in metadata JSON will be used in the header of ARGO uniformly aligned sequences."
       },
       {
         "checker": "c660_metadata_in_bam_rg_header",
         "status": "WARNING",
-        "message": "Information (excluding ID and SM which are validated elsewhere) in BAM @RG header does NOT match experiment/read group info in the metadata JSON. NOTE that information in the metadata JSON document will be kept and used in ICGC ARGO uniform analysis while unmatched info in BAM header will be discarded. Details of the difference: [BAM test_rg_6n.bam @RG C0HVY.2: (LB: Pond-147580-a vs Pond-147580)]; [BAM test_rg_6n.bam @RG D0RE2_1': (LB: Pond-147580-a vs Pond-147580)]; [BAM test_rg_6n.bam @RG D0RH0:2'': (LB: Pond-147580-a vs Pond-147580)]"
+        "message": "Information (excluding ID and SM which are validated elsewhere) in BAM @RG header does NOT match experiment/read group info in the metadata JSON. NOTE that information in the metadata JSON document will be kept and used in ICGC ARGO uniform analysis while unmatched info in BAM header will be discarded. Details of the difference: [BAM anon_chr1_completeA.bam @RG QCMG:866d65b8-ff3f-11e4-b413-bdbd66be296d:130711_7001243_0176_BD2B86ACXX.lane_8.CTTGTA.1: (PU: QCMG:130711_7001243_0176_BD2B86ACXX.lane_8.CTTGTA.1 vs QCMG_866d65b8-ff3f-11e4-b413-bdbd66be296d_130711_7001243_0176_BD2B86ACXX.lane_8.CTTGTA.1_8043985)]; [BAM anon_chr1_completeA.bam @RG QCMG:91ce15f2-ff3e-11e4-9d73-85b485b025f8:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1: (PU: QCMG:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1 vs QCMG_91ce15f2-ff3e-11e4-9d73-85b485b025f8_130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1_8043985)]; [BAM anon_chr1_completeB.bam @RG QCMG:22f321c6-ff3f-11e4-8e8b-f8a0800c69f0:130711_7001243_0176_BD2B86ACXX.lane_7.CTTGTA.1: (PU: QCMG:130711_7001243_0176_BD2B86ACXX.lane_7.CTTGTA.1 vs QCMG_22f321c6-ff3f-11e4-8e8b-f8a0800c69f0_130711_7001243_0176_BD2B86ACXX.lane_7.CTTGTA.1_8043985)]; [BAM anon_chr1_completeB.bam @RG QCMG:dd3f83b8-ff3e-11e4-81af-910d0943bdb6:130711_7001243_0176_BD2B86ACXX.lane_6.CTTGTA.1: (PU: QCMG:130711_7001243_0176_BD2B86ACXX.lane_6.CTTGTA.1 vs QCMG_dd3f83b8-ff3e-11e4-81af-910d0943bdb6_130711_7001243_0176_BD2B86ACXX.lane_6.CTTGTA.1_8043985)]"
       },
       {
         "checker": "c670_rg_is_paired_in_bam",
@@ -153,8 +153,8 @@
       },
       {
         "checker": "c683_fileMd5sum_match",
-        "status": "SKIPPED",
-        "message": "This check was not performed as instructed by the command line option. Status: SKIPPED"
+        "status": "PASS",
+        "message": "The fileMd5sum calculated from the sequencing files matches the info provided in metadata JSON: PASS"
       },
       {
         "checker": "c691_check_strand_specificity_in_fastq",

@@ -5,8 +5,8 @@
   },
   "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_rnaseq/anon_chr1_complete.json",
   "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/anon_chr1_rnaseq",
-  "started_at": "2022-09-29T19:13:11.835Z",
-  "ended_at": "2022-09-29T19:13:12.133Z",
+  "started_at": "2022-10-13T19:38:57.920Z",
+  "ended_at": "2022-10-13T19:38:58.140Z",
   "validation": {
     "status": "PASS-with-WARNING",
     "message": "Please see individual checks for details",

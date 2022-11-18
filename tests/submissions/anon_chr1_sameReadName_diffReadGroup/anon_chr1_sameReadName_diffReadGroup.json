@@ -20,11 +20,11 @@
             },
             "submitterSampleId": "8043985",
             "matchedNormalSubmitterSampleId": "None",
-            "sampleType": "Total RNA"
+            "sampleType": "Total DNA"
         }
     ],
     "experiment": {
-        "experimental_strategy": "RNA-Seq",
+        "experimental_strategy": "WGS",
         "library_isolation_protocol": null,
         "library_preparation_kit": null,
         "library_strandedness": "FIRST_READ_ANTISENSE_STRAND",

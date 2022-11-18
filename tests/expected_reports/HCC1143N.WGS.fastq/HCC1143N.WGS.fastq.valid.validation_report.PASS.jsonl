@@ -5,8 +5,8 @@
   },
   "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/HCC1143N.WGS.fastq/HCC1143N.WGS.fastq.valid.json",
   "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/HCC1143N.WGS.fastq",
-  "started_at": "2022-09-08T13:00:19.869Z",
-  "ended_at": "2022-09-08T13:00:20.072Z",
+  "started_at": "2022-10-13T19:32:16.118Z",
+  "ended_at": "2022-10-13T19:32:16.447Z",
   "validation": {
     "status": "PASS",
     "message": "Please see individual checks for details",

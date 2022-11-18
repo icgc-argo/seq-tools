@@ -69,6 +69,7 @@ class Checker(BaseChecker):
             self.logger.info(f'[{self.checker}] {message}')
             return
 
+
         query_fastq={}
         for rg in self.metadata.get("read_groups"):
             if rg['file_r1'] not in query_fastq.keys() and (rg['file_r1'].endswith("fastq.gz") or rg['file_r1'].endswith("fq.gz") or rg['file_r1'].endswith("fastq.bz2") or rg['file_r1'].endswith("fq.bz2")):
@@ -85,7 +86,15 @@ class Checker(BaseChecker):
             self.message = message
             self.logger.info(f'[{self.checker}] {message}')
             return
-        
+
+        salmon=check_salmon()
+        if not salmon:
+            self.status = 'INVALID'
+            message = "SALMON was not detected. Please install and add salmon to your path. Otherwise use flag '--skip_strandedness_check'"
+            self.message = message
+            self.logger.info(f'[{self.checker}] {message}')
+            return            
+
         problematic_fastqs=[]
         make_index()
         for rg in query_fastq.keys():
@@ -201,6 +210,15 @@ def split_fastq(read1,read2,num):
 def clean_up():
     cmd="rm -r tmp;rm -r tmp_index;rm -r transcript_quant"
     run_cmd = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
+
+def check_salmon():
+    cmd="which salmon"
+
+    try:
+        run_cmd = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)                      
+    except subprocess.CalledProcessError as grepexc:                                                                                                   
+        return False
+    return True
 
 def make_index():
     base_directory = os.path.dirname(os.path.abspath(__file__))

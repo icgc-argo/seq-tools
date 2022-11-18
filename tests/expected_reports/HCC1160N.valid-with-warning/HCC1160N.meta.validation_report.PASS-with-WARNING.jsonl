@@ -3,10 +3,10 @@
     "name": "seq-tools",
     "version": "1.2.2"
   },
-  "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/HCC1160N.valid-with-warning/HCC1160N.meta.json",
-  "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/HCC1160N.valid-with-warning",
-  "started_at": "2022-09-29T19:26:36.507Z",
-  "ended_at": "2022-09-29T19:26:36.720Z",
+  "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/HCC1160N.valid-with-warning-and-skip-md5/HCC1160N.meta.json",
+  "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/HCC1160N.valid-with-warning-and-skip-md5",
+  "started_at": "2022-10-13T19:33:57.539Z",
+  "ended_at": "2022-10-13T19:33:57.733Z",
   "validation": {
     "status": "PASS-with-WARNING",
     "message": "Please see individual checks for details",

@@ -1,0 +1,159 @@
+{
+  "analysisType": {
+    "name": "sequencing_experiment"
+  },
+  "studyId": "TEST-PR",
+  "experiment": {
+    "submitter_sequencing_experiment_id": "EXP-9",
+    "sequencing_center": "QCMG",
+    "platform": "ILLUMINA",
+    "platform_model": "Illumina HiSeq 2000",
+    "experimental_strategy": "WGS",
+    "sequencing_date": null
+  },
+  "read_group_count": 5,
+  "read_groups": [
+    {
+      "submitter_read_group_id": "QCMG_866d65b8-ff3f-11e4-b413-bdbd66be296d_130711_7001243_0176_BD2B86ACXX.lane_8.CTTGTA.1_8043985",
+      "read_group_id_in_bam": "QCMG:866d65b8-ff3f-11e4-b413-bdbd66be296d:130711_7001243_0176_BD2B86ACXX.lane_8.CTTGTA.1",
+      "platform_unit": "QCMG_866d65b8-ff3f-11e4-b413-bdbd66be296d_130711_7001243_0176_BD2B86ACXX.lane_8.CTTGTA.1_8043985",
+      "is_paired_end": true,
+      "file_r1": "anon_chr1_completeA.bam",
+      "file_r2": "anon_chr1_completeA.bam",
+      "read_length_r1": 101,
+      "read_length_r2": 101,
+      "insert_size": null,
+      "sample_barcode": null,
+      "library_name": "RNA-Seq:QCMG:QCMG:130711_7001243_0176_BD2B86ACXX.lane_8.CTTGTA:RNA-Seq:QCMG:Illumina TruSeq for Library_20130620_F"
+    },
+    {
+      "submitter_read_group_id": "QCMG_91ce15f2-ff3e-11e4-9d73-85b485b025f8_130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1_8043985",
+      "read_group_id_in_bam": "QCMG:91ce15f2-ff3e-11e4-9d73-85b485b025f8:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1",
+      "platform_unit": "QCMG_91ce15f2-ff3e-11e4-9d73-85b485b025f8_130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA.1_8043985",
+      "is_paired_end": true,
+      "file_r1": "anon_chr1_completeA.bam",
+      "file_r2": "anon_chr1_completeA.bam",
+      "read_length_r1": 101,
+      "read_length_r2": 101,
+      "insert_size": null,
+      "sample_barcode": null,
+      "library_name": "RNA-Seq:QCMG:QCMG:130711_7001243_0176_BD2B86ACXX.lane_5.CTTGTA:RNA-Seq:QCMG:Illumina TruSeq for Library_20130620_F"
+    },
+    {
+      "submitter_read_group_id": "QCMG_dd3f83b8-ff3e-11e4-81af-910d0943bdb6_130711_7001243_0176_BD2B86ACXX.lane_6.CTTGTA.1_8043985",
+      "read_group_id_in_bam": "QCMG:dd3f83b8-ff3e-11e4-81af-910d0943bdb6:130711_7001243_0176_BD2B86ACXX.lane_6.CTTGTA.1",
+      "platform_unit": "QCMG_dd3f83b8-ff3e-11e4-81af-910d0943bdb6_130711_7001243_0176_BD2B86ACXX.lane_6.CTTGTA.1_8043985",
+      "is_paired_end": true,
+      "file_r1": "anon_chr1_completeB.bam",
+      "file_r2": "anon_chr1_completeB.bam",
+      "read_length_r1": 101,
+      "read_length_r2": 101,
+      "insert_size": null,
+      "sample_barcode": null,
+      "library_name": "RNA-Seq:QCMG:QCMG:130711_7001243_0176_BD2B86ACXX.lane_6.CTTGTA:RNA-Seq:QCMG:Illumina TruSeq for Library_20130620_F"
+    },
+    {
+      "submitter_read_group_id": "QCMG_22f321c6-ff3f-11e4-8e8b-f8a0800c69f0_130711_7001243_0176_BD2B86ACXX.lane_7.CTTGTA.1_8043985",
+      "read_group_id_in_bam": "QCMG:22f321c6-ff3f-11e4-8e8b-f8a0800c69f0:130711_7001243_0176_BD2B86ACXX.lane_7.CTTGTA.1",
+      "platform_unit": "QCMG_22f321c6-ff3f-11e4-8e8b-f8a0800c69f0_130711_7001243_0176_BD2B86ACXX.lane_7.CTTGTA.1_8043985",
+      "is_paired_end": true,
+      "file_r1": "anon_chr1_completeB.bam",
+      "file_r2": "anon_chr1_completeB.bam",
+      "read_length_r1": 101,
+      "read_length_r2": 101,
+      "insert_size": null,
+      "sample_barcode": null,
+      "library_name": "RNA-Seq:QCMG:QCMG:130711_7001243_0176_BD2B86ACXX.lane_7.CTTGTA:RNA-Seq:QCMG:Illumina TruSeq for Library_20130620_F"
+    },
+    {
+      "submitter_read_group_id": "C0HVY.2",
+      "read_group_id_in_bam": null,
+      "platform_unit": "74_8a",
+      "is_paired_end": true,
+      "file_r1": "C0HVY.2_r1.fq.gz",
+      "file_r2": "C0HVY.2_r2.fq.gz",
+      "read_length_r1": 150,
+      "read_length_r2": 150,
+      "insert_size": 298,
+      "sample_barcode": null,
+      "library_name": "Pond-147580"
+    }
+  ],
+  "samples": [
+    {
+      "submitterSampleId": "TEST_SUBMITTER_SAMPLE_ID_jpupbblgfa",
+      "matchedNormalSubmitterSampleId": null,
+      "sampleType": "Total RNA",
+      "specimen": {
+        "submitterSpecimenId": "TEST_SUBMITTER_SPECIMEN_ID_jpupbblgfa",
+        "tumourNormalDesignation": "Tumour",
+        "specimenTissueSource": "Other",
+        "specimenType": "Primary tumour"
+      },
+      "donor": {
+        "submitterDonorId": "TEST_SUBMITTER_DONOR_ID_jpupbblgfa",
+        "gender": "Male"
+      }
+    }
+  ],
+  "files": [
+    {
+      "fileName": "anon_chr1_completeA.bam",
+      "fileSize": 258104,
+      "fileMd5sum": "601d12fbfea8d9b8b2f33f35a1b1bd53",
+      "fileType": "BAM",
+      "fileAccess": "controlled",
+      "dataType": "Submitted Reads",
+      "info": {
+        "data_category": "Sequencing Reads",
+        "original_cram_info": {
+          "fileName": "anon_chr1_completeA.cram",
+          "fileSize": 132507,
+          "fileMd5sum": "9d1776d44d8da87758d6b159aa8e6bc5",
+          "fileType": "CRAM",
+          "referenceFileName": "hs73d5.fa.gz"
+        }
+      }
+    },
+    {
+      "fileName": "anon_chr1_completeB.bam",
+      "fileSize": 258104,
+      "fileMd5sum": "601d12fbfea8d9b8b2f33f35a1b1bd53",
+      "fileType": "BAM",
+      "fileAccess": "controlled",
+      "dataType": "Submitted Reads",
+      "info": {
+        "data_category": "Sequencing Reads",
+        "original_cram_info": {
+          "fileName": "anon_chr1_completeB.cram",
+          "fileSize": 132509,
+          "fileMd5sum": "0d1776d44d8da87758d6b159aa8e6bc5",
+          "fileType": "CRAM",
+          "referenceFileName": "hs73d5.fa.gz"
+        }
+      }
+    },
+    {
+      "fileName": "C0HVY.2_r1.fq.gz",
+      "fileSize": 2040,
+      "fileMd5sum": "64cf635dbc54f53cae2cb03ec8e8471b",
+      "fileType": "FASTQ",
+      "fileAccess": "controlled",
+      "dataType": "Submitted Reads",
+      "info": {
+        "data_category": "Sequencing Reads"
+      }
+    },
+    {
+      "fileName": "C0HVY.2_r2.fq.gz",
+      "fileSize": 2042,
+      "fileMd5sum": "ceb7e66d031cb894fa9d1d3f8da65fc7",
+      "fileType": "FASTQ",
+      "fileAccess": "controlled",
+      "dataType": "Submitted Reads",
+      "info": {
+        "data_category": "Sequencing Reads"
+      }
+    }
+  ]
+}
