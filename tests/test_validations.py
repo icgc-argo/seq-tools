@@ -41,8 +41,9 @@ def test_validate(submission):
     if not seq_files:
         cli_option += ['-d', os.path.join(test_dir, 'seq-data')]
 
-    if str(Path(metadata_file).parent).endswith('skip-md5'):
-        cli_option += ['--skip_md5sum_check']
+    if 'skip-md5' in str(Path(metadata_file).parent):
+        cli_option += ['-k','c683']
+
 
     runner.invoke(main, cli_option)
 
@@ -58,6 +59,7 @@ def test_validate(submission):
             expected_str = re.sub(r' under: .+\.log"', ' under: xxx/logs/yyy.log"', expected_str)  # remove run-dependent path
             expected_obj = json.loads(expected_str)
 
+        print(report)
         assert os.path.isfile(report)
         with open(report) as f:
             report_str = f.read()

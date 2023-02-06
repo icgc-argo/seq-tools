@@ -40,7 +40,7 @@ finally:
     sys.path[:] = path
 
 
-def perform_validation(ctx, metadata_file=None, data_dir=None, metadata_str=None, skip_md5sum_check=False):
+def perform_validation(ctx, metadata_file=None, data_dir=None, metadata_str=None, skip_checks=None):
     if not (metadata_file or metadata_str):
         echo('Must specify one or more submission metadata files or metadata as a JSON string.', err=True)
         ctx.abort()
@@ -128,7 +128,7 @@ def perform_validation(ctx, metadata_file=None, data_dir=None, metadata_str=None
             # when no submission dir specified
             if not data_dir and checker_code[0:2] in ('c6', 'c7', 'c8', 'c9'):
                 continue
-            if skip_md5sum_check and checker_code == 'c683':
+            if  checker_code in skip_checks:
                 skip = True
             else:
                 skip = False
