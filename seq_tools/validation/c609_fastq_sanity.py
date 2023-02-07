@@ -27,11 +27,12 @@ from seq_tools.utils import run_cmd
 
 
 class Checker(BaseChecker):
-    def __init__(self, ctx, metadata, skip=False):
+    def __init__(self, ctx, metadata,threads, skip=False):
         super().__init__(
             ctx=ctx,
             metadata=metadata,
             checker_name=__name__,
+            threads=threads,
             depends_on=[  # dependent checks
                 'c180_file_uniqueness',
                 'c605_all_files_accessible'
@@ -63,15 +64,15 @@ class Checker(BaseChecker):
             return
 
         for fastq in query_fastq.keys():
-            #test_pass,file_size,message=fastq_test_length(query_fastq[fastq]['file_r1'],self.data_dir)
-            #if test_pass:
-            #    query_fastq[fastq]["length_file_r1"]=file_size
-            #else:
-            #    self.message = message
-            #    self.logger.info(f'[{self.checker}] {message}')
-            #    messages.append(message)
+            test_pass,file_size,message=fastq_test_length(query_fastq[fastq]['file_r1'],self.data_dir,str(self.threads))
+            if test_pass:
+                query_fastq[fastq]["length_file_r1"]=file_size
+            else:
+                self.message = message
+                self.logger.info(f'[{self.checker}] {message}')
+                messages.append(message)
 
-            test_pass,message=fastq_test_regex(query_fastq[fastq]['file_r1'],self.data_dir)
+            test_pass,message=fastq_test_regex(query_fastq[fastq]['file_r1'],self.data_dir,str(self.threads))
             if not test_pass:
                 self.message = message
                 self.logger.info(f'[{self.checker}] {message}')
@@ -79,25 +80,25 @@ class Checker(BaseChecker):
 
             if query_fastq[fastq]['is_paired_end']:
 
-                #test_pass,file_size,message=fastq_test_length(query_fastq[fastq]['file_r2'],self.data_dir)
-                #if test_pass:
-                #    query_fastq[fastq]["length_file_r2"]=file_size
-                #else:
-                #    self.message = message
-                #    self.logger.info(f'[{self.checker}] {message}')
-                #    messages.append(message)
+                test_pass,file_size,message=fastq_test_length(query_fastq[fastq]['file_r2'],self.data_dir,str(self.threads))
+                if test_pass:
+                    query_fastq[fastq]["length_file_r2"]=file_size
+                else:
+                    self.message = message
+                    self.logger.info(f'[{self.checker}] {message}')
+                    messages.append(message)
 
-                test_pass,message=fastq_test_regex(query_fastq[fastq]['file_r2'],self.data_dir)
+                test_pass,message=fastq_test_regex(query_fastq[fastq]['file_r2'],self.data_dir,str(self.threads))
                 if not test_pass:
                     self.message = message
                     self.logger.info(f'[{self.checker}] {message}')
                     messages.append(message)
 
-                #if query_fastq[fastq]["length_file_r2"]!=query_fastq[fastq]["length_file_r1"]:
-                #    message = "The FASTQ file pair '%s' and '%s' do not have matching line counts" % (query_fastq[fastq]["file_r1"],query_fastq[fastq]["file_r2"])
-                #    self.message = message
-                #    self.logger.info(f'[{self.checker}] {message}')
-                #    messages.append(message)
+                if query_fastq[fastq]["length_file_r2"]!=query_fastq[fastq]["length_file_r1"]:
+                    message = "The FASTQ file pair '%s' and '%s' do not have matching line counts" % (query_fastq[fastq]["file_r1"],query_fastq[fastq]["file_r2"])
+                    self.message = message
+                    self.logger.info(f'[{self.checker}] {message}')
+                    messages.append(message)
 
         if len(messages)>0:
             self.status = 'INVALID'
@@ -112,12 +113,12 @@ class Checker(BaseChecker):
             self.logger.info(f'[{self.checker}] {message}')
             return
 
-def fastq_test_length(fastq,path):
+def fastq_test_length(fastq,path,threads):
     file_path=os.path.join(path,fastq)
     if fastq.endswith("fastq.gz") or fastq.endswith("fq.gz"):
-        cmd="cat "+file_path+"| zcat  | wc -l"
+        cmd="unpigz -p "+threads+" -c "+file_path+" | wc -l"
     else:
-        cmd="cat "+file_path+"| bzcat | wc -l"
+        cmd="pbzip2 -d -c -p"+threads+" "+file_path+" | wc -l"
 
     count_cmd = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
 
@@ -127,12 +128,12 @@ def fastq_test_length(fastq,path):
     else:
         return False,file_size,"The FASTQ file %s line count not divisible by 4" % (fastq)
 
-def fastq_test_regex(fastq,path):
+def fastq_test_regex(fastq,path,threads):
     file_path=os.path.join(path,fastq)
     if fastq.endswith("fastq.gz") or fastq.endswith("fq.gz"):
-        cmd="cat "+file_path+"| zcat | head -n400000"
+        cmd="unpigz -p "+threads+" -c "+file_path+" | head -n400000"
     else:
-        cmd="cat "+file_path+"| bzcat | head -n400000"
+        cmd="pbzip2 -d -c -p"+threads+" "+file_path+" | head -n400000"
 
     reads_cmd = subprocess.check_output(cmd,stderr=subprocess.STDOUT,shell=True)
     line_count=0

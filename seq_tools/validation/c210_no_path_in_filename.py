@@ -25,8 +25,8 @@ from base_checker import BaseChecker
 
 
 class Checker(BaseChecker):
-    def __init__(self, ctx, metadata, skip=False):
-        super().__init__(ctx, metadata, __name__, skip=skip)
+    def __init__(self, ctx, metadata,threads, skip=False):
+        super().__init__(ctx, metadata, __name__,threads, skip=skip)
 
     @BaseChecker._catch_exception
     def check(self):

@@ -21,13 +21,13 @@
 
 from base_checker import BaseChecker
 
-
 class Checker(BaseChecker):
-    def __init__(self, ctx, metadata, skip=False):
+    def __init__(self, ctx, metadata,threads, skip=False):
         super().__init__(
             ctx=ctx,
             metadata=metadata,
             checker_name=__name__,
+            threads=threads,
             depends_on=[
                 'c180_file_uniqueness'
             ],  # dependent checks

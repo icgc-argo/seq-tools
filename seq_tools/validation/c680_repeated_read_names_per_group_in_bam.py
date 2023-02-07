@@ -27,11 +27,12 @@ import re
 
 
 class Checker(BaseChecker):
-    def __init__(self, ctx, metadata, skip=False):
+    def __init__(self, ctx, metadata,threads, skip=False):
         super().__init__(
-            ctx,
+            ctx=ctx,
             metadata=metadata,
             checker_name=__name__,
+            threads=threads,
             depends_on=[
                 "c605_all_files_accessible",
                 "c608_bam_sanity",
@@ -88,7 +89,7 @@ class Checker(BaseChecker):
                 path_bam_file=os.path.join(self.data_dir,bam_file)
 
                 cmd=[
-                "samtools view  -F 2304 "+filter_flag+"".join([" -r "+rg.replace("'","\\'") for rg in query_bams[bam_file]['rg']])+" "+path_bam_file,
+                "samtools view -@ "+str(self.threads)+" -F 2304 "+filter_flag+"".join([" -r "+rg.replace("'","\\'") for rg in query_bams[bam_file]['rg']])+" "+path_bam_file,
                 "head -n500000"
                 ]
             

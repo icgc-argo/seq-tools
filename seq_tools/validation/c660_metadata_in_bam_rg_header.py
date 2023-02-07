@@ -54,11 +54,13 @@ class Checker(BaseChecker):
     kept while information in original submitted BAM will be lost eventually
     """
 
-    def __init__(self, ctx, metadata, skip=False):
+class Checker(BaseChecker):
+    def __init__(self, ctx, metadata,threads, skip=False):
         super().__init__(
             ctx=ctx,
             metadata=metadata,
             checker_name=__name__,
+            threads=threads,
             depends_on=[  # dependent checks
                 'c110_rg_id_uniqueness',
                 'c160_file_r1_r2_check',

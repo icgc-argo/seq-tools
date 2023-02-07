@@ -21,13 +21,13 @@
 
 from base_checker import BaseChecker
 
-
 class Checker(BaseChecker):
-    def __init__(self, ctx, metadata, skip=False):
+    def __init__(self, ctx, metadata,threads, skip=False):
         super().__init__(
             ctx=ctx,
             metadata=metadata,
             checker_name=__name__,
+            threads=threads,
             depends_on=[  # dependent checks
                 'c110_rg_id_uniqueness',
                 'c200_rg_id_in_bam_uniqueness'
