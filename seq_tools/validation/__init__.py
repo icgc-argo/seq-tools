@@ -48,26 +48,6 @@ def perform_validation(ctx, metadata_file=None, data_dir=None, metadata_str=None
         echo('Can not specify both metadata file and metadata string', err=True)
         ctx.abort()
 
-    unskippable=[
-        "c110",
-        "c160",
-        "c180",
-        "c190",
-        "c200",
-        "c210",
-        "c240",
-        "c605",
-        "c608",
-        "c610",
-        "c620",
-        "c630"
-    ]
-
-    for test in skip_checks:
-        if test in unskippable:
-            echo('%s test is not skippable' % (test), err=True)
-            ctx.abort()
-
     if metadata_file:
         metadata_file = os.path.realpath(metadata_file)
 
