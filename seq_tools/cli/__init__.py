@@ -57,7 +57,7 @@ def main(ctx, debug, ignore_update):
 @click.option('--data_dir', '-d', type=click.Path(exists=True),
               help='path containing submission data files')
 #@click.option('--skip_checks', default=[],nargs=0, help='skip these tests')
-@click.option('--skip_checks','-k', multiple=True,default=[], help='skip this tests',type=click.Choice(['c685','c683','c680','c670','c609','c608']))
+@click.option('--skip_checks','-k', multiple=True,default=[], help='skip this tests',type=click.Choice(['c681','c683','c680','c670','c609','c608']))
 @click.argument('metadata_file', nargs=-1, type=click.Path(exists=True))
 @click.pass_context
 
