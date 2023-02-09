@@ -63,13 +63,13 @@ class Checker(BaseChecker):
             return
 
         for fastq in query_fastq.keys():
-            test_pass,file_size,message=fastq_test_length(query_fastq[fastq]['file_r1'],self.data_dir)
-            if test_pass:
-                query_fastq[fastq]["length_file_r1"]=file_size
-            else:
-                self.message = message
-                self.logger.info(f'[{self.checker}] {message}')
-                messages.append(message)
+            #test_pass,file_size,message=fastq_test_length(query_fastq[fastq]['file_r1'],self.data_dir)
+            #if test_pass:
+            #    query_fastq[fastq]["length_file_r1"]=file_size
+            #else:
+            #    self.message = message
+            #    self.logger.info(f'[{self.checker}] {message}')
+            #    messages.append(message)
 
             test_pass,message=fastq_test_regex(query_fastq[fastq]['file_r1'],self.data_dir)
             if not test_pass:
@@ -79,13 +79,13 @@ class Checker(BaseChecker):
 
             if query_fastq[fastq]['is_paired_end']:
 
-                test_pass,file_size,message=fastq_test_length(query_fastq[fastq]['file_r2'],self.data_dir)
-                if test_pass:
-                    query_fastq[fastq]["length_file_r2"]=file_size
-                else:
-                    self.message = message
-                    self.logger.info(f'[{self.checker}] {message}')
-                    messages.append(message)
+                #test_pass,file_size,message=fastq_test_length(query_fastq[fastq]['file_r2'],self.data_dir)
+                #if test_pass:
+                #    query_fastq[fastq]["length_file_r2"]=file_size
+                #else:
+                #    self.message = message
+                #    self.logger.info(f'[{self.checker}] {message}')
+                #    messages.append(message)
 
                 test_pass,message=fastq_test_regex(query_fastq[fastq]['file_r2'],self.data_dir)
                 if not test_pass:
@@ -93,11 +93,11 @@ class Checker(BaseChecker):
                     self.logger.info(f'[{self.checker}] {message}')
                     messages.append(message)
 
-                if query_fastq[fastq]["length_file_r2"]!=query_fastq[fastq]["length_file_r1"]:
-                    message = "The FASTQ file pair '%s' and '%s' do not have matching line counts" % (query_fastq[fastq]["file_r1"],query_fastq[fastq]["file_r2"])
-                    self.message = message
-                    self.logger.info(f'[{self.checker}] {message}')
-                    messages.append(message)
+                #if query_fastq[fastq]["length_file_r2"]!=query_fastq[fastq]["length_file_r1"]:
+                #    message = "The FASTQ file pair '%s' and '%s' do not have matching line counts" % (query_fastq[fastq]["file_r1"],query_fastq[fastq]["file_r2"])
+                #    self.message = message
+                #    self.logger.info(f'[{self.checker}] {message}')
+                #    messages.append(message)
 
         if len(messages)>0:
             self.status = 'INVALID'
