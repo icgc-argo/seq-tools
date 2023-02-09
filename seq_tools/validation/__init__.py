@@ -48,7 +48,6 @@ def perform_validation(ctx, metadata_file=None, data_dir=None, metadata_str=None
         echo('Can not specify both metadata file and metadata string', err=True)
         ctx.abort()
 
-
     if metadata_file:
         metadata_file = os.path.realpath(metadata_file)
 
