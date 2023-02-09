@@ -5,8 +5,8 @@
   },
   "metadata_file": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/HCC1143N.WGS.fastq/HCC1143N.WGS.fastq.invalid.json",
   "data_dir": "/Users/esu/Desktop/GitHub/seq-tools/tests/submissions/HCC1143N.WGS.fastq",
-  "started_at": "2023-02-06T20:05:05.847Z",
-  "ended_at": "2023-02-06T20:05:06.077Z",
+  "started_at": "2023-02-07T15:01:03.796Z",
+  "ended_at": "2023-02-07T15:01:04.120Z",
   "validation": {
     "status": "INVALID",
     "message": "Please see individual checks for details",
@@ -14,7 +14,7 @@
       {
         "checker": "c609_fastq_sanity",
         "status": "INVALID",
-        "message": "The FASTQ files failed to validate for the following reasons : Line #75 within FASTQ file C0HVY.2_r1.invalid.fq.bz2 not following FASTQ format, missing '+' at start of the line;Line #13 within FASTQ file C0HVY.2_r2.invalid.fq.bz2 not following FASTQ format, missing '@' at the start of the line"
+        "message": "The FASTQ files failed to validate for the following reasons : Line #75 within FASTQ file C0HVY.2_r1.invalid.fq.bz2 not following FASTQ format, missing '+' at start of the line;Line #13 within FASTQ file C0HVY.2_r2.invalid.fq.bz2 not following FASTQ format, missing '@' at the start of the line;The FASTQ file pair 'C0HVY.2_r1.invalid.fq.bz2' and 'C0HVY.2_r2.invalid.fq.bz2' do not have matching line counts"
       },
       {
         "checker": "c681_fileSize_match",

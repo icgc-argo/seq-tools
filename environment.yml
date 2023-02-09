@@ -4,6 +4,8 @@ channels:
   - bioconda
 dependencies:
   - conda-forge::python=3.7.6
+  - conda-forge::pbzip2=1.1.13
+  - conda-forge::pigz=2.6
   - bioconda::samtools=1.15.1
   - pip
   - pip:

@@ -26,11 +26,12 @@ import re
 
 
 class Checker(BaseChecker):
-    def __init__(self, ctx, metadata, skip=False):
+    def __init__(self, ctx, metadata,threads, skip=False):
         super().__init__(
-            ctx,
+            ctx=ctx,
             metadata=metadata,
             checker_name=__name__,
+            threads=threads,
             depends_on=[
                 "c608_bam_sanity",
                 "c610_rg_id_in_bam",
@@ -75,7 +76,7 @@ class Checker(BaseChecker):
                 offending_rgs[rg['file_r1']]=[]
 
             bam_file=os.path.join(self.data_dir,rg['file_r1'])
-            cmd=['samtools', 'view', '-f','128', bam_file,"|","egrep",rg['read_group_id_in_bam'].replace("'","\\'"),"-m","10","|", "wc","-l"]
+            cmd=['samtools', 'view',"-@",str(self.threads), '-f','128', bam_file,"|","egrep",rg['read_group_id_in_bam'].replace("'","\\'"),"-m","10","|", "wc","-l"]
             paired_check = subprocess.check_output(
                 " ".join(cmd),
                 stderr=subprocess.STDOUT,

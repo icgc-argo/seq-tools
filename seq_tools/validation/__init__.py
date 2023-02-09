@@ -40,7 +40,7 @@ finally:
     sys.path[:] = path
 
 
-def perform_validation(ctx, metadata_file=None, data_dir=None, metadata_str=None, skip_checks=None):
+def perform_validation(ctx, metadata_file=None, data_dir=None, metadata_str=None,threads=None,skip_checks=None):
     if not (metadata_file or metadata_str):
         echo('Must specify one or more submission metadata files or metadata as a JSON string.', err=True)
         ctx.abort()
@@ -133,7 +133,7 @@ def perform_validation(ctx, metadata_file=None, data_dir=None, metadata_str=None
             else:
                 skip = False
 
-            checker = checkers[c].Checker(ctx, metadata, skip)
+            checker = checkers[c].Checker(ctx, metadata, threads,skip)
             checker.check()
 
         # aggregate status from validation checks

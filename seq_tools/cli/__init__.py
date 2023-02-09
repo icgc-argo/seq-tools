@@ -56,19 +56,16 @@ def main(ctx, debug, ignore_update):
 @click.option('--metadata_str', '-s', help='submission metadata as a JSON string')
 @click.option('--data_dir', '-d', type=click.Path(exists=True),
               help='path containing submission data files')
-#@click.option('--skip_checks', default=[],nargs=0, help='skip these tests')
 @click.option('--skip_checks','-k', multiple=True,default=[], help='skip this tests',type=click.Choice(['c681','c683','c680','c670','c609','c608']))
+@click.option('--threads','-t', default=1, help='threads and cores to run commands')
 @click.argument('metadata_file', nargs=-1, type=click.Path(exists=True))
 @click.pass_context
 
 
-def validate(ctx, metadata_str, metadata_file, data_dir, skip_checks):
+def validate(ctx, metadata_str, metadata_file, data_dir, skip_checks ,threads):
     """
     Perform validation on metadata file(s) or metadata string.
     """
-    if not skip_checks:
-        skip_checks=[]
-    
     if not (metadata_file or metadata_str):
         click.echo(
             'Must specify one or more submission metadata files or metadata as a JSON string.\n'
@@ -103,7 +100,7 @@ def validate(ctx, metadata_str, metadata_file, data_dir, skip_checks):
         for metafile in metadata_file:
             current += 1
 
-            perform_validation(ctx, metadata_file=metafile, data_dir=data_dir, skip_checks=skip_checks)
+            perform_validation(ctx, metadata_file=metafile, data_dir=data_dir,threads=threads, skip_checks=skip_checks)
 
             status = ctx.obj['validation_report']['validation']['status']
             status_with_stype = status

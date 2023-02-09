@@ -26,7 +26,7 @@ from abc import ABCMeta, abstractmethod
 class BaseChecker(object):
     __metaclass__ = ABCMeta
 
-    def __init__(self, ctx, metadata, checker_name, depends_on: list = [], skip=False):
+    def __init__(self, ctx, metadata, checker_name,threads, depends_on: list = [], skip=False):
         self._ctx = ctx
         self._metadata = metadata
         self._logger = ctx.obj['LOGGER']
@@ -38,6 +38,7 @@ class BaseChecker(object):
             'status': None,
             'message': None
         })
+        self._threads = threads
         self._depends_on = depends_on
 
         if skip:
@@ -71,6 +72,10 @@ class BaseChecker(object):
     @property
     def depends_on(self):
         return self._depends_on
+
+    @property
+    def threads(self):
+        return self._threads
 
     @property
     def checker(self):
