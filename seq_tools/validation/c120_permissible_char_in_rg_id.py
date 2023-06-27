@@ -47,9 +47,9 @@ class Checker(BaseChecker):
         resp=requests.get(url)
         
         if resp.status_code==200:
-            regex=resp.json()['schema']['properties']['read_groups']['items']['allOf'][0]['properties']['submitter_read_group_id']['pattern']
+            regex=resp.json()['schema']['properties']['read_groups']['items']['properties']['submitter_read_group_id']['pattern']
         else:
-            regex='^[a-zA-Z0-9\\-_:\\.]+$'
+            regex='^[a-zA-Z0-9\\-_:\\.]{1,98}$'
 
         offending_ids = set()
         for rg in self.metadata.get('read_groups'):
